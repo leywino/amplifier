@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  TextFieldWidget({
-    super.key,
-    required this.size,
-    required this.fieldName,
-    this.hideField,
-  });
+  TextFieldWidget(
+      {super.key,
+      required this.size,
+      required this.fieldName,
+      this.hideField,
+      this.numPad = false,
+      this.colorValue = Colors.white});
 
   final Size size;
   final String fieldName;
   bool? hideField = false;
+  bool numPad;
+  final Color colorValue;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class TextFieldWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
+          color: colorValue,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -38,6 +41,7 @@ class TextFieldWidget extends StatelessWidget {
               ),
               TextField(
                 obscureText: hideField ?? false,
+                keyboardType: numPad ? TextInputType.phone : null,
                 decoration: InputDecoration(
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
