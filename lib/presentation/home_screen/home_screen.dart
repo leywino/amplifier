@@ -5,14 +5,10 @@ import 'package:amplifier/core/icons/genereal_icons.dart';
 import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
 import 'package:amplifier/presentation/home_screen/widget/home_title.dart';
+import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart';
 import 'package:flutter/material.dart';
 
-class ScreenHome extends StatelessWidget {
-  ScreenHome({super.key});
-
-  TextEditingController searchController = TextEditingController();
-
-  final dummyImages = [
+final dummyImages = [
     "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Moondrop-Chu--04.jpg?v=1678359402&width=800",
     "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Audio-technica-m50x-1160-1160-Black_61b891f0-d385-464a-8dfb-a40bc89d0516.jpg?v=1590592479&width=800",
     "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-NW-ZX707-012.jpg?v=1674635770&width=800",
@@ -73,6 +69,13 @@ class ScreenHome extends StatelessWidget {
     "21",
   ];
 
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
+  TextEditingController searchController = TextEditingController();
+
+  
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -101,9 +104,16 @@ class ScreenHome extends StatelessWidget {
                             color: kAppBarIconColor,
                           ),
                         ),
-                        Icon(
-                          CustomIcon.hearticonfluttter,
-                          color: kAppBarIconColor,
+                        IconButton(
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainWishlistScreen(),
+                              )),
+                          icon: Icon(
+                            CustomIcon.hearticonfluttter,
+                            color: kAppBarIconColor,
+                          ),
                         ),
                       ],
                     ),

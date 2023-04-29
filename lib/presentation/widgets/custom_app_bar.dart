@@ -2,10 +2,13 @@ import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CartAppBar extends StatelessWidget {
-  const CartAppBar({
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar({
     super.key,
+    required this.title,
   });
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class CartAppBar extends StatelessWidget {
         icon: Icon(CupertinoIcons.back),
       ),
       title: Text(
-        "My Cart",
+        title,
         style: TextStyle(
           color: kTextBlackColor,
           fontWeight: FontWeight.bold,
