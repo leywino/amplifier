@@ -1,8 +1,6 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../widgets/text_field_widget.dart';
 
@@ -15,29 +13,31 @@ class MainSignupScreen extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: double.infinity,
-            height: size.height * 0.1,
-            color: Colors.black,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Sign Up',
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: double.infinity,
+              height: size.height * 0.1,
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
+            Container(
               width: double.infinity,
+              height: size.height * 0.87,
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 236, 236, 236),
                 borderRadius: BorderRadius.only(
@@ -169,8 +169,8 @@ class MainSignupScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ));
   }

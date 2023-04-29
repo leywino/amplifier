@@ -20,6 +20,7 @@ class TextFieldWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
       child: Container(
+        // height: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: colorValue,
@@ -40,6 +41,8 @@ class TextFieldWidget extends StatelessWidget {
                 ),
               ),
               TextField(
+                // maxLength: 50,
+                // maxLines: 5,
                 obscureText: hideField ?? false,
                 keyboardType: numPad ? TextInputType.phone : null,
                 decoration: InputDecoration(

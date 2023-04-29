@@ -1,4 +1,6 @@
 import 'package:amplifier/presentation/edit_profile_screen/edit_profile_screen.dart';
+import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
+import 'package:amplifier/presentation/profile_screen/widgets/log_out_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,7 +17,12 @@ class ProfileTileWidget extends StatelessWidget {
 
   final List<IconData> _profileIcons;
   final List<String> _profileTitles;
-  final _profilePages = [EditProfileScreen(), AddressScreen(), AddressScreen()];
+  final _profilePages = [
+    EditProfileScreen(),
+    AddressScreen(),
+    AddressScreen(),
+    LogOutWidget()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +31,16 @@ class ProfileTileWidget extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) => ListTile(
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => _profilePages[index],
-            )),
+        onTap: () {
+          index != 7
+              ? Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        index != 7 ? _profilePages[index] : _profilePages[3],
+                  ))
+              : ProfileScreen.showLogOutNotifier.value = true;
+        },
         leading: index != 1
             ? Icon(
                 _profileIcons[index],
