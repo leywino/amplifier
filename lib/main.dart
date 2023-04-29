@@ -1,3 +1,4 @@
+import 'package:amplifier/presentation/login_screen/login_screen.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: BottomNavBar(),
+      home: MainLoginScreen(),
     );
   }
 }

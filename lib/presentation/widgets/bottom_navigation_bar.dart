@@ -10,7 +10,7 @@ import '../categories_screen/main_categories_screen.dart';
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({super.key});
 
-  ValueNotifier<int> _navIndexNotifier = ValueNotifier(3);
+  ValueNotifier<int> _navIndexNotifier = ValueNotifier(0);
   final _pages = [
     HomeScreen(),
     MainCartScreen(),
