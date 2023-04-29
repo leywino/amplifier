@@ -21,7 +21,7 @@ class MainWishlistScreen extends StatelessWidget {
           child: Column(
             children: [
               CustomAppBar(
-                title: "My Wishlist",
+                title: "My Wishlist",showBackButton: true,
               ),
               GridView.count(
                 physics: NeverScrollableScrollPhysics(),

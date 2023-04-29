@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
     super.key,
-    required this.title,
+    required this.title, required this.showBackButton,
   });
 
   final String title;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,10 @@ class CustomAppBar extends StatelessWidget {
       elevation: 0,
       // automaticallyImplyLeading: true,
       foregroundColor: Colors.black,
-      leading: IconButton(
+      leading: showBackButton ? IconButton(
         onPressed: () => Navigator.pop(context),
         icon: Icon(CupertinoIcons.back),
-      ),
+      ): null,
       title: Text(
         title,
         style: TextStyle(
