@@ -1,4 +1,4 @@
-import 'package:amplifier/presentation/home_screen/screens/home_screen.dart';
+import 'package:amplifier/presentation/home_screen/home_screen.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
