@@ -1,5 +1,5 @@
 import 'package:amplifier/core/colors/main_colors.dart';
-import 'package:amplifier/presentation/cart_screen/widgets/cart_app_bar.dart';
+import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/cart_screen/widgets/quantity_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,9 @@ class MainCartScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CartAppBar(),
+              CustomAppBar(
+                title: "My Cart",
+              ),
               Column(
                 children: List.generate(
                   1,
