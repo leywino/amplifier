@@ -1,17 +1,21 @@
+import 'package:amplifier/presentation/edit_profile_screen/edit_profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../address_screen/address_screen.dart';
 
 class ProfileTileWidget extends StatelessWidget {
-  const ProfileTileWidget({
+  ProfileTileWidget({
     super.key,
     required List<IconData> profileIcons,
     required List<String> profileTitles,
-  }) : _profileIcons = profileIcons, _profileTitles = profileTitles;
+  })  : _profileIcons = profileIcons,
+        _profileTitles = profileTitles;
 
   final List<IconData> _profileIcons;
   final List<String> _profileTitles;
+  final _profilePages = [EditProfileScreen(), AddressScreen(), AddressScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,11 @@ class ProfileTileWidget extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) => ListTile(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => _profilePages[index],
+            )),
         leading: index != 1
             ? Icon(
                 _profileIcons[index],
