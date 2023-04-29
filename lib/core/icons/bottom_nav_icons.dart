@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../colors/main_colors.dart';
 
 SvgPicture shoppingCart1 = SvgPicture.asset(
   "assets/icons/shoppingcart1.svg",
+  // ignore: deprecated_member_use
   color: bottomNavBarUnselectedColor,
 );
 SvgPicture shoppingCart2 = SvgPicture.asset(
@@ -12,6 +12,7 @@ SvgPicture shoppingCart2 = SvgPicture.asset(
 );
 SvgPicture profile1 = SvgPicture.asset(
   "assets/icons/profile1.svg",
+  // ignore: deprecated_member_use
   color: bottomNavBarUnselectedColor,
 );
 SvgPicture profile2 = SvgPicture.asset(
@@ -22,10 +23,12 @@ SvgPicture gridview1 = SvgPicture.asset(
 );
 SvgPicture gridview2 = SvgPicture.asset(
   "assets/icons/gridview2.svg",
+  // ignore: deprecated_member_use
   color: bottomNavBarUnselectedColor,
 );
 SvgPicture home1 = SvgPicture.asset(
   "assets/icons/home1.svg",
+  // ignore: deprecated_member_use
   color: bottomNavBarUnselectedColor,
 );
 SvgPicture home2 = SvgPicture.asset(
