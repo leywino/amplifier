@@ -5,11 +5,18 @@ import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
 import 'package:amplifier/presentation/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../categories_screen/main_categories_screen.dart';
+
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({super.key});
 
   ValueNotifier<int> _navIndexNotifier = ValueNotifier(0);
-  final _pages = [HomeScreen(), MainCartScreen(), HomeScreen(), HomeScreen()];
+  final _pages = [
+    HomeScreen(),
+    MainCartScreen(),
+    CategoriesScreen(),
+    HomeScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {

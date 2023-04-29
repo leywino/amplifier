@@ -20,6 +20,7 @@ class MainCartScreen extends StatelessWidget {
             children: [
               CustomAppBar(
                 title: "My Cart",
+                showBackButton: true,
               ),
               Column(
                 children: List.generate(
