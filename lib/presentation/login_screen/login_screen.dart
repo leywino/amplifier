@@ -15,22 +15,24 @@ class MainLoginScreen extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: double.infinity,
-            height: size.height * 0.2,
-            color: Colors.black,
-            child: SizedBox(
-              child: Image.asset("assets/icons/logo_white.png"),
-              height: 120,
-              width: 120,
-            ),
-          ),
-          Expanded(
-            child: Container(
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
               width: double.infinity,
+              height: size.height * 0.2,
+              color: Colors.black,
+              child: SizedBox(
+                child: Image.asset("assets/icons/logo_white.png"),
+                height: 120,
+                width: 120,
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: size.height * 0.8,
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 236, 236, 236),
                 borderRadius: BorderRadius.only(
@@ -56,6 +58,9 @@ class MainLoginScreen extends StatelessWidget {
                   TextFieldWidget(
                     size: size,
                     fieldName: "Email",
+                  ),
+                  SizedBox(
+                    height: size.height * 0.01,
                   ),
                   TextFieldWidget(
                     size: size,
@@ -94,12 +99,18 @@ class MainLoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
                   Text(
                     'OR',
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
                   ),
                   TextButton(
                     onPressed: () {},
@@ -156,8 +167,8 @@ class MainLoginScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ));
   }

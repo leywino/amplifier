@@ -14,68 +14,73 @@ class AddNewAddresScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kMainBgColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomAppBar(title: "Edit Profile", showBackButton: true),
-            Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.05,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomAppBar(title: "Add New Address", showBackButton: true),
+              SizedBox(
+                height: size.height * 0.6,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextFieldWidget(
+                      size: size,
+                      fieldName: "Name",
+                      colorValue: Colors.grey.withOpacity(0.2),
+                    ),
+                    TextFieldWidget(
+                      size: size,
+                      fieldName: "Pin Code",
+                      colorValue: Colors.grey.withOpacity(0.2),
+                      numPad: true,
+                    ),
+                    TextFieldWidget(
+                      size: size,
+                      fieldName: "Permanent Adress",
+                      colorValue: Colors.grey.withOpacity(0.2),
+                    ),
+                    TextFieldWidget(
+                      size: size,
+                      fieldName: "State",
+                      colorValue: Colors.grey.withOpacity(0.2),
+                    ),
+                    TextFieldWidget(
+                      size: size,
+                      fieldName: "City",
+                      colorValue: Colors.grey.withOpacity(0.2),
+                    ),
+                  ],
                 ),
-                TextFieldWidget(
-                  size: size,
-                  fieldName: "Name",
-                  colorValue: Colors.grey.withOpacity(0.2),
+              ),
+              SizedBox(
+                height: size.height * 0.2,
+              ),
+              TextButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                  ),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.symmetric(
+                          horizontal: size.width * 0.30, vertical: 20)),
                 ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                TextFieldWidget(
-                  size: size,
-                  fieldName: "Email",
-                  colorValue: Colors.grey.withOpacity(0.2),
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                TextFieldWidget(
-                  size: size,
-                  fieldName: "Phone",
-                  numPad: true,
-                  colorValue: Colors.grey.withOpacity(0.2),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: size.height * 0.3,
-            ),
-            TextButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    side: BorderSide(color: Colors.black),
+                child: Text(
+                  'Update',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(
-                        horizontal: size.width * 0.30, vertical: 20)),
               ),
-              child: Text(
-                'Update',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.05,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
