@@ -1,8 +1,8 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/core/icons/bottom_nav_icons.dart';
-import 'package:amplifier/core/icons/custom_icon_icons.dart';
 import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
 import 'package:amplifier/presentation/home_screen/home_screen.dart';
+import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../categories_screen/main_categories_screen.dart';
@@ -10,12 +10,12 @@ import '../categories_screen/main_categories_screen.dart';
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({super.key});
 
-  ValueNotifier<int> _navIndexNotifier = ValueNotifier(0);
+  ValueNotifier<int> _navIndexNotifier = ValueNotifier(3);
   final _pages = [
     HomeScreen(),
     MainCartScreen(),
     CategoriesScreen(),
-    HomeScreen()
+    ProfileScreen()
   ];
 
   @override
