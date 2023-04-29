@@ -1,8 +1,5 @@
-import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/signup_screen/signup_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../widgets/text_field_widget.dart';
 
@@ -16,7 +13,7 @@ class MainLoginScreen extends StatelessWidget {
         child: Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -25,15 +22,15 @@ class MainLoginScreen extends StatelessWidget {
               height: size.height * 0.2,
               color: Colors.black,
               child: SizedBox(
-                child: Image.asset("assets/icons/logo_white.png"),
                 height: 120,
                 width: 120,
+                child: Image.asset("assets/icons/logo_white.png"),
               ),
             ),
             Container(
               width: double.infinity,
               height: size.height * 0.8,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 236, 236, 236),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(150),
@@ -45,7 +42,7 @@ class MainLoginScreen extends StatelessWidget {
                   SizedBox(
                     height: size.height * 0.05,
                   ),
-                  Text(
+                  const Text(
                     'Login',
                     style: TextStyle(
                       fontSize: 36,
@@ -75,14 +72,14 @@ class MainLoginScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MainSignupScreen(),
+                            builder: (context) => const MainSignupScreen(),
                           ));
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.black),
                         ),
                       ),
                       backgroundColor:
@@ -91,7 +88,7 @@ class MainLoginScreen extends StatelessWidget {
                           EdgeInsets.symmetric(
                               horizontal: size.width * 0.32, vertical: 20)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Login',
                       style: TextStyle(
                         color: Colors.white,
@@ -102,7 +99,7 @@ class MainLoginScreen extends StatelessWidget {
                   SizedBox(
                     height: size.height * 0.02,
                   ),
-                  Text(
+                  const Text(
                     'OR',
                     style: TextStyle(
                       fontSize: 24.0,
@@ -118,7 +115,7 @@ class MainLoginScreen extends StatelessWidget {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.black),
                         ),
                       ),
                       backgroundColor:
@@ -127,7 +124,7 @@ class MainLoginScreen extends StatelessWidget {
                           EdgeInsets.symmetric(
                               horizontal: size.width * 0.16, vertical: 20)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Login with Google',
                       style: TextStyle(
                         color: Colors.white,
@@ -144,7 +141,7 @@ class MainLoginScreen extends StatelessWidget {
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(255, 236, 236, 236)),
+                          const Color.fromARGB(255, 236, 236, 236)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),

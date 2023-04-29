@@ -1,7 +1,5 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class HomeTitle extends StatelessWidget {
   const HomeTitle({super.key});
@@ -11,7 +9,7 @@ class HomeTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           "Most Popular",
           style: TextStyle(
             fontSize: 16,
@@ -21,7 +19,7 @@ class HomeTitle extends StatelessWidget {
         ),
         TextButton(
             onPressed: () {},
-            child: Text(
+            child: const Text(
               "SEE ALL",
               style: TextStyle(
                 color: kTextBlackColor,

@@ -18,7 +18,7 @@ class MainCartScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppBar(
+              const CustomAppBar(
                 title: "My Cart",
                 showBackButton: true,
               ),
@@ -27,7 +27,7 @@ class MainCartScreen extends StatelessWidget {
                   1,
                   (index) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Container(
+                    child: SizedBox(
                       // width: 300,
                       height: size.height * 0.15,
                       // color: Colors.red,
@@ -47,17 +47,18 @@ class MainCartScreen extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     // color: Colors.red,
-                                    child: Text(
+                                    width: size.width * 0.5,
+                                    // color: Colors.red,
+                                    child: const Text(
                                       "Brand - Name",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    width: size.width * 0.5,
                                   ),
                                   IconButton(
                                     onPressed: () {},
-                                    icon: Icon(
+                                    icon: const Icon(
                                       CupertinoIcons.delete,
                                     ),
                                   ),
@@ -66,13 +67,13 @@ class MainCartScreen extends StatelessWidget {
                               SizedBox(
                                   height: size.height * 0.04,
                                   width: size.width * 0.6,
-                                  child: Text(
+                                  child: const Text(
                                       "Description adfasdfsdafasd afafasdfasdf f afdsfasdfasdfadafa")),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  QuantityCartWidget(),
+                                  const QuantityCartWidget(),
                                   SizedBox(
                                     width: size.width * 0.2,
                                   ),
@@ -82,7 +83,7 @@ class MainCartScreen extends StatelessWidget {
                                       builder: (context, quantityValue, _) =>
                                           Text(
                                         "₹${19890 * quantityValue}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
                                       ),
@@ -119,7 +120,7 @@ class MainCartScreen extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "₹7,500",
                       style: TextStyle(
                         color: kTextBlackColor,
@@ -138,12 +139,12 @@ class MainCartScreen extends StatelessWidget {
                     onPressed: () {
                       // Add your onPressed function here
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       CupertinoIcons.checkmark_square,
                       color: Colors.white,
                       size: 30,
                     ),
-                    label: Text(
+                    label: const Text(
                       'Checkout',
                       style: TextStyle(color: Colors.white, fontSize: 24),
                     ),

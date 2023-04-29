@@ -11,15 +11,15 @@ class LogOutWidget extends StatelessWidget {
       height: size.height * 0.3,
       decoration: BoxDecoration(
         color: Colors.grey[200],
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
         ),
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: Text(
               'Log Out',
               style: TextStyle(
@@ -34,8 +34,8 @@ class LogOutWidget extends StatelessWidget {
             indent: 16,
             endIndent: 16,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: Text(
               'Are you sure you want to log out?',
               style: TextStyle(
@@ -63,9 +63,9 @@ class LogOutWidget extends StatelessWidget {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.white),
                 ),
-                child: Padding(
+                child: const Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 18),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   child: Text(
                     'Cancel',
                     style: TextStyle(
@@ -88,9 +88,9 @@ class LogOutWidget extends StatelessWidget {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.black),
                 ),
-                child: Padding(
+                child: const Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 18),
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   child: Text(
                     'Yes, Logout',
                     style: TextStyle(

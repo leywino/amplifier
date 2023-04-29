@@ -10,11 +10,11 @@ import '../categories_screen/main_categories_screen.dart';
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({super.key});
 
-  ValueNotifier<int> _navIndexNotifier = ValueNotifier(3);
+  final ValueNotifier<int> _navIndexNotifier = ValueNotifier(0);
   final _pages = [
     HomeScreen(),
-    MainCartScreen(),
-    CategoriesScreen(),
+    const MainCartScreen(),
+    const CategoriesScreen(),
     ProfileScreen()
   ];
 
@@ -37,28 +37,28 @@ class BottomNavBar extends StatelessWidget {
                 BottomNavigationBarItem(
                   icon: navbarIndex != 1
                       ? SizedBox(
-                          child: shoppingCart1,
                           height: 28,
                           width: 28,
+                          child: shoppingCart1,
                         )
                       : SizedBox(
-                          child: shoppingCart2,
                           height: 28,
                           width: 28,
+                          child: shoppingCart2,
                         ),
                   label: 'Cart',
                 ),
                 BottomNavigationBarItem(
                   icon: navbarIndex == 2
                       ? SizedBox(
-                          child: gridview1,
                           height: 28,
                           width: 28,
+                          child: gridview1,
                         )
                       : SizedBox(
-                          child: gridview2,
                           height: 28,
                           width: 28,
+                          child: gridview2,
                         ),
                   label: 'Categories',
                 ),
@@ -73,7 +73,7 @@ class BottomNavBar extends StatelessWidget {
               iconSize: 20,
               unselectedItemColor: Colors.grey,
               selectedLabelStyle:
-                  TextStyle(color: kTextBlackColor, fontSize: 12),
+                  const TextStyle(color: kTextBlackColor, fontSize: 12),
               unselectedLabelStyle: TextStyle(
                   color: kTextBlackColor.withOpacity(0.5), fontSize: 12),
               onTap: (value) {

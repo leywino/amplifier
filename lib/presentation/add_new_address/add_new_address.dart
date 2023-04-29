@@ -2,8 +2,6 @@ import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class AddNewAddresScreen extends StatelessWidget {
   const AddNewAddresScreen({super.key});
@@ -18,7 +16,8 @@ class AddNewAddresScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomAppBar(title: "Add New Address", showBackButton: true),
+              const CustomAppBar(
+                  title: "Add New Address", showBackButton: true),
               SizedBox(
                 height: size.height * 0.6,
                 child: Column(
@@ -62,7 +61,7 @@ class AddNewAddresScreen extends StatelessWidget {
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
-                      side: BorderSide(color: Colors.black),
+                      side: const BorderSide(color: Colors.black),
                     ),
                   ),
                   backgroundColor:
@@ -71,7 +70,7 @@ class AddNewAddresScreen extends StatelessWidget {
                       EdgeInsets.symmetric(
                           horizontal: size.width * 0.30, vertical: 20)),
                 ),
-                child: Text(
+                child: const Text(
                   'Update',
                   style: TextStyle(
                     color: Colors.white,
