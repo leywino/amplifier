@@ -1,16 +1,14 @@
 import 'package:amplifier/core/colors/main_colors.dart';
-import 'package:amplifier/core/icons/custom_icon_icons.dart';
 import 'package:amplifier/core/icons/genereal_icons.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/add_to_cart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeDetailsPage extends StatelessWidget {
   HomeDetailsPage({super.key});
 
-  ValueNotifier<int> choiceTypeNotifier = ValueNotifier(0);
-  ValueNotifier<int> choiceColorNotifier = ValueNotifier(0);
+  final ValueNotifier<int> choiceTypeNotifier = ValueNotifier(0);
+  final ValueNotifier<int> choiceColorNotifier = ValueNotifier(0);
 
   final _dummyDetailsImages = [
     "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-7HZ-Salnotes-ZERO-Black-01.jpg?v=1660714478&width=800",
@@ -40,7 +38,7 @@ class HomeDetailsPage extends StatelessWidget {
           FlutterCarousel(
             items: List.generate(
                 _dummyDetailsImages.length,
-                (index) => Container(
+                (index) => SizedBox(
                     width: size.width,
                     child: Image.network(_dummyDetailsImages[index]))),
             options: CarouselOptions(
@@ -82,15 +80,15 @@ class HomeDetailsPage extends StatelessWidget {
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       "₹1,890",
                       style: TextStyle(
                           fontSize: 28,
                           color: kTextBlackColor,
                           fontWeight: FontWeight.bold),
                     ),
-                    const Text(
+                    Text(
                       "%",
                       style:
                           TextStyle(fontSize: 20, color: offerPercentageColor),
@@ -112,7 +110,7 @@ class HomeDetailsPage extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Color: ",
                       style: TextStyle(
                         color: Colors.black,
@@ -148,11 +146,11 @@ class HomeDetailsPage extends StatelessWidget {
                                   color: Colors.red,
                                   border: Border.fromBorderSide(
                                       selectedIndex != index
-                                          ? BorderSide(
+                                          ? const BorderSide(
                                               width: 1,
                                               color: Colors.grey,
                                             )
-                                          : BorderSide(
+                                          : const BorderSide(
                                               width: 2,
                                               color: Colors.black,
                                             )),
@@ -175,7 +173,7 @@ class HomeDetailsPage extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text("Type: "),
+                    const Text("Type: "),
                     ValueListenableBuilder(
                       valueListenable: choiceTypeNotifier,
                       builder: (context, selectedIndex, child) => Text(
@@ -199,8 +197,8 @@ class HomeDetailsPage extends StatelessWidget {
                           selectedColor: Colors.white,
                           shape: StadiumBorder(
                             side: selectedIndex != index
-                                ? BorderSide(color: Colors.grey)
-                                : BorderSide(color: Colors.black),
+                                ? const BorderSide(color: Colors.grey)
+                                : const BorderSide(color: Colors.black),
                           ),
                           label: Text(
                             _dummyChipText[index],
@@ -223,7 +221,7 @@ class HomeDetailsPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomSheet: AddToCartWidget(),
+      bottomSheet: const AddToCartWidget(),
     );
   }
 }

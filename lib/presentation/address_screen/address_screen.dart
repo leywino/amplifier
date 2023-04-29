@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class AddressScreen extends StatelessWidget {
   AddressScreen({super.key});
 
-  ValueNotifier<int> radioNotifier = ValueNotifier(0);
+  final ValueNotifier<int> radioNotifier = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class AddressScreen extends StatelessWidget {
       backgroundColor: kMainBgColor,
       body: SingleChildScrollView(
         child: Column(children: [
-          CustomAppBar(title: "Address", showBackButton: true),
+          const CustomAppBar(title: "Address", showBackButton: true),
           Column(
             children: List.generate(
               3,
@@ -40,13 +40,13 @@ class AddressScreen extends StatelessWidget {
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'John Doe',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 4.0),
+                          const SizedBox(height: 4.0),
                           FittedBox(
                             child: Text(
                               'johndoe@example.com',
@@ -84,7 +84,7 @@ class AddressScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddNewAddresScreen(),
+                        builder: (context) => const AddNewAddresScreen(),
                       ));
                 },
                 style: ButtonStyle(
@@ -105,7 +105,7 @@ class AddressScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SvgPicture.asset("assets/icons/location.svg"),
-                    Text(
+                    const Text(
                       'Add New Address',
                       style: TextStyle(
                         color: Colors.black,
@@ -124,7 +124,7 @@ class AddressScreen extends StatelessWidget {
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
-                      side: BorderSide(color: Colors.black),
+                      side: const BorderSide(color: Colors.black),
                     ),
                   ),
                   backgroundColor:
@@ -134,7 +134,7 @@ class AddressScreen extends StatelessWidget {
                         horizontal: size.width * 0.38, vertical: 20),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Apply',
                   style: TextStyle(
                     color: Colors.white,

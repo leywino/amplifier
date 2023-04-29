@@ -3,7 +3,6 @@ import 'package:amplifier/core/icons/genereal_icons.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
 import 'package:amplifier/presentation/home_screen/home_screen.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MainWishlistScreen extends StatelessWidget {
@@ -11,7 +10,6 @@ class MainWishlistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
       backgroundColor: kMainBgColor,
@@ -20,11 +18,11 @@ class MainWishlistScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              CustomAppBar(
+              const CustomAppBar(
                 title: "My Wishlist",showBackButton: true,
               ),
               GridView.count(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
@@ -60,9 +58,9 @@ class MainWishlistScreen extends StatelessWidget {
                                     child: IconButton(
                                       onPressed: () {},
                                       icon: SizedBox(
-                                        child: cHeartFillIcon,
                                         height: 22,
                                         width: 22,
+                                        child: cHeartFillIcon,
                                       ),
                                     ),
                                   ),
@@ -71,18 +69,18 @@ class MainWishlistScreen extends StatelessWidget {
                               Text(
                                 dummyBrands[index],
                                 style:
-                                    TextStyle(fontSize: 12, color: Colors.grey),
+                                    const TextStyle(fontSize: 12, color: Colors.grey),
                               ),
                               Text(
                                 dummyNames[index],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18,
                                     color: kTextBlackColor,
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 dummyDescription[index],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 14, color: kTextBlackColor),
                                 // overflow: TextOverflow.ellipsis,
                               ),
@@ -91,12 +89,12 @@ class MainWishlistScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     "₹${dummyPrice[index]}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         color: kTextBlackColor,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
+                                  const Text(
                                     "%",
                                     style: TextStyle(
                                         fontSize: 10,

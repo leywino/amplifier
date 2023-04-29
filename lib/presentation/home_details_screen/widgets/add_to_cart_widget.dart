@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -32,7 +34,7 @@ class AddToCartWidget extends StatelessWidget {
                       height: 20,
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Add to Cart",
                     style: TextStyle(
                       color: Colors.white,

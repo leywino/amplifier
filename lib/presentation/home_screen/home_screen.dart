@@ -1,5 +1,4 @@
 import 'package:amplifier/core/colors/main_colors.dart';
-import 'package:amplifier/core/icons/bottom_nav_icons.dart';
 import 'package:amplifier/core/icons/custom_icon_icons.dart';
 import 'package:amplifier/core/icons/genereal_icons.dart';
 import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
@@ -72,7 +71,7 @@ final dummyPercentage = [
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +80,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: kMainBgColor,
         body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
             child: SingleChildScrollView(
@@ -96,9 +95,9 @@ class HomeScreen extends StatelessWidget {
                           onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MainCartScreen(),
+                                builder: (context) => const MainCartScreen(),
                               )),
-                          icon: Icon(
+                          icon: const Icon(
                             CustomIcon.buy_2iconfluttter,
                             color: kAppBarIconColor,
                           ),
@@ -107,9 +106,9 @@ class HomeScreen extends StatelessWidget {
                           onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MainWishlistScreen(),
+                                builder: (context) => const MainWishlistScreen(),
                               )),
-                          icon: Icon(
+                          icon: const Icon(
                             CustomIcon.hearticonfluttter,
                             color: kAppBarIconColor,
                           ),
@@ -127,13 +126,13 @@ class HomeScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 5),
+                            padding: const EdgeInsets.only(left: 5),
                             child: Icon(
                               CustomIcon.search_2iconfluttter,
                               color: kHomeSearchIconColor,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Center(
@@ -143,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                               child: Center(
                                 child: TextField(
                                   controller: searchController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       hintText: "Search",
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
@@ -154,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.only(right: 5),
                             child: Icon(
                               CustomIcon.filter_4iconfluttter,
                               color: kHomeSearchIconColor,
@@ -164,9 +163,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  HomeTitle(),
+                  const HomeTitle(),
                   GridView.count(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 2,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
@@ -204,9 +203,9 @@ class HomeScreen extends StatelessWidget {
                                         child: IconButton(
                                           onPressed: () {},
                                           icon: SizedBox(
-                                            child: cHeartIcon,
                                             height: 22,
                                             width: 22,
+                                            child: cHeartIcon,
                                           ),
                                         ),
                                       ),
@@ -214,19 +213,19 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     dummyBrands[index],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 12, color: Colors.grey),
                                   ),
                                   Text(
                                     dummyNames[index],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 18,
                                         color: kTextBlackColor,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     dummyDescription[index],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 14, color: kTextBlackColor),
                                     // overflow: TextOverflow.ellipsis,
                                   ),
@@ -236,12 +235,12 @@ class HomeScreen extends StatelessWidget {
                                     children: [
                                       Text(
                                         "₹${dummyPrice[index]}",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 18,
                                             color: kTextBlackColor,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
+                                      const Text(
                                         "%",
                                         style: TextStyle(
                                             fontSize: 10,

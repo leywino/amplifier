@@ -23,7 +23,7 @@ class QuantityCartWidget extends StatelessWidget {
             onPressed: () {
               quantityNotifier.value--;
             },
-            icon: Icon(
+            icon: const Icon(
               CupertinoIcons.minus,
               size: 16,
             ),
@@ -39,7 +39,7 @@ class QuantityCartWidget extends StatelessWidget {
             onPressed: () {
               quantityNotifier.value++;
             },
-            icon: Icon(
+            icon: const Icon(
               CupertinoIcons.add,
               size: 16,
             ),

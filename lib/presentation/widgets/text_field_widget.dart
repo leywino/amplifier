@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  TextFieldWidget(
+  const TextFieldWidget(
       {super.key,
       required this.size,
       required this.fieldName,
-      this.hideField,
+      this.hideField = false,
       this.numPad = false,
       this.colorValue = Colors.white});
 
   final Size size;
   final String fieldName;
-  bool? hideField = false;
-  bool numPad;
+  final bool hideField;
+  final bool numPad;
   final Color colorValue;
 
   @override
@@ -30,12 +30,12 @@ class TextFieldWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
                 fieldName,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,
                 ),
@@ -43,9 +43,9 @@ class TextFieldWidget extends StatelessWidget {
               TextField(
                 // maxLength: 50,
                 // maxLines: 5,
-                obscureText: hideField ?? false,
+                obscureText: hideField,
                 keyboardType: numPad ? TextInputType.phone : null,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   hintText: 'Type here',

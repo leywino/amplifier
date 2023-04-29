@@ -13,7 +13,7 @@ class CategoriesScreen extends StatelessWidget {
       backgroundColor: kMainBgColor,
       body: Column(
         children: [
-          CustomAppBar(
+          const CustomAppBar(
             title: "Categories",
             showBackButton: false,
           ),

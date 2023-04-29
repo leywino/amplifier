@@ -2,8 +2,6 @@ import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -17,7 +15,7 @@ class EditProfileScreen extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomAppBar(title: "Edit Profile", showBackButton: true),
+            const CustomAppBar(title: "Edit Profile", showBackButton: true),
             Column(
               children: [
                 SizedBox(
@@ -56,7 +54,7 @@ class EditProfileScreen extends StatelessWidget {
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
-                    side: BorderSide(color: Colors.black),
+                    side: const BorderSide(color: Colors.black),
                   ),
                 ),
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -64,7 +62,7 @@ class EditProfileScreen extends StatelessWidget {
                     EdgeInsets.symmetric(
                         horizontal: size.width * 0.30, vertical: 20)),
               ),
-              child: Text(
+              child: const Text(
                 'Update',
                 style: TextStyle(
                   color: Colors.white,

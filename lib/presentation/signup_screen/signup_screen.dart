@@ -1,4 +1,3 @@
-import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ class MainSignupScreen extends StatelessWidget {
         child: Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -22,8 +21,8 @@ class MainSignupScreen extends StatelessWidget {
               width: double.infinity,
               height: size.height * 0.1,
               color: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Sign Up',
                   style: TextStyle(
@@ -38,7 +37,7 @@ class MainSignupScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               height: size.height * 0.87,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 236, 236, 236),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(150),
@@ -54,7 +53,7 @@ class MainSignupScreen extends StatelessWidget {
                     padding: EdgeInsets.only(left: size.width * 0.1),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'Welcome',
                           style: TextStyle(
@@ -96,7 +95,7 @@ class MainSignupScreen extends StatelessWidget {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.black),
                         ),
                       ),
                       backgroundColor:
@@ -105,7 +104,7 @@ class MainSignupScreen extends StatelessWidget {
                           EdgeInsets.symmetric(
                               horizontal: size.width * 0.29, vertical: 20)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sign Up',
                       style: TextStyle(
                         color: Colors.white,
@@ -113,7 +112,7 @@ class MainSignupScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'OR',
                     style: TextStyle(
                       fontSize: 24.0,
@@ -126,7 +125,7 @@ class MainSignupScreen extends StatelessWidget {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.black),
                         ),
                       ),
                       backgroundColor:
@@ -135,7 +134,7 @@ class MainSignupScreen extends StatelessWidget {
                           EdgeInsets.symmetric(
                               horizontal: size.width * 0.12, vertical: 20)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sign Up With Google',
                       style: TextStyle(
                         color: Colors.white,
@@ -149,7 +148,7 @@ class MainSignupScreen extends StatelessWidget {
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(255, 236, 236, 236)),
+                          const Color.fromARGB(255, 236, 236, 236)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),

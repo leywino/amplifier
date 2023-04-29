@@ -23,14 +23,13 @@ class CategoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
         leading: Image.network(dummyCategoryImage[index]),
         title: Text(
           dummyCategoryName[index],
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -43,7 +42,7 @@ class CategoriesTile extends StatelessWidget {
             color: Colors.grey[300],
             shape: BoxShape.circle,
           ),
-          child: Center(
+          child: const Center(
             child: Icon(
               CupertinoIcons.chevron_forward,
               color: Colors.black,
