@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^4.0.4
   flutter_svg: ^2.0.5
+  flutter_carousel_widget: ^2.0.2
 
 dev_dependencies:
   flutter_test:
