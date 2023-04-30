@@ -4,7 +4,12 @@ import 'package:amplifier/presentation/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({super.key});
+  EditProfileScreen({super.key});
+
+  final TextEditingController nameController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,7 @@ class EditProfileScreen extends StatelessWidget {
                   size: size,
                   fieldName: "Name",
                   colorValue: Colors.grey.withOpacity(0.2),
+                  textController: nameController,
                 ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -33,6 +39,7 @@ class EditProfileScreen extends StatelessWidget {
                   size: size,
                   fieldName: "Email",
                   colorValue: Colors.grey.withOpacity(0.2),
+                  textController: emailController,
                 ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -42,6 +49,7 @@ class EditProfileScreen extends StatelessWidget {
                   fieldName: "Phone",
                   numPad: true,
                   colorValue: Colors.grey.withOpacity(0.2),
+                  textController: phoneController,
                 ),
               ],
             ),
