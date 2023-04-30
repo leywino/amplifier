@@ -21,7 +21,7 @@ class ProfileTileWidget extends StatelessWidget {
   final List<IconData> _profileIcons;
   final List<String> _profileTitles;
   final _profilePages = [
-    const EditProfileScreen(),
+    EditProfileScreen(),
     const OrderScreen(),
     AddressScreen(),
     const LogOutWidget()

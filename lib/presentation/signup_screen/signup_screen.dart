@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import '../widgets/text_field_widget.dart';
 
 class MainSignupScreen extends StatelessWidget {
-  const MainSignupScreen({super.key});
+  MainSignupScreen({super.key});
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -68,20 +73,21 @@ class MainSignupScreen extends StatelessWidget {
                   TextFieldWidget(
                     size: size,
                     fieldName: "Name",
+                    textController: nameController,
                   ),
                   TextFieldWidget(
                     size: size,
-                    fieldName: "Email",
+                    fieldName: "Email",textController: emailController,
                   ),
                   TextFieldWidget(
                     size: size,
                     fieldName: "Password",
-                    hideField: true,
+                    hideField: true,textController: passwordController,
                   ),
                   TextFieldWidget(
                     size: size,
                     fieldName: "Confirm Password",
-                    hideField: true,
+                    hideField: true,textController: confirmPasswordController,
                   ),
                   TextButton(
                     onPressed: () {

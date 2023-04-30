@@ -4,7 +4,13 @@ import 'package:amplifier/presentation/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddNewAddresScreen extends StatelessWidget {
-  const AddNewAddresScreen({super.key});
+  AddNewAddresScreen({super.key});
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController pincodeController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,28 +32,28 @@ class AddNewAddresScreen extends StatelessWidget {
                     TextFieldWidget(
                       size: size,
                       fieldName: "Name",
-                      colorValue: Colors.grey.withOpacity(0.2),
+                      colorValue: Colors.grey.withOpacity(0.2),textController: nameController,
                     ),
                     TextFieldWidget(
                       size: size,
                       fieldName: "Pin Code",
                       colorValue: Colors.grey.withOpacity(0.2),
-                      numPad: true,
+                      numPad: true,textController: pincodeController,
                     ),
                     TextFieldWidget(
                       size: size,
                       fieldName: "Permanent Adress",
-                      colorValue: Colors.grey.withOpacity(0.2),
+                      colorValue: Colors.grey.withOpacity(0.2),textController: addressController,
                     ),
                     TextFieldWidget(
                       size: size,
                       fieldName: "State",
-                      colorValue: Colors.grey.withOpacity(0.2),
+                      colorValue: Colors.grey.withOpacity(0.2),textController: stateController,
                     ),
                     TextFieldWidget(
                       size: size,
                       fieldName: "City",
-                      colorValue: Colors.grey.withOpacity(0.2),
+                      colorValue: Colors.grey.withOpacity(0.2),textController: cityController,
                     ),
                   ],
                 ),

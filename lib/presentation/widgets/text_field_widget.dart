@@ -7,13 +7,14 @@ class TextFieldWidget extends StatelessWidget {
       required this.fieldName,
       this.hideField = false,
       this.numPad = false,
-      this.colorValue = Colors.white});
+      this.colorValue = Colors.white, required this.textController});
 
   final Size size;
   final String fieldName;
   final bool hideField;
   final bool numPad;
   final Color colorValue;
+  final TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {

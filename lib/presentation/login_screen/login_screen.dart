@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import '../widgets/text_field_widget.dart';
 
 class MainLoginScreen extends StatelessWidget {
-  const MainLoginScreen({super.key});
+  MainLoginScreen({super.key});
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +58,7 @@ class MainLoginScreen extends StatelessWidget {
                   TextFieldWidget(
                     size: size,
                     fieldName: "Email",
+                    textController: emailController,
                   ),
                   SizedBox(
                     height: size.height * 0.01,
@@ -63,6 +67,7 @@ class MainLoginScreen extends StatelessWidget {
                     size: size,
                     fieldName: "Password",
                     hideField: true,
+                    textController: passwordController,
                   ),
                   SizedBox(
                     height: size.height * 0.05,
@@ -72,7 +77,7 @@ class MainLoginScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MainSignupScreen(),
+                            builder: (context) => MainSignupScreen(),
                           ));
                     },
                     style: ButtonStyle(

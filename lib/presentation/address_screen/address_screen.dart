@@ -84,7 +84,7 @@ class AddressScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const AddNewAddresScreen(),
+                        builder: (context) => AddNewAddresScreen(),
                       ));
                 },
                 style: ButtonStyle(
