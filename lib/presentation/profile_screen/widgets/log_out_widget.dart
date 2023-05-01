@@ -1,4 +1,7 @@
+import 'package:amplifier/presentation/login_screen/login_screen.dart';
 import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class LogOutWidget extends StatelessWidget {
@@ -64,8 +67,7 @@ class LogOutWidget extends StatelessWidget {
                       MaterialStateProperty.all<Color>(Colors.white),
                 ),
                 child: const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   child: Text(
                     'Cancel',
                     style: TextStyle(
@@ -78,6 +80,14 @@ class LogOutWidget extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   ProfileScreen.showLogOutNotifier.value = false;
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      transitionDuration: Duration.zero,
+                      pageBuilder: (_, __, ___) => MainLoginScreen(),
+                    ),
+                  );
                 },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -89,8 +99,7 @@ class LogOutWidget extends StatelessWidget {
                       MaterialStateProperty.all<Color>(Colors.black),
                 ),
                 child: const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 18),
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   child: Text(
                     'Yes, Logout',
                     style: TextStyle(

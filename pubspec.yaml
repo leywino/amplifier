@@ -38,6 +38,10 @@ dependencies:
   google_fonts: ^4.0.4
   flutter_svg: ^2.0.5
   flutter_carousel_widget: ^2.0.2
+  cloud_firestore: ^4.5.3
+  firebase_auth: ^4.4.2
+  firebase_core: ^2.10.0
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

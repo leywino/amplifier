@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  const TextFieldWidget(
-      {super.key,
-      required this.size,
-      required this.fieldName,
-      this.hideField = false,
-      this.numPad = false,
-      this.colorValue = Colors.white, required this.textController});
+  const TextFieldWidget({
+    Key? key,
+    required this.size,
+    required this.fieldName,
+    this.hideField = false,
+    this.numPad = false,
+    this.colorValue = Colors.white,
+    required this.textController,
+    this.validator,
+  }) : super(key: key);
 
   final Size size;
   final String fieldName;
   final bool hideField;
   final bool numPad;
   final Color colorValue;
-  final TextEditingController textController;
+  final TextEditingController? textController;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
       child: Container(
-        // height: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: colorValue,
@@ -41,18 +44,34 @@ class TextFieldWidget extends StatelessWidget {
                   fontSize: 18.0,
                 ),
               ),
-              TextField(
-                // maxLength: 50,
-                // maxLines: 5,
-                obscureText: hideField,
-                keyboardType: numPad ? TextInputType.phone : null,
-                decoration: const InputDecoration(
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  hintText: 'Type here',
-                  border: InputBorder.none,
-                  labelStyle: TextStyle(
-                    color: Colors.transparent,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: TextFormField(
+                  validator: validator,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: textController,
+                  obscureText: hideField,
+                  keyboardType: numPad ? TextInputType.phone : null,
+                  decoration: InputDecoration(
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    hintText: 'Type here',
+                    border: InputBorder.none,
+                    labelStyle: TextStyle(
+                      color: Colors.transparent,
+                    ),
+                    // errorBorder: OutlineInputBorder(
+                    //   borderSide: BorderSide(
+                    //     color: Colors.red,
+                    //     width: 1.0,
+                    //   ),
+                    //   borderRadius: BorderRadius.circular(15.0),
+                    // ),
+                    errorStyle: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    // contentPadding: EdgeInsets.only(bottom: 8.0),
                   ),
                 ),
               ),
