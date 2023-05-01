@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:amplifier/presentation/login_screen/widgets/forgot_password.dart';
 import 'package:amplifier/presentation/signup_screen/signup_screen.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:email_validator/email_validator.dart';
@@ -153,9 +154,7 @@ class MainLoginScreen extends StatelessWidget {
                             //   height: size.height * 0.02,
                             // ),
                             TextButton(
-                              onPressed: () {
-                                _showMySnackBar(context);
-                              },
+                              onPressed: () {},
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
@@ -195,7 +194,7 @@ class MainLoginScreen extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: "Sign Up",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.black,
                                       // decoration: TextDecoration.underline,
                                     ),
@@ -225,12 +224,18 @@ class MainLoginScreen extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: "Reset Now",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.black,
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        // Add your code for password reset functionality
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ResetPasswordScreen(),
+                                          ),
+                                        );
                                       },
                                   ),
                                 ],
@@ -303,7 +308,6 @@ class MainLoginScreen extends StatelessWidget {
     final form = _formKey.currentState!.validate();
     if (form) {
       try {
-        print(emailController.text.trim());
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
@@ -311,20 +315,5 @@ class MainLoginScreen extends StatelessWidget {
         log(e.toString());
       }
     }
-  }
-
-  void _showMySnackBar(BuildContext context) {
-    final snackBar = SnackBar(
-      content: const Text(
-          'This is a demo SnackBar. Would you like to approve of this message?'),
-      action: SnackBarAction(
-        label: 'Approve',
-        onPressed: () {
-          // Perform some action
-        },
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

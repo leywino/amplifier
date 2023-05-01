@@ -1,7 +1,6 @@
 import 'package:amplifier/presentation/login_screen/login_screen.dart';
 import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class LogOutWidget extends StatelessWidget {

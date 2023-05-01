@@ -52,7 +52,7 @@ class TextFieldWidget extends StatelessWidget {
                   controller: textController,
                   obscureText: hideField,
                   keyboardType: numPad ? TextInputType.phone : null,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     hintText: 'Type here',
