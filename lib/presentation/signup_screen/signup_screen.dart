@@ -1,4 +1,9 @@
+import 'dart:developer';
+
+import 'package:amplifier/presentation/login_screen/login_screen.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/text_field_widget.dart';
@@ -9,7 +14,8 @@ class MainSignupScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -71,26 +77,31 @@ class MainSignupScreen extends StatelessWidget {
                     ),
                   ),
                   TextFieldWidget(
+                    
                     size: size,
                     fieldName: "Name",
                     textController: nameController,
                   ),
                   TextFieldWidget(
                     size: size,
-                    fieldName: "Email",textController: emailController,
+                    fieldName: "Email",
+                    textController: emailController,
                   ),
                   TextFieldWidget(
                     size: size,
                     fieldName: "Password",
-                    hideField: true,textController: passwordController,
+                    hideField: true,
+                    textController: passwordController,
                   ),
                   TextFieldWidget(
                     size: size,
                     fieldName: "Confirm Password",
-                    hideField: true,textController: confirmPasswordController,
+                    hideField: true,
+                    textController: confirmPasswordController,
                   ),
                   TextButton(
                     onPressed: () {
+                      signUp(context);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -161,13 +172,33 @@ class MainSignupScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: Text(
-                      "Already have an account? Login",
+                    child: RichText(
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.grey[500],
-                        fontWeight: FontWeight.bold,
+                      text: TextSpan(
+                        text: "Already have an account? ",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.grey[500],
+                          fontWeight: FontWeight.bold,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "Login",
+                            style: TextStyle(
+                              color: Colors.black,
+                              // decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MainLoginScreen(),
+                                  ),
+                                );
+                              },
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -178,5 +209,20 @@ class MainSignupScreen extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  Future signUp(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+    }
   }
 }
