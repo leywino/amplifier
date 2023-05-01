@@ -1,15 +1,38 @@
+import 'dart:developer';
+
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/widgets/text_field_widget.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
 
   final TextEditingController nameController = TextEditingController();
-
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final ValueNotifier<bool> editNotifier = ValueNotifier(false);
+  final User? user = FirebaseAuth.instance.currentUser;
+  final _formKey = GlobalKey<FormState>();
+
+  String? _validateNameField(String? value) {
+    if (nameController.text.trim().isEmpty) {
+      return 'Name field is empty';
+    } else if (nameController.text.trim().length < 4) {
+      return 'Enter minimum 4 characters';
+    }
+    return null;
+  }
+
+  String? _validateEmailField(String? value) {
+    if (emailController.text.trim().isEmpty) {
+      return 'Email field is empty';
+    } else if (!EmailValidator.validate(emailController.text.trim())) {
+      return 'Enter valid email';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,73 +40,107 @@ class EditProfileScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kMainBgColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const CustomAppBar(title: "Edit Profile", showBackButton: true),
-            Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.05,
-                ),
-                TextFieldWidget(
-                  size: size,
-                  fieldName: "Name",
-                  colorValue: Colors.grey.withOpacity(0.2),
-                  textController: nameController,
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                TextFieldWidget(
-                  size: size,
-                  fieldName: "Email",
-                  colorValue: Colors.grey.withOpacity(0.2),
-                  textController: emailController,
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                TextFieldWidget(
-                  size: size,
-                  fieldName: "Phone",
-                  numPad: true,
-                  colorValue: Colors.grey.withOpacity(0.2),
-                  textController: phoneController,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: size.height * 0.3,
-            ),
-            TextButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    side: const BorderSide(color: Colors.black),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const CustomAppBar(title: "Edit Profile", showBackButton: true),
+              Form(
+                key: _formKey,
+                child: ValueListenableBuilder(
+                  valueListenable: editNotifier,
+                  builder: (context, editOrUpdate, child) => Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.05,
+                      ),
+                      TextFieldWidget(
+                        size: size,
+                        fieldName: "Name",
+                        colorValue: Colors.grey.withOpacity(0.2),
+                        textController: nameController,
+                        hintName: user!.displayName,
+                        enabled: editOrUpdate,
+                        validator: _validateNameField,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      TextFieldWidget(
+                        size: size,
+                        fieldName: "Email",
+                        colorValue: Colors.grey.withOpacity(0.2),
+                        textController: emailController,
+                        hintName: emailController.text.trim(),
+                        enabled: editOrUpdate,
+                        validator: _validateEmailField,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                    ],
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(
-                        horizontal: size.width * 0.30, vertical: 20)),
               ),
-              child: const Text(
-                'Update',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+              SizedBox(
+                height: size.height * 0.3,
+              ),
+              ValueListenableBuilder(
+                valueListenable: editNotifier,
+                builder: (context, editOrUpdate, child) => TextButton(
+                  onPressed: () {
+                    editNotifier.value = !editNotifier.value;
+                    editOrUpdate ? _updateProfile(context) : null;
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        side: const BorderSide(color: Colors.black),
+                      ),
+                    ),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.black),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(
+                            horizontal: size.width * 0.30, vertical: 20)),
+                  ),
+                  child: Text(
+                    !editOrUpdate ? 'Edit' : 'Update',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: size.height * 0.05,
-            ),
-          ],
+              SizedBox(
+                height: size.height * 0.05,
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future _updateProfile(BuildContext context) async {
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => const Center(child: CircularProgressIndicator()),
+    // );
+
+    final form = _formKey.currentState!.validate();
+    if (form) {
+      try {
+        await user!.updateDisplayName(nameController.text.trim());
+        await user!.updateEmail(emailController.text.trim());
+      } on FirebaseAuthException catch (e) {
+        log(e.toString());
+      }
+    } else {
+      editNotifier.value = !editNotifier.value;
+    }
   }
 }

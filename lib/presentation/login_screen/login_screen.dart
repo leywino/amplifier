@@ -93,6 +93,7 @@ class MainLoginScreen extends StatelessWidget {
                               validator: _validateEmailField,
                               fieldName: "Email",
                               textController: emailController,
+                              
                             ),
                             // SizedBox(
                             //   height: size.height * 0.005,

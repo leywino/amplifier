@@ -10,15 +10,19 @@ class TextFieldWidget extends StatelessWidget {
     this.colorValue = Colors.white,
     required this.textController,
     this.validator,
+    this.hintName,
+    this.enabled = true,
   }) : super(key: key);
 
   final Size size;
   final String fieldName;
   final bool hideField;
+  final bool enabled;
   final bool numPad;
   final Color colorValue;
   final TextEditingController? textController;
   final String? Function(String?)? validator;
+  final String? hintName;
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +50,17 @@ class TextFieldWidget extends StatelessWidget {
               ),
               TextFormField(
                 validator: validator,
+                enabled: enabled,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: textController,
                 obscureText: hideField,
                 keyboardType: numPad ? TextInputType.phone : null,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
-                  hintText: 'Type here',
+                  hintText: hintName ?? "Type here",
                   border: InputBorder.none,
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     color: Colors.transparent,
                   ),
                   // errorBorder: OutlineInputBorder(
@@ -65,7 +70,7 @@ class TextFieldWidget extends StatelessWidget {
                   //   ),
                   //   borderRadius: BorderRadius.circular(15.0),
                   // ),
-                  errorStyle: TextStyle(
+                  errorStyle: const TextStyle(
                     color: Colors.red,
                     fontWeight: FontWeight.bold,
                   ),

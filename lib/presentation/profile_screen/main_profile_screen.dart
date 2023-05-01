@@ -3,8 +3,8 @@ import 'package:amplifier/core/icons/custom_icon_icons.dart';
 import 'package:amplifier/presentation/profile_screen/widgets/log_out_widget.dart';
 import 'package:amplifier/presentation/profile_screen/widgets/profile_tile_widget.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
     "Log Out",
   ];
 
-  
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +50,8 @@ class ProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.grey[300],
                   ),
                   const SizedBox(height: 16.0),
-                  const Text(
-                    'User Name',
+                  Text(
+                    user!.displayName!,
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
