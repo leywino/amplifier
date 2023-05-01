@@ -35,7 +35,7 @@ class TextFieldWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 10,
+                height: 12,
               ),
               Text(
                 fieldName,
@@ -44,35 +44,32 @@ class TextFieldWidget extends StatelessWidget {
                   fontSize: 18.0,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: TextFormField(
-                  validator: validator,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  controller: textController,
-                  obscureText: hideField,
-                  keyboardType: numPad ? TextInputType.phone : null,
-                  decoration: const InputDecoration(
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    hintText: 'Type here',
-                    border: InputBorder.none,
-                    labelStyle: TextStyle(
-                      color: Colors.transparent,
-                    ),
-                    // errorBorder: OutlineInputBorder(
-                    //   borderSide: BorderSide(
-                    //     color: Colors.red,
-                    //     width: 1.0,
-                    //   ),
-                    //   borderRadius: BorderRadius.circular(15.0),
-                    // ),
-                    errorStyle: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    // contentPadding: EdgeInsets.only(bottom: 8.0),
+              TextFormField(
+                validator: validator,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: textController,
+                obscureText: hideField,
+                keyboardType: numPad ? TextInputType.phone : null,
+                decoration: const InputDecoration(
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  hintText: 'Type here',
+                  border: InputBorder.none,
+                  labelStyle: TextStyle(
+                    color: Colors.transparent,
                   ),
+                  // errorBorder: OutlineInputBorder(
+                  //   borderSide: BorderSide(
+                  //     color: Colors.red,
+                  //     width: 1.0,
+                  //   ),
+                  //   borderRadius: BorderRadius.circular(15.0),
+                  // ),
+                  errorStyle: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  // contentPadding: EdgeInsets.only(bottom: 8.0),
                 ),
               ),
             ],
