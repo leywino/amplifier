@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/snackbar.dart';
 import '../widgets/text_field_widget.dart';
 
 class MainSignupScreen extends StatelessWidget {
@@ -300,8 +301,10 @@ class MainSignupScreen extends StatelessWidget {
                 password: passwordController.text.trim());
         User? user = result.user;
         user!.updateDisplayName(nameController.text.trim());
+         showEmailSentSnackbar(context, "Successfully Registered");
       } on FirebaseAuthException catch (e) {
         log(e.toString());
+         showEmailSentSnackbar(context, e.toString());
       }
     }
   }

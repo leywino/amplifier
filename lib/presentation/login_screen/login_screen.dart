@@ -93,7 +93,6 @@ class MainLoginScreen extends StatelessWidget {
                               validator: _validateEmailField,
                               fieldName: "Email",
                               textController: emailController,
-                              
                             ),
                             // SizedBox(
                             //   height: size.height * 0.005,
@@ -312,8 +311,10 @@ class MainLoginScreen extends StatelessWidget {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
+        showEmailSentSnackbar(context, "Successfully Signed In");
       } on FirebaseAuthException catch (e) {
         log(e.toString());
+        showEmailSentSnackbar(context, e.toString());
       }
     }
   }
