@@ -184,7 +184,7 @@ class MainSignupScreen extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: "Login",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               // decoration: TextDecoration.underline,
                             ),
