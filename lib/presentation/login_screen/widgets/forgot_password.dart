@@ -202,15 +202,15 @@ class ResetPasswordScreen extends StatelessWidget {
           email: emailController.text.trim(),
         );
         // ignore: use_build_context_synchronously
-        _showEmailSentSnackbar(context, "Email sent successfully");
+        showEmailSentSnackbar(context, "Email sent successfully");
       } on FirebaseAuthException catch (e) {
-        _showEmailSentSnackbar(context, e.toString());
+        showEmailSentSnackbar(context, e.toString());
       }
     }
   }
 }
 
-void _showEmailSentSnackbar(BuildContext context, String message) {
+void showEmailSentSnackbar(BuildContext context, String message) {
   final snackBar = SnackBar(
     content: Text(message),
     action: SnackBarAction(
