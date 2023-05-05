@@ -197,12 +197,11 @@ class ResetPasswordScreen extends StatelessWidget {
   Future resetPassword(BuildContext context) async {
     final form = _formKey.currentState!.validate();
     if (form) {
-      try {showEmailSentSnackbar(context, "Email sent successfully");
+      try {
+        showEmailSentSnackbar(context, "Email sent successfully");
         await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text.trim(),
         );
-
-        
       } on FirebaseAuthException catch (e) {
         showEmailSentSnackbar(context, e.toString());
       }
@@ -213,12 +212,12 @@ class ResetPasswordScreen extends StatelessWidget {
 void showEmailSentSnackbar(BuildContext context, String message) {
   final snackBar = SnackBar(
     content: Text(message),
-    action: SnackBarAction(
-      label: 'Dismiss',
-      onPressed: () {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      },
-    ),
+    // action: SnackBarAction(
+    //   label: 'Dismiss',
+    //   onPressed: () {
+    //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    //   },
+    // ),
   );
 
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
