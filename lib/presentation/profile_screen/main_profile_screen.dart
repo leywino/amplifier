@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
-  static ValueNotifier<bool> showLogOutNotifier = ValueNotifier(false);
+  static final ValueNotifier<bool> showLogOutNotifier = ValueNotifier(false);
 
   final List<IconData> _profileIcons = [
     CustomIcon.profile_1iconfluttter,
@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
     "Log Out",
   ];
 
-  User? user = FirebaseAuth.instance.currentUser;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -52,18 +52,12 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   Text(
                     user!.displayName!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  const Text(
-                    'phone number',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    ),
-                  ),
                   const SizedBox(height: 8.0),
                 ],
               ),

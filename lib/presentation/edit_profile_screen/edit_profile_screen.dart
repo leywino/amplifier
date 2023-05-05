@@ -71,7 +71,7 @@ class EditProfileScreen extends StatelessWidget {
                         fieldName: "Email",
                         colorValue: Colors.grey.withOpacity(0.2),
                         textController: emailController,
-                        hintName: emailController.text.trim(),
+                        hintName: user!.email,
                         enabled: editOrUpdate,
                         validator: _validateEmailField,
                       ),

@@ -1,13 +1,10 @@
 import 'dart:developer';
-
 import 'package:amplifier/presentation/login_screen/login_screen.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import '../../core/snackbar.dart';
 import '../widgets/text_field_widget.dart';
 
@@ -295,13 +292,13 @@ class MainSignupScreen extends StatelessWidget {
     // );
     if (_formKey.currentState!.validate()) {
       try {
+        showEmailSentSnackbar(context, "Successfully Registered");
         UserCredential result = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
                 email: emailController.text.trim(),
                 password: passwordController.text.trim());
         User? user = result.user;
-        user!.updateDisplayName(nameController.text.trim());
-         showEmailSentSnackbar(context, "Successfully Registered");
+        user!.updateDisplayName(nameController.text.trim());      
       } on FirebaseAuthException catch (e) {
         log(e.toString());
          showEmailSentSnackbar(context, e.toString());

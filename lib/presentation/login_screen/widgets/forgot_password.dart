@@ -197,12 +197,12 @@ class ResetPasswordScreen extends StatelessWidget {
   Future resetPassword(BuildContext context) async {
     final form = _formKey.currentState!.validate();
     if (form) {
-      try {
+      try {showEmailSentSnackbar(context, "Email sent successfully");
         await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text.trim(),
         );
-        // ignore: use_build_context_synchronously
-        showEmailSentSnackbar(context, "Email sent successfully");
+
+        
       } on FirebaseAuthException catch (e) {
         showEmailSentSnackbar(context, e.toString());
       }
