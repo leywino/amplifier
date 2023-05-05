@@ -3,6 +3,8 @@ import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/snackbar.dart';
+
 class LogOutWidget extends StatelessWidget {
   const LogOutWidget({super.key});
 
@@ -78,6 +80,7 @@ class LogOutWidget extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
+                  showEmailSentSnackbar(context, "Logged Out");
                   ProfileScreen.showLogOutNotifier.value = false;
                   FirebaseAuth.instance.signOut();
                   Navigator.pushReplacement(
