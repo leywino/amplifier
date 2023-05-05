@@ -5,7 +5,11 @@ import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
 import 'package:amplifier/presentation/home_screen/widget/home_title.dart';
 import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+final Stream<QuerySnapshot> _productsStream =
+    FirebaseFirestore.instance.collection('products').snapshots();
 
 final dummyImages = [
   "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Moondrop-Chu--04.jpg?v=1678359402&width=800",
@@ -106,7 +110,8 @@ class HomeScreen extends StatelessWidget {
                           onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const MainWishlistScreen(),
+                                builder: (context) =>
+                                    const MainWishlistScreen(),
                               )),
                           icon: const Icon(
                             CustomIcon.hearticonfluttter,
@@ -164,94 +169,108 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const HomeTitle(),
-                  GridView.count(
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    childAspectRatio: 1 / 1.8,
-                    shrinkWrap: true,
-                    children: List.generate(
-                        8,
-                        (index) => InkWell(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeDetailsPage(),
-                                  )),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            // color: Colors.red,
-                                            image: DecorationImage(
-                                          image:
-                                              NetworkImage(dummyImages[index]),
-                                          fit: BoxFit.cover,
-                                        )),
-                                        height: 180,
-                                        // width: size.width,
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        top: 0,
-                                        child: IconButton(
-                                          onPressed: () {},
-                                          icon: SizedBox(
-                                            height: 22,
-                                            width: 22,
-                                            child: cHeartIcon,
-                                          ),
+                  StreamBuilder(
+                    stream: _productsStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong');
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text("Loading");
+                      }
+
+                      return GridView.count(
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: 1 / 1.8,
+                        shrinkWrap: true,
+                        children: snapshot.data!.docs
+                            .map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data()! as Map<String, dynamic>;
+                          return InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeDetailsPage(),
+                                )),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  children: [
+                                    data['networkImageString']!= null
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    data['networkImageString']),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            height: 180,
+                                          )
+                                        : const CircularProgressIndicator(),
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: IconButton(
+                                        onPressed: () {},
+                                        icon: SizedBox(
+                                          height: 22,
+                                          width: 22,
+                                          child: cHeartIcon,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Text(
-                                    dummyBrands[index],
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    dummyNames[index],
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        color: kTextBlackColor,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    dummyDescription[index],
-                                    style: const TextStyle(
-                                        fontSize: 14, color: kTextBlackColor),
-                                    // overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "₹${dummyPrice[index]}",
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            color: kTextBlackColor,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const Text(
-                                        "%",
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: offerPercentageColor),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )),
-                  ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  data['brand'],
+                                  style: const TextStyle(
+                                      fontSize: 12, color: Colors.grey),
+                                ),
+                                Text(
+                                  data['productName'],
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: kTextBlackColor,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  data['description'],
+                                  style: const TextStyle(
+                                      fontSize: 14, color: kTextBlackColor),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "₹${data['price']}",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          color: kTextBlackColor,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const Text(
+                                      "%",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: offerPercentageColor),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  )
                 ],
               ),
             ),

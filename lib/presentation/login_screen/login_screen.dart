@@ -308,10 +308,10 @@ class MainLoginScreen extends StatelessWidget {
     final form = _formKey.currentState!.validate();
     if (form) {
       try {
+        showEmailSentSnackbar(context, "Successfully Signed In");
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
-        showEmailSentSnackbar(context, "Successfully Signed In");
       } on FirebaseAuthException catch (e) {
         log(e.toString());
         showEmailSentSnackbar(context, e.toString());

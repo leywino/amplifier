@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ActiveTileWidget extends StatelessWidget {
@@ -28,7 +27,7 @@ class ActiveTileWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.network(
-                    'https://via.placeholder.com/150',
+                    'https://firebasestorage.googleapis.com/v0/b/leywin-amplifier.appspot.com/o/images%2Fchu?alt=media&token=c9313e96-0b5f-4116-8030-a268c7c47e36',
                     width: 100,
                     height: 100,
                   ),
@@ -53,16 +52,14 @@ class ActiveTileWidget extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.02),
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: size.width * 0.15),
+                        padding: EdgeInsets.only(left: size.width * 0.15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.red,
-                                borderRadius:
-                                    BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(50),
                               ),
                               child: GestureDetector(
                                 onTap: () {},
@@ -83,8 +80,7 @@ class ActiveTileWidget extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.black,
-                                borderRadius:
-                                    BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(50),
                               ),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 5),
@@ -113,4 +109,3 @@ class ActiveTileWidget extends StatelessWidget {
     );
   }
 }
-
