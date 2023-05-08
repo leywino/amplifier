@@ -7,6 +7,7 @@ import 'package:amplifier/presentation/home_screen/widget/home_title.dart';
 import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 final Stream<QuerySnapshot> _productsStream =
     FirebaseFirestore.instance.collection('products').snapshots();
@@ -72,208 +73,244 @@ final dummyPercentage = [
   "21",
 ];
 
+ValueNotifier<bool> _headerNotifier = ValueNotifier(false);
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final TextEditingController searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final ValueNotifier _isAtTop = ValueNotifier(true);
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(() {
+        if (_scrollController.offset <= 60) {
+          _isAtTop.value = true;
+        } else {
+          _isAtTop.value = false;
+        }
+      });
+    });
+
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kMainBgColor,
         body: SingleChildScrollView(
+          controller: _scrollController,
           physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 60,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MainCartScreen(),
-                              )),
-                          icon: const Icon(
-                            CustomIcon.buy_2iconfluttter,
-                            color: kAppBarIconColor,
-                          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                child: SizedBox(
+                  height: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainCartScreen(),
+                            )),
+                        icon: const Icon(
+                          CustomIcon.buy_2iconfluttter,
+                          color: kAppBarIconColor,
                         ),
-                        IconButton(
-                          onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const MainWishlistScreen(),
-                              )),
-                          icon: const Icon(
-                            CustomIcon.hearticonfluttter,
-                            color: kAppBarIconColor,
-                          ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainWishlistScreen(),
+                            )),
+                        icon: const Icon(
+                          CustomIcon.hearticonfluttter,
+                          color: kAppBarIconColor,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(40)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Icon(
-                              CustomIcon.search_2iconfluttter,
-                              color: kHomeSearchIconColor,
+                ),
+              ),
+              StickyHeader(
+                header: ValueListenableBuilder(
+                  valueListenable: _isAtTop,
+                  builder: (context, isAtTop, child) => Padding(
+                    padding: isAtTop
+                        ? EdgeInsets.symmetric(horizontal: size.width * 0.05)
+                        : EdgeInsets.zero,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius:
+                            isAtTop ? BorderRadius.circular(40) : null,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Icon(
+                                CustomIcon.search_2iconfluttter,
+                                color: kHomeSearchIconColor,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Center(
-                            child: SizedBox(
-                              width: 250,
-                              height: 35,
-                              child: Center(
-                                child: TextField(
-                                  controller: searchController,
-                                  decoration: const InputDecoration(
-                                      hintText: "Search",
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Center(
+                              child: SizedBox(
+                                width: 250,
+                                height: 35,
+                                child: Center(
+                                  child: TextField(
+                                    controller: searchController,
+                                    decoration: const InputDecoration(
+                                        hintText: "Search",
+                                        border: InputBorder.none,
+                                        hintStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Icon(
-                              CustomIcon.filter_4iconfluttter,
-                              color: kHomeSearchIconColor,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5),
+                              child: Icon(
+                                CustomIcon.filter_4iconfluttter,
+                                color: kHomeSearchIconColor,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  const HomeTitle(),
-                  StreamBuilder(
-                    stream: _productsStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text('Something went wrong');
-                      }
+                ),
+                content: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      StreamBuilder(
+                        stream: _productsStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text('Something went wrong');
+                          }
 
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text("Loading");
-                      }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text("Loading");
+                          }
 
-                      return GridView.count(
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                        childAspectRatio: 1 / 1.8,
-                        shrinkWrap: true,
-                        children: snapshot.data!.docs
-                            .map((DocumentSnapshot document) {
-                          Map<String, dynamic> data =
-                              document.data()! as Map<String, dynamic>;
-                          return InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomeDetailsPage(),
-                                )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    data['networkImageString']!= null
-                                        ? Container(
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                    data['networkImageString']),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            height: 180,
-                                          )
-                                        : const CircularProgressIndicator(),
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: IconButton(
-                                        onPressed: () {},
-                                        icon: SizedBox(
-                                          height: 22,
-                                          width: 22,
-                                          child: cHeartIcon,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  data['brand'],
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Colors.grey),
-                                ),
-                                Text(
-                                  data['productName'],
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      color: kTextBlackColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  data['description'],
-                                  style: const TextStyle(
-                                      fontSize: 14, color: kTextBlackColor),
-                                ),
-                                Row(
+                          return GridView.count(
+                            physics: const NeverScrollableScrollPhysics(),
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: 1 / 1.8,
+                            shrinkWrap: true,
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> data =
+                                  document.data()! as Map<String, dynamic>;
+                              return InkWell(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeDetailsPage(),
+                                    )),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Stack(
+                                      children: [
+                                        data['networkImageString'] != null
+                                            ? Container(
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(data[
+                                                        'networkImageString']),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                height: 180,
+                                              )
+                                            : const CircularProgressIndicator(),
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: IconButton(
+                                            onPressed: () {},
+                                            icon: SizedBox(
+                                              height: 22,
+                                              width: 22,
+                                              child: cHeartIcon,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     Text(
-                                      "₹${data['price']}",
+                                      data['brand'],
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.grey),
+                                    ),
+                                    Text(
+                                      data['productName'],
                                       style: const TextStyle(
                                           fontSize: 18,
                                           color: kTextBlackColor,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    const Text(
-                                      "%",
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          color: offerPercentageColor),
+                                    Text(
+                                      data['description'],
+                                      style: const TextStyle(
+                                          fontSize: 14, color: kTextBlackColor),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "₹${data['price']}",
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              color: kTextBlackColor,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const Text(
+                                          "%",
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              color: offerPercentageColor),
+                                        )
+                                      ],
                                     )
                                   ],
-                                )
-                              ],
-                            ),
+                                ),
+                              );
+                            }).toList(),
                           );
-                        }).toList(),
-                      );
-                    },
-                  )
-                ],
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
