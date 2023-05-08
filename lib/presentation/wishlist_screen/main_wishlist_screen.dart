@@ -34,7 +34,7 @@ class MainWishlistScreen extends StatelessWidget {
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomeDetailsPage(),
+                                builder: (context) => HomeDetailsPage(data: const [],),
                               )),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
