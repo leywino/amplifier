@@ -42,6 +42,7 @@ dependencies:
   firebase_auth: ^4.4.2
   firebase_core: ^2.10.0
   email_validator: ^2.1.17
+  sticky_headers: ^0.3.0+2
 
 dev_dependencies:
   flutter_test:
