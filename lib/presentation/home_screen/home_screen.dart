@@ -1,16 +1,13 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/core/icons/custom_icon_icons.dart';
-import 'package:amplifier/core/icons/genereal_icons.dart';
 import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
-import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
-import 'package:amplifier/presentation/home_screen/widget/home_title.dart';
+import 'package:amplifier/presentation/home_screen/widget/home_product_tile.dart';
 import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+import '../../models/functions.dart';
 
-final Stream<QuerySnapshot> _productsStream =
-    FirebaseFirestore.instance.collection('products').snapshots();
+List myProducts = [];
 
 final dummyImages = [
   "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Moondrop-Chu--04.jpg?v=1678359402&width=800",
@@ -73,8 +70,6 @@ final dummyPercentage = [
   "21",
 ];
 
-ValueNotifier<bool> _headerNotifier = ValueNotifier(false);
-
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
@@ -102,6 +97,7 @@ class HomeScreen extends StatelessWidget {
           controller: _scrollController,
           physics: const BouncingScrollPhysics(),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -161,32 +157,23 @@ class HomeScreen extends StatelessWidget {
                                 color: kHomeSearchIconColor,
                               ),
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Center(
-                              child: SizedBox(
-                                width: 250,
-                                height: 35,
-                                child: Center(
-                                  child: TextField(
-                                    controller: searchController,
-                                    decoration: const InputDecoration(
-                                        hintText: "Search",
-                                        border: InputBorder.none,
-                                        hintStyle: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16)),
-                                  ),
+                            SizedBox(
+                              width: 250,
+                              height: 35,
+                              child: Center(
+                                child: TextField(
+                                  controller: searchController,
+                                  decoration: const InputDecoration(
+                                      hintText: "Search",
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16)),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: Icon(
-                                CustomIcon.filter_4iconfluttter,
-                                color: kHomeSearchIconColor,
-                              ),
+                            const SizedBox(
+                              width: 10,
                             ),
                           ],
                         ),
@@ -197,115 +184,47 @@ class HomeScreen extends StatelessWidget {
                 content: Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: size.height * 0.02,
                       ),
-                      StreamBuilder(
-                        stream: _productsStream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text('Something went wrong');
-                          }
+                      ValueListenableBuilder(
+                        valueListenable: searchController,
+                        builder: (context, searchController, child) {
+                          return StreamBuilder(
+                            stream: getProducts(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return const Text(
+                                  'Something went wrong',
+                                  style: TextStyle(color: Colors.black),
+                                );
+                              }
 
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Text("Loading");
-                          }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return SizedBox(
+                                    width: size.width,
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ));
+                              }
+                              myProducts = snapshot.data;
+                              List<dynamic> searchList = myProducts
+                                  .where((element) => element['productName']
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(searchController.text
+                                          .toLowerCase()
+                                          .replaceAll(RegExp(r"\s+"), "")))
+                                  .toList();
 
-                          return GridView.count(
-                            physics: const NeverScrollableScrollPhysics(),
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20,
-                            childAspectRatio: 1 / 1.8,
-                            shrinkWrap: true,
-                            children: snapshot.data!.docs
-                                .map((DocumentSnapshot document) {
-                              Map<String, dynamic> data =
-                                  document.data()! as Map<String, dynamic>;
-                              return InkWell(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HomeDetailsPage(),
-                                    )),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        data['networkImageString'] != null
-                                            ? Container(
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(data[
-                                                        'networkImageString']),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                height: 180,
-                                              )
-                                            : const CircularProgressIndicator(),
-                                        Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: IconButton(
-                                            onPressed: () {},
-                                            icon: SizedBox(
-                                              height: 22,
-                                              width: 22,
-                                              child: cHeartIcon,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      data['brand'],
-                                      style: const TextStyle(
-                                          fontSize: 12, color: Colors.grey),
-                                    ),
-                                    Text(
-                                      data['productName'],
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          color: kTextBlackColor,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      data['description'],
-                                      style: const TextStyle(
-                                          fontSize: 14, color: kTextBlackColor),
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "₹${data['price']}",
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: kTextBlackColor,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const Text(
-                                          "%",
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: offerPercentageColor),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            }).toList(),
+                              return HomeProductTile(searchList: searchList);
+                            },
                           );
                         },
-                      ),
+                      )
                     ],
                   ),
                 ),

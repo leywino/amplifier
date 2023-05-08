@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class AddToCartWidget extends StatelessWidget {
   const AddToCartWidget({
     super.key,
@@ -11,8 +10,7 @@ class AddToCartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12.0),
+    return Material(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -21,8 +19,7 @@ class AddToCartWidget extends StatelessWidget {
                 borderRadius: BorderRadiusDirectional.circular(30),
                 color: Colors.black),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -36,10 +33,8 @@ class AddToCartWidget extends StatelessWidget {
                   ),
                   const Text(
                     "Add to Cart",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
                 ],
               ),
             ),
