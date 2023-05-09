@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../../../core/colors/main_colors.dart';
-import '../../../core/icons/genereal_icons.dart';
 import '../../home_details_screen/main_home_details.dart';
+import 'add_to_wishlist_button.dart';
 
 class HomeProductTile extends StatelessWidget {
   const HomeProductTile({
@@ -50,14 +49,7 @@ class HomeProductTile extends StatelessWidget {
                   Positioned(
                     right: 0,
                     top: 0,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: SizedBox(
-                        height: 22,
-                        width: 22,
-                        child: cHeartIcon,
-                      ),
-                    ),
+                    child: AddToWishlistButton(searchList: searchList,index: index,),
                   ),
                 ],
               ),

@@ -44,7 +44,7 @@ dependencies:
   email_validator: ^2.1.17
   sticky_headers: ^0.3.0+2
   easy_debounce: ^2.0.3
-  intl: ^0.18.1
+  intl:
 
 dev_dependencies:
   flutter_test:
