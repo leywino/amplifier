@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../core/icons/genereal_icons.dart';
@@ -7,8 +6,8 @@ import '../../../models/functions.dart';
 import '../../../models/wishlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AddToWishlistButton extends StatefulWidget {
-  const AddToWishlistButton({
+class WishlistButton extends StatefulWidget {
+  const WishlistButton({
     super.key,
     required this.searchList,
     required this.index,
@@ -18,10 +17,10 @@ class AddToWishlistButton extends StatefulWidget {
   final int index;
 
   @override
-  State<AddToWishlistButton> createState() => _AddToWishlistButtonState();
+  State<WishlistButton> createState() => _WishlistButtonState();
 }
 
-class _AddToWishlistButtonState extends State<AddToWishlistButton> {
+class _WishlistButtonState extends State<WishlistButton> {
   bool alreadyAdded = false;
 
   @override
@@ -30,7 +29,7 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
     checkIfAlreadyAdded();
   }
 
-  Future<void> checkIfAlreadyAdded() async {
+  checkIfAlreadyAdded() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     final String userId = FirebaseAuth.instance.currentUser!.uid;
     final QuerySnapshot snapshot = await firestore
@@ -48,8 +47,8 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () async {
+    return GestureDetector(
+      onTap: () async {
         if (!alreadyAdded) {
           addToWishlist(
               Wishlist(
@@ -77,17 +76,16 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
               .where('productName',
                   isEqualTo: widget.searchList[widget.index]['productName'])
               .get();
-
-          deleteFromWishlist(snapshot.docs.first.id, context);
+          await deleteFromWishlist(snapshot.docs.first.id, context);
           setState(() {
             alreadyAdded = false;
           });
         }
       },
-      icon: SizedBox(
+      child: SizedBox(
         height: 22,
         width: 22,
-        child: !alreadyAdded ? cHeartIcon : cHeartFillIcon,
+        child: alreadyAdded ? cHeartFillIcon : cHeartIcon,
       ),
     );
   }

@@ -11,6 +11,13 @@ Stream getProducts() async* {
   yield docs;
 }
 
+Stream getWishlist() async* {
+  final QuerySnapshot querySnapshot =
+      await FirebaseFirestore.instance.collection('wishlist').get();
+  final List<DocumentSnapshot> docs = querySnapshot.docs.toList();
+  yield docs;
+}
+
 Future<void> addToWishlist(Wishlist wishlistClass, BuildContext context) async {
   final products = FirebaseFirestore.instance.collection('wishlist');
   final String userId = FirebaseAuth.instance.currentUser!.uid;
