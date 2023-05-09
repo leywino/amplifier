@@ -9,67 +9,6 @@ import '../../models/functions.dart';
 
 List myProducts = [];
 
-final dummyImages = [
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Moondrop-Chu--04.jpg?v=1678359402&width=800",
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Audio-technica-m50x-1160-1160-Black_61b891f0-d385-464a-8dfb-a40bc89d0516.jpg?v=1590592479&width=800",
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-NW-ZX707-012.jpg?v=1674635770&width=800",
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sennheiser-MOMENTUM-True-Wireless-3-07.jpg?v=1656934758&width=800",
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Moondrop-Chu--04.jpg?v=1678359402&width=800",
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Audio-technica-m50x-1160-1160-Black_61b891f0-d385-464a-8dfb-a40bc89d0516.jpg?v=1590592479&width=800",
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-NW-ZX707-012.jpg?v=1674635770&width=800",
-  "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sennheiser-MOMENTUM-True-Wireless-3-07.jpg?v=1656934758&width=800",
-];
-final dummyBrands = [
-  "MOONDROP",
-  "AUDIO-TECHNICA",
-  "SONY",
-  "SENNHEISER",
-  "MOONDROP",
-  "AUDIO-TECHNICA",
-  "SONY",
-  "SENNHEISER",
-];
-final dummyNames = [
-  "CHU",
-  "ATH-M50x",
-  "NW-ZX707",
-  "MOMENTUM True Wireless 3",
-  "CHU",
-  "ATH-M50x",
-  "NW-ZX707",
-  "MOMENTUM True Wireless 3",
-];
-final dummyDescription = [
-  "In-Ears With 1 Dynamic Driver",
-  "Closed-Back Studio Headphone",
-  "Hi-Res Digital Audio Player",
-  "Noise Cancelling True Wireless Earbuds",
-  "In-Ears With 1 Dynamic Driver",
-  "Closed-Back Studio Headphone",
-  "Hi-Res Digital Audio Player",
-  "Noise Cancelling True Wireless Earbuds",
-];
-final dummyPrice = [
-  "1,890",
-  "11,999",
-  "69,990",
-  "19,890",
-  "1,890",
-  "11,999",
-  "69,990",
-  "19,890",
-];
-final dummyPercentage = [
-  "35",
-  "54",
-  "7",
-  "21",
-  "35",
-  "54",
-  "7",
-  "21",
-];
-
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
@@ -205,10 +144,12 @@ class HomeScreen extends StatelessWidget {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return SizedBox(
-                                    width: size.width,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ));
+                                  width: double.infinity,
+                                  height: size.height * 0.7,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
                               }
                               myProducts = snapshot.data;
                               List<dynamic> searchList = myProducts

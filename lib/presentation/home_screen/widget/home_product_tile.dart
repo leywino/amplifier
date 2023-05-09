@@ -49,7 +49,7 @@ class HomeProductTile extends StatelessWidget {
                   Positioned(
                     right: 0,
                     top: 0,
-                    child: AddToWishlistButton(searchList: searchList,index: index,),
+                    child: WishlistButton(searchList: searchList,index: index,),
                   ),
                 ],
               ),
