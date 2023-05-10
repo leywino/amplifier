@@ -25,6 +25,7 @@ class HomeDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int percentage = (data['price'] / data['actualPrice'] * 100.0).round();
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Stack(
@@ -91,10 +92,10 @@ class HomeDetailsPage extends StatelessWidget {
                                   color: kTextBlackColor,
                                   fontWeight: FontWeight.bold),
                             ),
-                            const Text(
-                              "%",
-                              style: TextStyle(
-                                  fontSize: 20, color: offerPercentageColor),
+                            Text(
+                              "$percentage%",
+                              style: const TextStyle(
+                                  fontSize: 18, color: offerPercentageColor),
                             )
                           ],
                         ),
