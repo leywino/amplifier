@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "998556119101-m0dma8j10sd3acia5pm6ocvfb9v42opa.apps.googleusercontent.com",
+          "client_id": "998556119101-diae8h2eu9c5gnc69lfsu4c8gas6tam8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplifier.ecommerce",
+            "certificate_hash": "15cd1c4f8855a8a9c654e185ab4833b584b909e7"
+          }
+        },
+        {
+          "client_id": "998556119101-6l3uuoev34ktg8o2kmncv42s52mml4nh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,44 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "998556119101-m0dma8j10sd3acia5pm6ocvfb9v42opa.apps.googleusercontent.com",
+              "client_id": "998556119101-6l3uuoev34ktg8o2kmncv42s52mml4nh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998556119101:android:e2835b83b512edb1433a54",
+        "android_client_info": {
+          "package_name": "com.amplify.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998556119101-93m940s7oi2p0032uj9qpo0j40dt5sjo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplify.ecommerce",
+            "certificate_hash": "15cd1c4f8855a8a9c654e185ab4833b584b909e7"
+          }
+        },
+        {
+          "client_id": "998556119101-6l3uuoev34ktg8o2kmncv42s52mml4nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCff96F0hnEvh4gG6kmlGu1QkuvTJZ_XYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998556119101-6l3uuoev34ktg8o2kmncv42s52mml4nh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

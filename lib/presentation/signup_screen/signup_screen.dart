@@ -196,7 +196,9 @@ class MainSignupScreen extends StatelessWidget {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              loginWithGoogle();
+                            },
                             style: ButtonStyle(
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
@@ -221,9 +223,7 @@ class MainSignupScreen extends StatelessWidget {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {
-                              // Your onTap logic here
-                            },
+                            onPressed: () {},
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   const Color.fromARGB(255, 236, 236, 236)),
@@ -298,10 +298,10 @@ class MainSignupScreen extends StatelessWidget {
                 email: emailController.text.trim(),
                 password: passwordController.text.trim());
         User? user = result.user;
-        user!.updateDisplayName(nameController.text.trim());      
+        user!.updateDisplayName(nameController.text.trim());
       } on FirebaseAuthException catch (e) {
         log(e.toString());
-         showEmailSentSnackbar(context, e.toString());
+        showEmailSentSnackbar(context, e.toString());
       }
     }
   }

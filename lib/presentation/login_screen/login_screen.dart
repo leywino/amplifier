@@ -7,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../widgets/text_field_widget.dart';
 
@@ -154,7 +155,9 @@ class MainLoginScreen extends StatelessWidget {
                             //   height: size.height * 0.02,
                             // ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                loginWithGoogle();
+                              },
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
@@ -318,4 +321,17 @@ class MainLoginScreen extends StatelessWidget {
       }
     }
   }
+}
+
+loginWithGoogle() async {
+  final GoogleSignIn googleSignIn =
+      GoogleSignIn();
+  final googleUser = await googleSignIn.signIn();
+  if (googleUser == null) return;
+  GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+  await FirebaseAuth.instance.signInWithCredential(credential);
 }
