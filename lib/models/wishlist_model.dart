@@ -8,7 +8,7 @@ class Wishlist {
   final String longDescription;
   final String? networkImageString;
   final String? id;
-  final String? userId;
+  final String? email;
 
   Wishlist( 
       {required this.brand,
@@ -19,5 +19,5 @@ class Wishlist {
       required this.longDescription,
       required this.productName,
       this.id,
-      required this.networkImageString,this.userId,});
+      required this.networkImageString,this.email,});
 }

@@ -11,30 +11,16 @@ Stream getProducts() async* {
   yield docs;
 }
 
-Stream getWishlist() async* {
-  final QuerySnapshot querySnapshot =
-      await FirebaseFirestore.instance.collection('wishlist').get();
-  final List<DocumentSnapshot> docs = querySnapshot.docs.toList();
-  yield docs;
-}
-
 Future<void> addToWishlist(Wishlist wishlistClass, BuildContext context) async {
-  final products = FirebaseFirestore.instance.collection('wishlist');
-  final String userId = FirebaseAuth.instance.currentUser!.uid;
-  final reference = products.doc();
+  final users = FirebaseFirestore.instance.collection('users');
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  final reference = users.doc(email).collection('wishlist').doc();
   try {
     showSnackbar(context, "Added to wishlist");
     await reference.set({
-      'productName': wishlistClass.productName,
-      'brand': wishlistClass.brand,
-      'category': wishlistClass.category,
-      'description': wishlistClass.description,
-      'long description': wishlistClass.longDescription,
-      'price': wishlistClass.price,
-      'quantity': wishlistClass.quantity,
-      'networkImageString': wishlistClass.networkImageString,
+      'productId': wishlistClass.id,
       'id': reference.id,
-      'userId': userId,
+      'email': email,
     });
     log("Product Added to wishlist");
   } catch (error) {
@@ -44,8 +30,11 @@ Future<void> addToWishlist(Wishlist wishlistClass, BuildContext context) async {
 }
 
 Future<void> deleteFromWishlist(String id, BuildContext context) {
-  CollectionReference products =
-      FirebaseFirestore.instance.collection('wishlist');
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  CollectionReference products = FirebaseFirestore.instance
+      .collection('users')
+      .doc(email)
+      .collection('wishlist');
 
   return products.doc(id).delete().then((value) {
     log("Product Deleted");

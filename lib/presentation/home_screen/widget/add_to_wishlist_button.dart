@@ -31,12 +31,14 @@ class _WishlistButtonState extends State<WishlistButton> {
 
   checkIfAlreadyAdded() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final String userId = FirebaseAuth.instance.currentUser!.uid;
+    final String email = FirebaseAuth.instance.currentUser!.email!;
     final QuerySnapshot snapshot = await firestore
+        .collection('users')
+        .doc(email)
         .collection('wishlist')
-        .where('userId', isEqualTo: userId)
-        .where('productName',
-            isEqualTo: widget.searchList[widget.index]['productName'])
+        .where('email', isEqualTo: email)
+        .where('productId',
+            isEqualTo: widget.searchList[widget.index]['id'])
         .get();
     if (snapshot.docs.isNotEmpty) {
       setState(() {
@@ -62,6 +64,7 @@ class _WishlistButtonState extends State<WishlistButton> {
                 productName: widget.searchList[widget.index]['productName'],
                 networkImageString: widget.searchList[widget.index]
                     ['networkImageString'],
+                id: widget.searchList[widget.index]['id'],
               ),
               context);
           setState(() {
@@ -69,12 +72,14 @@ class _WishlistButtonState extends State<WishlistButton> {
           });
         } else {
           final FirebaseFirestore firestore = FirebaseFirestore.instance;
-          final String userId = FirebaseAuth.instance.currentUser!.uid;
+          final String email = FirebaseAuth.instance.currentUser!.email!;
           final QuerySnapshot snapshot = await firestore
+              .collection('users')
+              .doc(email)
               .collection('wishlist')
-              .where('userId', isEqualTo: userId)
-              .where('productName',
-                  isEqualTo: widget.searchList[widget.index]['productName'])
+              .where('email', isEqualTo: email)
+              .where('productId',
+                  isEqualTo: widget.searchList[widget.index]['id'])
               .get();
           await deleteFromWishlist(snapshot.docs.first.id, context);
           setState(() {
