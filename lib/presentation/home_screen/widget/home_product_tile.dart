@@ -22,6 +22,11 @@ class HomeProductTile extends StatelessWidget {
       childAspectRatio: 1 / 1.8,
       shrinkWrap: true,
       children: List.generate(searchList.length, (index) {
+        int percentage = (searchList[index]['price'] /
+                searchList[index]['actualPrice'] *
+                100.0)
+            .round();
+
         return InkWell(
           onTap: () => Navigator.push(
               context,
@@ -49,7 +54,10 @@ class HomeProductTile extends StatelessWidget {
                   Positioned(
                     right: 0,
                     top: 0,
-                    child: WishlistButton(searchList: searchList,index: index,),
+                    child: WishlistButton(
+                      searchList: searchList,
+                      index: index,
+                    ),
                   ),
                 ],
               ),
@@ -78,8 +86,8 @@ class HomeProductTile extends StatelessWidget {
                         color: kTextBlackColor,
                         fontWeight: FontWeight.bold),
                   ),
-                  const Text(
-                    "%",
+                  Text(
+                    "$percentage%",
                     style: TextStyle(fontSize: 10, color: offerPercentageColor),
                   )
                 ],
