@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
@@ -26,60 +27,92 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<bool> eyeNotifier = ValueNotifier(hideField);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: colorValue,
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 12,
-              ),
-              Text(
-                fieldName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
-              ),
-              TextFormField(
-                validator: validator,
-                enabled: enabled,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                controller: textController,
-                obscureText: hideField,
-                keyboardType: numPad ? TextInputType.phone : null,
-                decoration: InputDecoration(
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  hintText: hintName ?? "Type here",
-                  border: InputBorder.none,
-                  labelStyle: const TextStyle(
-                    color: Colors.transparent,
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: colorValue,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 12,
                   ),
-                  // errorBorder: OutlineInputBorder(
-                  //   borderSide: BorderSide(
-                  //     color: Colors.red,
-                  //     width: 1.0,
-                  //   ),
-                  //   borderRadius: BorderRadius.circular(15.0),
-                  // ),
-                  errorStyle: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    fieldName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
                   ),
-                  // contentPadding: EdgeInsets.only(bottom: 8.0),
-                ),
+                  Wrap(
+                    direction: Axis.horizontal,
+                    children: [
+                      ValueListenableBuilder(
+                        valueListenable: eyeNotifier,
+                        builder: (context, hideField, child) => TextFormField(
+                          validator: validator,
+                          enabled: enabled,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          controller: textController,
+                          obscureText: hideField,
+                          keyboardType: numPad ? TextInputType.phone : null,
+                          decoration: InputDecoration(
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintText: hintName ?? "Type here",
+                            border: InputBorder.none,
+                            labelStyle: const TextStyle(
+                              color: Colors.transparent,
+                            ),
+                            // errorBorder: OutlineInputBorder(
+                            //   borderSide: BorderSide(
+                            //     color: Colors.red,
+                            //     width: 1.0,
+                            //   ),
+                            //   borderRadius: BorderRadius.circular(15.0),
+                            // ),
+                            errorStyle: const TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            // contentPadding: EdgeInsets.only(bottom: 8.0),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            right: size.width * 0.02,
+            top: size.height * 0.035,
+            child: SizedBox(
+              child: hideField
+                  ? GestureDetector(
+                      onTap: () {
+                        eyeNotifier.value = !eyeNotifier.value;
+                      },
+                      child: ValueListenableBuilder(
+                        valueListenable: eyeNotifier,
+                        builder: (context, hideOrShow, child) => hideOrShow
+                            ? SvgPicture.asset('assets/icons/eye.svg')
+                            : SvgPicture.asset('assets/icons/eye_off.svg'),
+                      ),
+                    )
+                  : null,
+            ),
+          )
+        ],
       ),
     );
   }
