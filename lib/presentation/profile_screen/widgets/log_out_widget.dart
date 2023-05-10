@@ -2,6 +2,7 @@ import 'package:amplifier/presentation/login_screen/login_screen.dart';
 import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/snackbar.dart';
 
@@ -83,6 +84,7 @@ class LogOutWidget extends StatelessWidget {
                   showEmailSentSnackbar(context, "Logged Out");
                   ProfileScreen.showLogOutNotifier.value = false;
                   FirebaseAuth.instance.signOut();
+                  GoogleSignIn().signOut();
                   Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
