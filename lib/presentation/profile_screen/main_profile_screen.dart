@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/core/icons/custom_icon_icons.dart';
 import 'package:amplifier/presentation/profile_screen/widgets/log_out_widget.dart';
@@ -5,6 +7,7 @@ import 'package:amplifier/presentation/profile_screen/widgets/profile_tile_widge
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -34,6 +37,7 @@ class ProfileScreen extends StatelessWidget {
   ];
 
   final User? user = FirebaseAuth.instance.currentUser;
+  final ValueNotifier<String> imagePathNotifier = ValueNotifier('');
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +55,25 @@ class ProfileScreen extends StatelessWidget {
                     child: ClipOval(
                       child: user!.photoURL != null
                           ? Image.network(user!.photoURL!)
-                          : null,
+                          : GestureDetector(
+                              onTap: () async {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+
+                                if (pickedFile == null) {
+                                  return;
+                                } else {
+                                  File file = File(pickedFile.path);
+                                  imagePathNotifier.value =pickedFile.path;
+                                      await _uploadImage(file, user!.email!);
+                                }
+                              },
+                            ),
                     ),
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    user!.displayName!,
+                    user!.displayName ?? "no name",
                     style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -86,4 +103,18 @@ class ProfileScreen extends StatelessWidget {
           )),
     );
   }
+}
+
+_uploadImage(File file, String email) async {
+  final firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
+  firebase_storage.Reference ref = storage.ref().child('pfp/$email');
+
+  firebase_storage.UploadTask task = ref.putFile(file);
+
+  await task;
+  String imageUrl = await ref.getDownloadURL();
+  final User? user =  FirebaseAuth.instance.currentUser;
+  user!.updatePhotoURL(imageUrl);
 }

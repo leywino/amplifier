@@ -157,13 +157,10 @@ class MainSignupScreen extends StatelessWidget {
                             validator: _validateConfirmPasswordField,
                           ),
                           TextButton(
-                            onPressed: () {
-                              signUp(context);
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) => BottomNavBar(),
-                              //     ));
+                            onPressed: () async {
+                               signUp(context);
+                          
+                              
                             },
                             style: ButtonStyle(
                               shape: MaterialStateProperty.all<
@@ -299,6 +296,7 @@ class MainSignupScreen extends StatelessWidget {
                 password: passwordController.text.trim());
         User? user = result.user;
         user!.updateDisplayName(nameController.text.trim());
+        await user.sendEmailVerification();
       } on FirebaseAuthException catch (e) {
         log(e.toString());
         showEmailSentSnackbar(context, e.toString());

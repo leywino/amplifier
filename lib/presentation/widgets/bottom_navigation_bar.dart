@@ -4,7 +4,6 @@ import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
 import 'package:amplifier/presentation/home_screen/home_screen.dart';
 import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../categories_screen/main_categories_screen.dart';
 
 class BottomNavBar extends StatelessWidget {

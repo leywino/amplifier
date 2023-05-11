@@ -45,6 +45,8 @@ dependencies:
   sticky_headers: ^0.3.0+2
   easy_debounce: ^2.0.3
   google_sign_in: ^6.1.0
+  image_picker: ^0.8.7+4
+  firebase_storage: ^11.1.2
   intl:
 
 dev_dependencies:
