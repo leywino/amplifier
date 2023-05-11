@@ -36,7 +36,7 @@ class HomeProductTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: [ 
               Stack(
                 children: [
                   searchList[index]['networkImageString'] != null

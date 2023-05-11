@@ -114,8 +114,12 @@ class MainLoginScreen extends StatelessWidget {
                               height: size.height * 0.05,
                             ),
                             TextButton(
-                              onPressed: () {
-                                signIn(context);
+                              onPressed: () async {
+                                bool isLogin = await signIn(context);
+                                if (isLogin == true) {
+                                  showEmailSentSnackbar(
+                                      context, "Successfully Signed In");
+                                }
                               },
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
@@ -311,21 +315,21 @@ class MainLoginScreen extends StatelessWidget {
     final form = _formKey.currentState!.validate();
     if (form) {
       try {
-        showEmailSentSnackbar(context, "Successfully Signed In");
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
+        return true;
       } on FirebaseAuthException catch (e) {
         log(e.toString());
         showEmailSentSnackbar(context, e.toString());
+        return false;
       }
     }
   }
 }
 
 loginWithGoogle() async {
-  final GoogleSignIn googleSignIn =
-      GoogleSignIn();
+  final GoogleSignIn googleSignIn = GoogleSignIn();
   final googleUser = await googleSignIn.signIn();
   if (googleUser == null) return;
   GoogleSignInAuthentication googleAuth = await googleUser.authentication;

@@ -84,7 +84,7 @@ class EditProfileScreen extends StatelessWidget {
               ),
               SizedBox(
                 height: size.height * 0.3,
-              ),
+            ),
               ValueListenableBuilder(
                 valueListenable: editNotifier,
                 builder: (context, editOrUpdate, child) => TextButton(

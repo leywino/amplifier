@@ -116,9 +116,9 @@ class MainSignupScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: size.width * 0.1),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
                                   'Welcome',
                                   style: TextStyle(
@@ -158,9 +158,7 @@ class MainSignupScreen extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () async {
-                               signUp(context);
-                          
-                              
+                              signUp(context);
                             },
                             style: ButtonStyle(
                               shape: MaterialStateProperty.all<

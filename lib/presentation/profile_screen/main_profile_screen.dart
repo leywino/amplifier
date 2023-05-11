@@ -9,10 +9,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   static final ValueNotifier<bool> showLogOutNotifier = ValueNotifier(false);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String? profileImage;
+  @override
+  void initState() {
+    user = FirebaseAuth.instance.currentUser;
+    profileImage = user!.photoURL ??
+        "https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png";
+    super.initState();
+  }
 
   final List<IconData> _profileIcons = [
     CustomIcon.profile_1iconfluttter,
@@ -36,8 +50,7 @@ class ProfileScreen extends StatelessWidget {
     "Log Out",
   ];
 
-  final User? user = FirebaseAuth.instance.currentUser;
-  final ValueNotifier<String> imagePathNotifier = ValueNotifier('');
+  User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -53,27 +66,25 @@ class ProfileScreen extends StatelessWidget {
                     radius: 50.0,
                     backgroundColor: Colors.grey[300],
                     child: ClipOval(
-                      child: user!.photoURL != null
-                          ? Image.network(user!.photoURL!)
-                          : GestureDetector(
-                              onTap: () async {
-                                final pickedFile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
+                        child: GestureDetector(
+                      onTap: () async {
+                        final pickedFile = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
 
-                                if (pickedFile == null) {
-                                  return;
-                                } else {
-                                  File file = File(pickedFile.path);
-                                  imagePathNotifier.value =pickedFile.path;
-                                      await _uploadImage(file, user!.email!);
-                                }
-                              },
-                            ),
-                    ),
+                        if (pickedFile == null) {
+                          return;
+                        } else {
+                          File file = File(pickedFile.path);
+
+                          await _uploadImage(file, user!.email!);
+                        }
+                      },
+                      child: Image.network(profileImage!),
+                    )),
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    user!.displayName ?? "no name",
+                    user!.displayName!,
                     style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -95,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           bottomSheet: ValueListenableBuilder(
-            valueListenable: showLogOutNotifier,
+            valueListenable: ProfileScreen.showLogOutNotifier,
             builder: (context, showLogOut, child) => Visibility(
               visible: showLogOut,
               child: const LogOutWidget(),
@@ -103,18 +114,21 @@ class ProfileScreen extends StatelessWidget {
           )),
     );
   }
-}
 
-_uploadImage(File file, String email) async {
-  final firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
+  _uploadImage(File file, String email) async {
+    final firebase_storage.FirebaseStorage storage =
+        firebase_storage.FirebaseStorage.instance;
 
-  firebase_storage.Reference ref = storage.ref().child('pfp/$email');
+    firebase_storage.Reference ref = storage.ref().child('pfp/$email');
 
-  firebase_storage.UploadTask task = ref.putFile(file);
+    firebase_storage.UploadTask task = ref.putFile(file);
 
-  await task;
-  String imageUrl = await ref.getDownloadURL();
-  final User? user =  FirebaseAuth.instance.currentUser;
-  user!.updatePhotoURL(imageUrl);
+    await task;
+    String imageUrl = await ref.getDownloadURL();
+    final User? user = FirebaseAuth.instance.currentUser;
+   await user!.updatePhotoURL(imageUrl);
+    setState(() {
+      profileImage = imageUrl;
+    });
+  }
 }
