@@ -7,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../widgets/text_field_widget.dart';
@@ -159,31 +160,45 @@ class MainLoginScreen extends StatelessWidget {
                             //   height: size.height * 0.02,
                             // ),
                             TextButton(
-                              onPressed: () {
-                                loginWithGoogle();
-                              },
+                              onPressed: () => loginWithGoogle(),
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
-                                    side: const BorderSide(color: Colors.black),
                                   ),
                                 ),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.black),
+                                        Colors.white),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.symmetric(
-                                        horizontal: size.width * 0.16,
-                                        vertical: 20)),
-                              ),
-                              child: const Text(
-                                'Login with Google',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
+                                  EdgeInsets.symmetric(
+                                      horizontal: size.width * 0.12,
+                                      vertical: 20),
                                 ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Login with Google',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: SvgPicture.asset(
+                                          'assets/icons/google_logo.svg'),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(

@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import '../categories_screen/main_categories_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
-  BottomNavBar({super.key});
+  BottomNavBar({super.key, this.pageIndex = 0});
 
-  final ValueNotifier<int> _navIndexNotifier = ValueNotifier(0);
+  final int pageIndex;
   final _pages = [
     HomeScreen(),
     const MainCartScreen(),
@@ -19,8 +19,9 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<int> navIndexNotifier = ValueNotifier(pageIndex);
     return ValueListenableBuilder(
-        valueListenable: _navIndexNotifier,
+        valueListenable: navIndexNotifier,
         builder: (context, navbarIndex, _) {
           return Scaffold(
             body: _pages[navbarIndex],
@@ -66,7 +67,7 @@ class BottomNavBar extends StatelessWidget {
                   label: 'Profile',
                 ),
               ],
-              currentIndex: _navIndexNotifier.value,
+              currentIndex: navIndexNotifier.value,
               selectedItemColor: Colors.black,
               showUnselectedLabels: true,
               iconSize: 20,
@@ -76,7 +77,7 @@ class BottomNavBar extends StatelessWidget {
               unselectedLabelStyle: TextStyle(
                   color: kTextBlackColor.withOpacity(0.5), fontSize: 12),
               onTap: (value) {
-                _navIndexNotifier.value = value;
+                navIndexNotifier.value = value;
               },
             ),
           );

@@ -37,8 +37,7 @@ class _WishlistButtonState extends State<WishlistButton> {
         .doc(email)
         .collection('wishlist')
         .where('email', isEqualTo: email)
-        .where('productId',
-            isEqualTo: widget.searchList[widget.index]['id'])
+        .where('productId', isEqualTo: widget.searchList[widget.index]['id'])
         .get();
     if (snapshot.docs.isNotEmpty) {
       setState(() {
@@ -54,16 +53,6 @@ class _WishlistButtonState extends State<WishlistButton> {
         if (!alreadyAdded) {
           addToWishlist(
               Wishlist(
-                brand: widget.searchList[widget.index]['brand'],
-                category: widget.searchList[widget.index]['category'],
-                quantity: widget.searchList[widget.index]['quantity'],
-                price: widget.searchList[widget.index]['price'],
-                description: widget.searchList[widget.index]['description'],
-                longDescription: widget.searchList[widget.index]
-                    ['long description'],
-                productName: widget.searchList[widget.index]['productName'],
-                networkImageString: widget.searchList[widget.index]
-                    ['networkImageString'],
                 id: widget.searchList[widget.index]['id'],
               ),
               context);
@@ -81,7 +70,7 @@ class _WishlistButtonState extends State<WishlistButton> {
               .where('productId',
                   isEqualTo: widget.searchList[widget.index]['id'])
               .get();
-          await deleteFromWishlist(snapshot.docs.first.id, context);
+          await deleteFromWishlist(snapshot.docs.first.id );
           setState(() {
             alreadyAdded = false;
           });

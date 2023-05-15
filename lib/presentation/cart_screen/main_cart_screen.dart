@@ -1,4 +1,5 @@
 import 'package:amplifier/core/colors/main_colors.dart';
+import 'package:amplifier/presentation/cart_screen/widgets/checkout_screen.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/cart_screen/widgets/quantity_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -137,7 +138,11 @@ class MainCartScreen extends StatelessWidget {
                   ),
                   child: TextButton.icon(
                     onPressed: () {
-                      // Add your onPressed function here
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckoutScreen(),
+                          ));
                     },
                     icon: const Icon(
                       CupertinoIcons.checkmark_square,
