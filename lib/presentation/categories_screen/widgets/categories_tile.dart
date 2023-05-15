@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'category_specific_grid.dart';
+
 class CategoriesTile extends StatelessWidget {
   CategoriesTile({super.key, required this.index});
 
@@ -13,6 +15,7 @@ class CategoriesTile extends StatelessWidget {
     "DACS & Amps",
     "Hi-Res Audio Players",
   ];
+  
   final dummyCategoryImage = [
     "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-HiFiMAN-HE400se-1160-1160-7.jpg?v=1614245064&width=800",
     "https://cdn.shopify.com/s/files/1/0153/8863/products/KZ-ZSN-Pro-X-Black-01_960774c7-2c57-4f9c-ab41-12cff3d684de.jpg?v=1650864564&width=800",
@@ -21,11 +24,28 @@ class CategoriesTile extends StatelessWidget {
     "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-NW-ZX707-012.jpg?v=1674635770&width=800",
   ];
 
+  final categoryFirebaseName = [
+    "Headphones",
+    "inEars",
+    "Earbuds",
+    "DAC & Amp",
+    "Hi-Res Audio Player"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CategorySpecificGrid(
+                    categoryTitle: dummyCategoryName[index],
+                    categoryFirebaseName: categoryFirebaseName[index]),
+              ));
+        },
         leading: Image.network(dummyCategoryImage[index]),
         title: Text(
           dummyCategoryName[index],

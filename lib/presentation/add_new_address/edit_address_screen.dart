@@ -1,19 +1,41 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/models/address_model.dart';
 import 'package:amplifier/models/functions.dart';
-import 'package:amplifier/presentation/address_screen/address_screen.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 
-class AddNewAddresScreen extends StatelessWidget {
-  AddNewAddresScreen({super.key});
+import '../address_screen/address_screen.dart';
 
+class EditAdressScreen extends StatefulWidget {
+  const EditAdressScreen({super.key, required this.data});
+
+  final dynamic data;
+
+  @override
+  State<EditAdressScreen> createState() => _EditAdressScreenState();
+}
+
+class _EditAdressScreenState extends State<EditAdressScreen> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController addressController = TextEditingController();
+
   final TextEditingController pincodeController = TextEditingController();
+
   final TextEditingController stateController = TextEditingController();
+
   final TextEditingController cityController = TextEditingController();
+
+  @override
+  void initState() {
+    nameController.text = widget.data['name'];
+    addressController.text = widget.data['permanent address'];
+    pincodeController.text = widget.data['pin code'].toString();
+    stateController.text = widget.data['state'];
+    cityController.text = widget.data['city'];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +47,7 @@ class AddNewAddresScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CustomAppBar(
-                  title: "Add New Address", showBackButton: true),
+              const CustomAppBar(title: "Edit Address", showBackButton: true),
               SizedBox(
                 height: size.height * 0.6,
                 child: Column(
@@ -73,16 +94,16 @@ class AddNewAddresScreen extends StatelessWidget {
                 width: size.width * 0.8,
                 child: TextButton(
                   onPressed: () async {
-                    await addAddress(
+                    await updateAddress(
                         Address(
-                          nameController.text.trim(),
-                          int.parse(pincodeController.text.trim()),
-                          addressController.text.trim(),
-                          stateController.text.trim(),
-                          false,
-                          cityController.text.trim(),
-                        ),
-                        context);
+                            nameController.text.trim(),
+                            int.parse(pincodeController.text.trim()),
+                            addressController.text.trim(),
+                            stateController.text.trim(),
+                            widget.data['defaultAddressBool'],
+                            cityController.text.trim()),
+                        context,
+                        widget.data['id']);
 
                     Navigator.pushReplacement(
                       context,
@@ -108,7 +129,7 @@ class AddNewAddresScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Add',
+                        'Save',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,

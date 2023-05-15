@@ -29,10 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   final List<IconData> _profileIcons = [
-    CustomIcon.profile_1iconfluttter,
     CustomIcon.locationiconfluttter,
     CustomIcon.locationiconfluttter,
-    CustomIcon.notificationiconfluttter,
     CustomIcon.mooniconfluttter,
     CustomIcon.shieldiconfluttter,
     CustomIcon.document_align_left_5iconfluttter,
@@ -40,10 +38,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
 
   final List<String> _profileTitles = [
-    "Edit Profile",
     "Orders",
     "Address",
-    "Notification",
     "Dark Mode",
     "Privacy Policy",
     "Terms & Conditions",
@@ -126,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await task;
     String imageUrl = await ref.getDownloadURL();
     final User? user = FirebaseAuth.instance.currentUser;
-   await user!.updatePhotoURL(imageUrl);
+    await user!.updatePhotoURL(imageUrl);
     setState(() {
       profileImage = imageUrl;
     });

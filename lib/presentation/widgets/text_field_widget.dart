@@ -20,6 +20,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool hideField;
   final bool enabled;
   final bool numPad;
+
   final Color colorValue;
   final TextEditingController? textController;
   final String? Function(String?)? validator;
@@ -64,6 +65,7 @@ class TextFieldWidget extends StatelessWidget {
                           controller: textController,
                           obscureText: hideField,
                           keyboardType: numPad ? TextInputType.phone : null,
+                          maxLines: hideField ? 1 :null,
                           decoration: InputDecoration(
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,

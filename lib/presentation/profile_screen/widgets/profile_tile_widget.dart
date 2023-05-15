@@ -1,6 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:amplifier/presentation/edit_profile_screen/edit_profile_screen.dart';
 import 'package:amplifier/presentation/profile_screen/widgets/log_out_widget.dart';
 import 'package:amplifier/presentation/profile_screen/widgets/privacy_and_terms.dart';
 import 'package:amplifier/presentation/profile_screen/widgets/switch_slider.dart';
@@ -26,7 +25,6 @@ class ProfileTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profilePages = [
-      EditProfileScreen(),
       const OrderScreen(),
       AddressScreen(),
       const LogOutWidget(),
@@ -35,21 +33,21 @@ class ProfileTileWidget extends StatelessWidget {
       ),
     ];
     return ListView.builder(
-      itemCount: 8,
+      itemCount: 6,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) => ListTile(
         onTap: () {
-          if (index == 0 || index == 1 || index == 2 || index == 7) {
-            index != 7
+          if (index == 0 || index == 1 || index == 5) {
+            index != 6
                 ? Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          index != 7 ? profilePages[index] : profilePages[3],
+                          index != 5 ? profilePages[index] : profilePages[3],
                     ))
                 : ProfileScreen.showLogOutNotifier.value = true;
-          } else if (index == 5 || index == 6) {
+          } else if (index == 3 || index == 4) {
             index == 5
                 ? showDialog(
                     context: context,
@@ -66,7 +64,7 @@ class ProfileTileWidget extends StatelessWidget {
         leading: index != 1
             ? Icon(
                 _profileIcons[index],
-                color: index != 7 ? Colors.black : Colors.red,
+                color: index != 6 ? Colors.black : Colors.red,
               )
             : SizedBox(
                 height: 24,
@@ -79,7 +77,7 @@ class ProfileTileWidget extends StatelessWidget {
               ),
         title: Text(
           _profileTitles[index],
-          style: index != 7
+          style: index != 6
               ? const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -91,7 +89,7 @@ class ProfileTileWidget extends StatelessWidget {
                   color: Colors.red,
                 ),
         ),
-        trailing: (index != 7 && index != 3 && index != 4)
+        trailing: (index != 5 && index != 2)
             ? Container(
                 width: 25.0,
                 height: 25.0,
@@ -107,9 +105,9 @@ class ProfileTileWidget extends StatelessWidget {
                   ),
                 ),
               )
-            : index == 7
+            : index == 5
                 ? null
-                : index == 3
+                : index == 2
                     ? const SettingsSwitch()
                     : const SettingsSwitch(),
       ),
