@@ -1,15 +1,21 @@
 import 'package:amplifier/core/colors/main_colors.dart';
-import 'package:amplifier/core/icons/genereal_icons.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/add_to_cart_widget.dart';
+import 'package:amplifier/presentation/home_screen/widget/add_to_wishlist_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:intl/intl.dart';
 
 class HomeDetailsPage extends StatefulWidget {
-  const HomeDetailsPage({super.key, required this.data});
+  const HomeDetailsPage(
+      {super.key,
+      required this.data,
+      required this.productList,
+      required this.index});
 
   final dynamic data;
+  final List productList;
+  final int index;
 
   @override
   State<HomeDetailsPage> createState() => _HomeDetailsPageState();
@@ -85,7 +91,9 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                     fontSize: 26, fontWeight: FontWeight.bold),
                               ),
                             ),
-                            cHeartIcon
+                            WishlistButton(
+                                searchList: widget.productList,
+                                index: widget.index),
                           ],
                         ),
                         Text(
