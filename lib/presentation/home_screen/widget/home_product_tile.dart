@@ -32,7 +32,11 @@ class HomeProductTile extends StatelessWidget {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeDetailsPage(data: searchList[index]),
+                builder: (context) => HomeDetailsPage(
+                  data: searchList[index],
+                  productList: searchList,
+                  index: index,
+                ),
               )),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

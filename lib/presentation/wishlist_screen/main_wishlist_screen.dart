@@ -109,6 +109,8 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                           MaterialPageRoute(
                             builder: (context) => HomeDetailsPage(
                               data: dataList[index],
+                              productList: dataList,
+                              index: index,
                             ),
                           )),
                       child: Column(
