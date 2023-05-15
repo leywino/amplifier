@@ -6,9 +6,6 @@ import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import '../../models/functions.dart';
-
-
-
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
