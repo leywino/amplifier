@@ -24,8 +24,6 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
     super.initState();
   }
 
-  
-
   getProduct() async {
     List<String> productIdList = [];
     final String email = FirebaseAuth.instance.currentUser!.email!;
@@ -55,6 +53,7 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     if (dataList.isEmpty) {
       return Scaffold(
         backgroundColor: kMainBgColor,
@@ -81,6 +80,7 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
         ),
       );
     }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: kMainBgColor,
@@ -121,8 +121,9 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                                 decoration: BoxDecoration(
                                     // color: Colors.red,
                                     image: DecorationImage(
-                                  image: NetworkImage(
-                                      dataList[index]['networkImageString']),
+                                  image: NetworkImage(dataList[index]
+                                          ['networkImageList']
+                                      .first),
                                   fit: BoxFit.cover,
                                 )),
                                 height: 180,
@@ -147,11 +148,9 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                                               .get();
 
                                       getProduct();
-
-                                      setState(() {
-                                        deleteFromWishlist(
-                                            snapshot.docs.first.id, context);
-                                      });
+                                      deleteFromWishlist(
+                                          snapshot.docs.first.id);
+                                      setState(() {});
                                     },
                                     icon: SizedBox(
                                       height: 22,

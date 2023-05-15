@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../../core/colors/main_colors.dart';
 import '../../home_details_screen/main_home_details.dart';
 import 'add_to_wishlist_button.dart';
@@ -36,15 +37,15 @@ class HomeProductTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [ 
+            children: [
               Stack(
                 children: [
-                  searchList[index]['networkImageString'] != null
+                  searchList[index]['networkImageList'] != null
                       ? Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(
-                                  searchList[index]['networkImageString']),
+                                  searchList[index]['networkImageList'][0]),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -88,7 +89,8 @@ class HomeProductTile extends StatelessWidget {
                   ),
                   Text(
                     "$percentage%",
-                    style: const TextStyle(fontSize: 10, color: offerPercentageColor),
+                    style: const TextStyle(
+                        fontSize: 10, color: offerPercentageColor),
                   )
                 ],
               )
@@ -98,4 +100,65 @@ class HomeProductTile extends StatelessWidget {
       }),
     );
   }
+}
+
+homeProductShimmerEffect() {
+  return GridView.count(
+    physics: const NeverScrollableScrollPhysics(),
+    crossAxisCount: 2,
+    crossAxisSpacing: 20,
+    mainAxisSpacing: 20,
+    childAspectRatio: 1 / 1.8,
+    shrinkWrap: true,
+    children: List.generate(4, (index) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Shimmer(
+            color: Colors.black,
+            child: Container(
+              height: 180,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Shimmer(
+            color: Colors.black,
+            child: Container(
+              height: 10,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Shimmer(
+            color: Colors.black,
+            child: Container(
+              height: 10,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Shimmer(
+            color: Colors.black,
+            child: Container(
+              height: 10,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Shimmer(
+            color: Colors.black,
+            child: const SizedBox(
+              height: 30,
+              width: 100,
+            ),
+          ),
+        ],
+      );
+    }),
+  );
 }

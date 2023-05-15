@@ -3,29 +3,34 @@ import 'package:amplifier/core/icons/genereal_icons.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/add_to_cart_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:intl/intl.dart';
 
-class HomeDetailsPage extends StatelessWidget {
-  HomeDetailsPage({super.key, required this.data});
+class HomeDetailsPage extends StatefulWidget {
+  const HomeDetailsPage({super.key, required this.data});
 
-  final ValueNotifier<int> choiceTypeNotifier = ValueNotifier(0);
-  final ValueNotifier<int> choiceColorNotifier = ValueNotifier(0);
   final dynamic data;
+
+  @override
+  State<HomeDetailsPage> createState() => _HomeDetailsPageState();
+}
+
+class _HomeDetailsPageState extends State<HomeDetailsPage> {
+  final ValueNotifier<int> choiceTypeNotifier = ValueNotifier(0);
+
+  final ValueNotifier<int> choiceColorNotifier = ValueNotifier(0);
+
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
 
   final _dummyChipText = ["3.5mm Without Mic", "Type-C with Mic"];
-  final _dummyColorText = ["Red", "Blue", "White", "Black"];
-  final _dummyChipImages = [
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-7HZ-Salnotes-ZERO-Black-01.jpg?v=1660714478&width=800",
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-7HZ-Salnotes-ZERO-Blue-01.jpg?v=1679480887&width=800",
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-7HZ-Salnotes-ZERO-White-01.jpg?v=1679480887&width=800",
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-7HZ-salnotes-ZERO-Red-01.jpg?v=1679480887&width=800"
-  ];
+
+  int? initialPage;
 
   @override
   Widget build(BuildContext context) {
-    int percentage = (data['price'] / data['actualPrice'] * 100.0).round();
+    int percentage =
+        (widget.data['price'] / widget.data['actualPrice'] * 100.0).round();
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Stack(
@@ -35,25 +40,33 @@ class HomeDetailsPage extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  // FlutterCarousel(
-                  //   items: List.generate(
-                  //       _dummyDetailsImages.length,
-                  //       (index) => SizedBox(
-                  //           width: size.width,
-                  //           child: Image.network(_dummyDetailsImages[index]))),
-                  //   options: CarouselOptions(
-                  //     indicatorMargin: 5,
-                  //     viewportFraction: 1,
-                  //     slideIndicator: const CircularSlideIndicator(
-                  //       indicatorRadius: 4,
-                  //       itemSpacing: 15,
-                  //       currentIndicatorColor: Colors.black,
-                  //     ),
-                  //   ),
-                  // ),
-                  SizedBox(
-                      width: size.width,
-                      child: Image.network(data['networkImageString'])),
+                  widget.data['networkImageList'].length == 1
+                      ? SizedBox(
+                          width: size.width,
+                          child:
+                              Image.network(widget.data['networkImageList'][0]),
+                        )
+                      : FlutterCarousel(
+                          items: List.generate(
+                            widget.data['networkImageList'].length,
+                            (index) => SizedBox(
+                              width: size.width,
+                              child: Image.network(
+                                widget.data['networkImageList'][index],
+                              ),
+                            ),
+                          ),
+                          options: CarouselOptions(
+                            initialPage: initialPage ?? 0,
+                            indicatorMargin: 5,
+                            viewportFraction: 1,
+                            slideIndicator: const CircularSlideIndicator(
+                              indicatorRadius: 4,
+                              itemSpacing: 15,
+                              currentIndicatorColor: Colors.black,
+                            ),
+                          ),
+                        ),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.03),
@@ -67,7 +80,7 @@ class HomeDetailsPage extends StatelessWidget {
                             SizedBox(
                               width: size.width * 0.8,
                               child: Text(
-                                "${data['brand']} - ${data['productName']}",
+                                "${widget.data['brand']} - ${widget.data['productName']}",
                                 style: const TextStyle(
                                     fontSize: 26, fontWeight: FontWeight.bold),
                               ),
@@ -76,7 +89,7 @@ class HomeDetailsPage extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          data['description'],
+                          widget.data['description'],
                           style: const TextStyle(fontSize: 18),
                         ),
                         SizedBox(
@@ -86,7 +99,7 @@ class HomeDetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "₹${NumberFormat.decimalPattern().format(data['price'])}",
+                              "₹${NumberFormat.decimalPattern().format(widget.data['price'])}",
                               style: const TextStyle(
                                   fontSize: 28,
                                   color: kTextBlackColor,
@@ -107,7 +120,7 @@ class HomeDetailsPage extends StatelessWidget {
                           child: Flexible(
                             fit: FlexFit.loose,
                             child: Text(
-                              data['long description'],
+                              widget.data['long description'],
                               style: const TextStyle(fontSize: 18),
                             ),
                           ),
@@ -115,65 +128,85 @@ class HomeDetailsPage extends StatelessWidget {
                         SizedBox(
                           height: size.height * 0.02,
                         ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Color: ",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                            ValueListenableBuilder(
-                              valueListenable: choiceColorNotifier,
-                              builder: (context, selectedIndex, child) => Text(
-                                _dummyColorText[selectedIndex],
-                                style: TextStyle(
-                                  color: Colors.grey[700],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          // implement choicechip color idiot
-                          children: List.generate(
-                              4,
-                              (index) => ValueListenableBuilder(
+                        Visibility(
+                          visible: widget.data['networkImageList'].length != 1,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Color: ",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  ValueListenableBuilder(
                                     valueListenable: choiceColorNotifier,
                                     builder: (context, selectedIndex, child) =>
-                                        ChoiceChip(
-                                      // materialTapTargetSize:
-                                      //     MaterialTapTargetSize.shrinkWrap,
-                                      padding: EdgeInsets.zero,
-                                      backgroundColor: Colors.white,
-                                      selectedColor: Colors.white,
-                                      label: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          border: Border.fromBorderSide(
-                                              selectedIndex != index
-                                                  ? const BorderSide(
-                                                      width: 1,
-                                                      color: Colors.grey,
-                                                    )
-                                                  : const BorderSide(
-                                                      width: 2,
-                                                      color: Colors.black,
-                                                    )),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                _dummyChipImages[index]),
-                                          ),
-                                        ),
-                                        width: 40,
-                                        height: 40,
+                                        Text(
+                                      widget.data['colorStringList']
+                                          [selectedIndex],
+                                      style: TextStyle(
+                                        color: Colors.grey[700],
                                       ),
-                                      selected: selectedIndex == index,
-                                      onSelected: (value) =>
-                                          choiceColorNotifier.value = index,
                                     ),
-                                  )),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                // implement choicechip color idiot
+                                children: List.generate(
+                                    widget.data['networkImageList'].length,
+                                    (index) => ValueListenableBuilder(
+                                          valueListenable: choiceColorNotifier,
+                                          builder: (context, selectedIndex,
+                                                  child) =>
+                                              ChoiceChip(
+                                                  // materialTapTargetSize:
+                                                  //     MaterialTapTargetSize.shrinkWrap,
+                                                  padding: EdgeInsets.zero,
+                                                  backgroundColor: Colors.white,
+                                                  selectedColor: Colors.white,
+                                                  label: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.red,
+                                                      border: Border.fromBorderSide(
+                                                          selectedIndex != index
+                                                              ? const BorderSide(
+                                                                  width: 1,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                )
+                                                              : const BorderSide(
+                                                                  width: 2,
+                                                                  color: Colors
+                                                                      .black,
+                                                                )),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          widget.data[
+                                                                  'networkImageList']
+                                                              [index],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    width: 40,
+                                                    height: 40,
+                                                  ),
+                                                  selected:
+                                                      selectedIndex == index,
+                                                  onSelected: (value) {
+                                                    choiceColorNotifier.value =
+                                                        index;
+                                                    setState(() {
+                                                      initialPage = index;
+                                                    });
+                                                  }),
+                                        )),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: size.height * 0.02,

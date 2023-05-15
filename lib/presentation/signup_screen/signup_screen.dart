@@ -5,7 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../core/snackbar.dart';
+import '../widgets/snackbar.dart';
 import '../widgets/text_field_widget.dart';
 
 class MainSignupScreen extends StatelessWidget {

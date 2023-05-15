@@ -29,7 +29,7 @@ Future<void> addToWishlist(Wishlist wishlistClass, BuildContext context) async {
   }
 }
 
-Future<void> deleteFromWishlist(String id, BuildContext context) {
+Future<void> deleteFromWishlist(String id) {
   final String email = FirebaseAuth.instance.currentUser!.email!;
   CollectionReference products = FirebaseFirestore.instance
       .collection('users')
@@ -38,10 +38,8 @@ Future<void> deleteFromWishlist(String id, BuildContext context) {
 
   return products.doc(id).delete().then((value) {
     log("Product Deleted");
-    showSnackbar(context, "Product was deleted");
   }).catchError((error) {
     log("Failed to delete product: $error");
-    showSnackbar(context, "Failed to delete product");
   });
 }
 

@@ -47,6 +47,7 @@ dependencies:
   google_sign_in: ^6.1.0
   image_picker: ^0.8.7+4
   firebase_storage: ^11.1.2
+  shimmer_animation: ^2.1.0+1
   intl:
 
 dev_dependencies:
