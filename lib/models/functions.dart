@@ -148,6 +148,14 @@ Future<void> deleteFromAddress(String id) {
 
 //cart section
 
+Future<List<DocumentSnapshot>> getCartList() async {
+  final users = FirebaseFirestore.instance.collection('users');
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  final reference = users.doc(email).collection('cart');
+  QuerySnapshot querySnapshot = await reference.get();
+  return querySnapshot.docs;
+}
+
 Future<void> addToCart(Cart cartClass, BuildContext context) async {
   final users = FirebaseFirestore.instance.collection('users');
   final String email = FirebaseAuth.instance.currentUser!.email!;
@@ -159,6 +167,7 @@ Future<void> addToCart(Cart cartClass, BuildContext context) async {
       'id': reference.id,
       'color': cartClass.color,
       'quantity': cartClass.quantity,
+      'price': cartClass.price,
     });
     log("Added to cart");
   } catch (error) {
@@ -173,10 +182,24 @@ Future<void> deleteFromCart(String id) {
       .collection('users')
       .doc(email)
       .collection('cart');
-
   return products.doc(id).delete().then((value) {
     log("Removed from cart");
   }).catchError((error) {
     log("Failed to delete product from cart: $error");
   });
+}
+
+Future<void> updateCartQuantity(int quantity, num price,String id) async {
+  final users = FirebaseFirestore.instance.collection('users');
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  final reference = users.doc(email).collection('cart').doc(id);
+  try {
+    await reference.update({
+      'quantity': quantity,
+      'price': price,
+    });
+    log("Updated cart quantity");
+  } catch (error) {
+    log("Failed to update address: $error");
+  }
 }

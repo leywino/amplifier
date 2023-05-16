@@ -53,7 +53,11 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
             onTap: () async {
               if (alreadyAdded == false) {
                 addToCart(
-                    Cart(productId: widget.data['id'], quantity: 1), context);
+                    Cart(
+                        productId: widget.data['id'],
+                        quantity: 1,
+                        price: widget.data['price']),
+                    context);
                 setState(() {
                   alreadyAdded = true;
                 });
