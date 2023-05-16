@@ -3,8 +3,17 @@ import 'package:amplifier/models/wishlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'address_model.dart';
+import 'cart_model.dart';
+
+void showSnackbar(BuildContext context, String message) {
+  final snackBar = SnackBar(
+    duration: const Duration(milliseconds: 300),
+    content: Text(message),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+//products section
 
 Stream getProducts() async* {
   final QuerySnapshot querySnapshot =
@@ -82,7 +91,8 @@ Future<void> addAddress(Address addressClass, BuildContext context) async {
   }
 }
 
-Future<void> updateAddress(Address addressClass, BuildContext context, String id) async {
+Future<void> updateAddress(
+    Address addressClass, BuildContext context, String id) async {
   final users = FirebaseFirestore.instance.collection('users');
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final reference = users.doc(email).collection('address').doc(id);
@@ -119,8 +129,7 @@ void updateRadioButtonValue(String selectedDocumentId) {
         doc.reference.update({'defaultAddressBool': false});
       }
     }
-    print('Values updated successfully');
-  }).catchError((error) => print('Failed to update values: $error'));
+  });
 }
 
 Future<void> deleteFromAddress(String id) {
@@ -137,10 +146,37 @@ Future<void> deleteFromAddress(String id) {
   });
 }
 
-void showSnackbar(BuildContext context, String message) {
-  final snackBar = SnackBar(
-    duration: const Duration(milliseconds: 300),
-    content: Text(message),
-  );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//cart section
+
+Future<void> addToCart(Cart cartClass, BuildContext context) async {
+  final users = FirebaseFirestore.instance.collection('users');
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  final reference = users.doc(email).collection('cart').doc();
+  try {
+    showSnackbar(context, "Added to cart");
+    await reference.set({
+      'productId': cartClass.productId,
+      'id': reference.id,
+      'color': cartClass.color,
+      'quantity': cartClass.quantity,
+    });
+    log("Added to cart");
+  } catch (error) {
+    showSnackbar(context, "Failed to add product to cart: $error");
+    log("Failed to add product to cart: $error");
+  }
+}
+
+Future<void> deleteFromCart(String id) {
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  CollectionReference products = FirebaseFirestore.instance
+      .collection('users')
+      .doc(email)
+      .collection('cart');
+
+  return products.doc(id).delete().then((value) {
+    log("Removed from cart");
+  }).catchError((error) {
+    log("Failed to delete product from cart: $error");
+  });
 }

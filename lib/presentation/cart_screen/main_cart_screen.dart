@@ -21,7 +21,7 @@ class MainCartScreen extends StatelessWidget {
             children: [
               const CustomAppBar(
                 title: "My Cart",
-                showBackButton: true,
+                showBackButton: false,
               ),
               Column(
                 children: List.generate(
@@ -30,7 +30,7 @@ class MainCartScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: SizedBox(
                       // width: 300,
-                      height: size.height * 0.15,
+                      height: size.height * 0.17,
                       // color: Colors.red,
                       child: Row(
                         children: [
@@ -53,8 +53,8 @@ class MainCartScreen extends StatelessWidget {
                                     child: const Text(
                                       "Brand - Name",
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
                                     ),
                                   ),
                                   IconButton(
@@ -66,10 +66,21 @@ class MainCartScreen extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(
-                                  height: size.height * 0.04,
-                                  width: size.width * 0.6,
-                                  child: const Text(
-                                      "Description adfasdfsdafasd afafasdfasdf f afdsfasdfasdfadafa")),
+                                height: size.height * 0.06,
+                                width: size.width * 0.6,
+                                child: const Text(
+                                  "Description adfasdfsdafasd afafasdfasdf f afdsfasdfasdfadafa asdkfupyasdukfhaujksdhf asdfasdfasdf",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
