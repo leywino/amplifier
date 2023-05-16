@@ -7,23 +7,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../address_screen/address_screen.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({
-    super.key,
-    required this.title,
-    required this.showBackButton,
-    this.showTabBar = false,
-    this.replaceNavigatorPop = false,
-    this.showTrailingIcon = false,
-  });
+  const CustomAppBar(
+      {super.key,
+      required this.title,
+      required this.showBackButton,
+      this.showTabBar = false,
+      this.replaceNavigatorPop = false,
+      this.showTrailingIcon = false,
+      this.goToProfileScreen = false});
 
   final String title;
   final bool showBackButton;
   final bool showTrailingIcon;
   final bool showTabBar;
   final bool replaceNavigatorPop;
+  final bool goToProfileScreen;
 
   @override
   Widget build(BuildContext context) {
+    int pageIndex = 0;
+    goToProfileScreen ? pageIndex = 3 : pageIndex = 0;
     return AppBar(
       backgroundColor: kMainBgColor,
       elevation: 0,
@@ -36,7 +39,8 @@ class CustomAppBar extends StatelessWidget {
                   : Navigator.pushReplacement(
                       context,
                       PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => BottomNavBar(),
+                        pageBuilder: (_, __, ___) =>
+                            BottomNavBar(pageIndex: pageIndex),
                         transitionDuration: const Duration(seconds: 0),
                       ),
                     ),

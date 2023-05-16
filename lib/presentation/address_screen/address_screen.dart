@@ -45,15 +45,14 @@ class _AddressScreenState extends State<AddressScreen> {
           break;
         }
       }
-    }).catchError((error) => print('Failed to fetch true index: $error'));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-    radioNotifier.value = trueIndex ?? 0;
-  });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      radioNotifier.value = trueIndex ?? 0;
+    });
     final size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -65,6 +64,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 title: "Address",
                 showBackButton: true,
                 showTrailingIcon: true,
+                goToProfileScreen: true,
               ),
               StreamBuilder(
                 stream: getAddress(),
@@ -107,8 +107,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditAdressScreen(data: documents[index]),
+                                    builder: (context) => EditAdressScreen(
+                                        data: documents[index]),
                                   ),
                                 );
                               },
@@ -265,6 +265,7 @@ class _AddressScreenState extends State<AddressScreen> {
               onPressed: () async {
                 await deleteFromAddress(documentId);
                 setState(() {});
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               },
             ),

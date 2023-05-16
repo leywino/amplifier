@@ -276,10 +276,10 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             right: 10,
             bottom: 10,
-            child: AddToCartWidget(),
+            child: AddToCartWidget(data: widget.data),
           )
         ],
       ),
