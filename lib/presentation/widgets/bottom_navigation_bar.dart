@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../categories_screen/main_categories_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
-  BottomNavBar({super.key, this.pageIndex = 0});
+  BottomNavBar({super.key, this.pageIndex = 1});
 
   final int pageIndex;
   final _pages = [
