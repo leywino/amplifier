@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class ActiveTileWidget extends StatelessWidget {
   const ActiveTileWidget({
@@ -26,10 +28,20 @@ class ActiveTileWidget extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    'https://firebasestorage.googleapis.com/v0/b/leywin-amplifier.appspot.com/o/images%2Fchu?alt=media&token=c9313e96-0b5f-4116-8030-a268c7c47e36',
-                    width: 100,
+                  CachedNetworkImage(
                     height: 100,
+                    width: 100,
+                    imageUrl:
+                        'https://firebasestorage.googleapis.com/v0/b/leywin-amplifier.appspot.com/o/images%2Fchu?alt=media&token=c9313e96-0b5f-4116-8030-a268c7c47e36',
+                    placeholder: (context, url) => Shimmer(
+                      color: Colors.black,
+                      child: Container(
+                        decoration: const BoxDecoration(shape: BoxShape.circle),
+                        width: size.width,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        Image.asset('assets/icons/no_image.svg'),
                   ),
                   const SizedBox(width: 16),
                   Column(

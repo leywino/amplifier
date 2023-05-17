@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/core/icons/custom_icon_icons.dart';
@@ -8,6 +9,8 @@ import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
+import '../../core/strings.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -35,15 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     CustomIcon.shieldiconfluttter,
     CustomIcon.document_align_left_5iconfluttter,
     CustomIcon.logouticonfluttter,
-  ];
-
-  final List<String> _profileTitles = [
-    "Orders",
-    "Address",
-    "Dark Mode",
-    "Privacy Policy",
-    "Terms & Conditions",
-    "Log Out",
   ];
 
   User? user;
@@ -75,7 +69,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           await _uploadImage(file, user!.email!);
                         }
                       },
-                      child: Image.network(profileImage!),
+                      child: CachedNetworkImage(
+                        imageUrl: profileImage!,
+                        placeholder: (context, url) => Shimmer(
+                          color: Colors.black,
+                          child: Container(
+                            decoration:
+                                const BoxDecoration(shape: BoxShape.circle),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            Image.asset('assets/icons/no_image.svg'),
+                      ),
                     )),
                   ),
                   const SizedBox(height: 16.0),
@@ -98,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 8.0),
               ProfileTileWidget(
-                  profileIcons: _profileIcons, profileTitles: _profileTitles),
+                  profileIcons: _profileIcons, profileTitles: profileTitles),
             ],
           ),
           bottomSheet: ValueListenableBuilder(

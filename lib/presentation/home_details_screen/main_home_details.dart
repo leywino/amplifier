@@ -1,10 +1,12 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/add_to_cart_widget.dart';
 import 'package:amplifier/presentation/home_screen/widget/add_to_wishlist_button.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class HomeDetailsPage extends StatefulWidget {
   const HomeDetailsPage(
@@ -47,19 +49,34 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
               child: Column(
                 children: [
                   widget.data['networkImageList'].length == 1
-                      ? SizedBox(
-                          width: size.width,
-                          child:
-                              Image.network(widget.data['networkImageList'][0]),
+                      ? CachedNetworkImage(
+                          imageUrl: widget.data['networkImageList'][0],
+                          placeholder: (context, url) => Shimmer(
+                            color: Colors.black,
+                            child: Container(
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                              width: size.width,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/icons/no_image.svg'),
                         )
                       : FlutterCarousel(
                           items: List.generate(
                             widget.data['networkImageList'].length,
-                            (index) => SizedBox(
-                              width: size.width,
-                              child: Image.network(
-                                widget.data['networkImageList'][index],
+                            (index) => CachedNetworkImage(
+                              imageUrl: widget.data['networkImageList'][index],
+                              placeholder: (context, url) => Shimmer(
+                                color: Colors.black,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle),
+                                  width: size.width,
+                                ),
                               ),
+                              errorWidget: (context, url, error) =>
+                                  Image.asset('assets/icons/no_image.svg'),
                             ),
                           ),
                           options: CarouselOptions(

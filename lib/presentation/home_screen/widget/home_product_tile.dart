@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -15,6 +16,7 @@ class HomeProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return GridView.count(
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
@@ -44,18 +46,19 @@ class HomeProductTile extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  searchList[index]['networkImageList'] != null
-                      ? Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  searchList[index]['networkImageList'][0]),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          height: 180,
-                        )
-                      : const CircularProgressIndicator(),
+                  CachedNetworkImage(
+                    imageUrl: searchList[index]['networkImageList'][0],
+                    placeholder: (context, url) => Shimmer(
+                      color: Colors.black,
+                      child: Container(
+                        decoration: const BoxDecoration(shape: BoxShape.circle),
+                        width: size.width * 0.4,
+                        height: size.height * 0.195,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        Image.asset('assets/icons/no_image.svg'),
+                  ),
                   Positioned(
                     right: 0,
                     top: 0,

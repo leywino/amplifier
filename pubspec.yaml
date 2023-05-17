@@ -50,6 +50,7 @@ dependencies:
   shimmer_animation: ^2.1.0+1
   intl:
   flutter_markdown: ^0.6.14
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
