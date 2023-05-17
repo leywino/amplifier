@@ -97,7 +97,7 @@ class HomeProductTile extends StatelessWidget {
                   Text(
                     "$percentage%",
                     style: const TextStyle(
-                        fontSize: 10, color: offerPercentageColor),
+                        fontSize: 14, color: offerPercentageColor),
                   )
                 ],
               )
