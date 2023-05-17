@@ -1,8 +1,8 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/models/functions.dart';
 import 'package:amplifier/presentation/cart_screen/widgets/checkout_screen.dart';
-import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/cart_screen/widgets/quantity_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 ValueNotifier<int> quantityNotifier = ValueNotifier(1);
+ValueNotifier<bool> editNotifier = ValueNotifier(false);
 
 class MainCartScreen extends StatefulWidget {
   const MainCartScreen({super.key});
@@ -21,9 +22,12 @@ class MainCartScreen extends StatefulWidget {
 }
 
 class _MainCartScreenState extends State<MainCartScreen> {
+  List dataList = [];
+  List productPrice = [];
   bool cartIsEmpty = false;
   @override
   void initState() {
+    editNotifier = ValueNotifier(false);
     getProduct();
     super.initState();
     getTotalPrice();
@@ -41,15 +45,18 @@ class _MainCartScreenState extends State<MainCartScreen> {
       for (var doc in querySnapshot.docs) {
         totalPrice = doc.get('price') + totalPrice;
       }
-      setState(() {
-        totalPrice;
-      });
+      if (mounted) {
+        setState(() {
+          totalPrice;
+        });
+      }
       totalPriceNotifier.value = totalPrice;
     }
   }
 
-  Stream getProduct() async* {
+  getProduct() async {
     List<String> productIdList = [];
+    List<int> productPrice = [];
     final String email = FirebaseAuth.instance.currentUser!.email!;
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -60,16 +67,23 @@ class _MainCartScreenState extends State<MainCartScreen> {
     for (var doc in querySnapshot.docs) {
       productIdList.add(doc.get('productId'));
     }
-
+    for (var doc in querySnapshot.docs) {
+      productPrice.add(doc.get('price'));
+    }
+    // log(productIdList.toString());
     if (querySnapshot.docs.isNotEmpty) {
-      final snapshot = FirebaseFirestore.instance
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('products')
           .where('id', whereIn: productIdList)
-          .snapshots();
+          .get();
 
-      await for (QuerySnapshot productSnapshot in snapshot) {
-        List<DocumentSnapshot> documents = productSnapshot.docs.toList();
-        yield documents;
+      List<DocumentSnapshot> documents = snapshot.docs;
+      List<dynamic> dataList = documents.map((doc) => doc.data()).toList();
+      if (mounted) {
+        setState(() {
+          this.dataList = dataList;
+          this.productPrice = productPrice;
+        });
       }
     }
   }
@@ -81,168 +95,250 @@ class _MainCartScreenState extends State<MainCartScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kMainBgColor,
+        appBar: AppBar(
+          backgroundColor: kMainBgColor,
+          elevation: 0,
+          // automaticallyImplyLeading: true,
+          foregroundColor: Colors.black,
+
+          title: const Text(
+            "My Cart",
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: const [
+            // GestureDetector(
+            //     onTap: () async {
+            //       editNotifier.value = !editNotifier.value;
+            //     },
+            //     child: ValueListenableBuilder(
+            //         valueListenable: editNotifier,
+            //         builder: (context, value, child) {
+            //           return !value
+            //               ? SvgPicture.asset('assets/icons/edit.svg')
+            //               : SvgPicture.asset('assets/icons/check.svg');
+            //         })),
+            SizedBox(
+              width: 10,
+            )
+          ],
+        ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomAppBar(
-                title: "My Cart",
-                showBackButton: false,
-              ),
-              StreamBuilder(
-                stream: getProduct(),
-                builder: (context, snapshot) {
-                  final email = FirebaseAuth.instance.currentUser!.email;
-                  if (snapshot.hasError) {
-                    return const Text(
-                      'Something went wrong',
-                      style: TextStyle(color: Colors.black),
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return cartShimmerEffect(size);
-                  }
-                  if (!snapshot.hasData) {
-                    cartIsEmpty = true;
-                    return const Center(
-                      child: Text('Cart is empty!'),
-                    );
-                  }
-                  final data = snapshot.data;
+            child: ValueListenableBuilder(
+          valueListenable: editNotifier,
+          builder: (context, editBool, child) {
+            return Column(
+              children: [
+                StreamBuilder(
+                  builder: (context, snapshot) {
+                    final email = FirebaseAuth.instance.currentUser!.email;
+                    // if (snapshot.hasError) {
+                    //   return const Text(
+                    //     'Something went wrong',
+                    //     style: TextStyle(color: Colors.black),
+                    //   );
+                    // }
+                    // // if (snapshot.connectionState == ConnectionState.waiting) {
+                    // //   return cartShimmerEffect(size);
+                    // // }
+                    // if (!snapshot.hasData) {
+                    //   cartIsEmpty = true;
+                    //   return const Center(
+                    //     child: Text('Cart is empty!'),
+                    //   );
+                    // }
+                    // final data = snapshot.data;
 
-                  return Column(
-                    children: List.generate(
-                      data.length,
-                      (index) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 0, vertical: 7),
-                        child: SizedBox(
-                          // width: 300,
-                          height: size.height * 0.16,
-                          // color: Colors.red,
-                          child: Container(
+                    if (dataList.isEmpty) {
+                      return SizedBox(
+                        height: size.height * 0.8,
+                        child: const Center(
+                          child: Text(
+                            "Cart is empty!",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      );
+                    }
+                    return Column(
+                      children: List.generate(
+                        dataList.length,
+                        (index) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 7),
+                          child: SizedBox(
+                            // width: 300,
+                            height: size.height * 0.16,
                             // color: Colors.red,
-
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  child: Image.network(
-                                    data[index]['networkImageList'][0],
-                                    height: 120,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Wrap(
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.center,
-                                      // spacing: size.width * 0.2,
-                                      children: [
-                                        SizedBox(
-                                          width: size.width * 0.5,
-                                          child: Text(
-                                            "${data[index]['brand']} - ${data[index]['productName']}",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                          ),
+                            child: Container(
+                              // color: Colors.red,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: CachedNetworkImage(
+                                      imageUrl: dataList[index]
+                                          ['networkImageList'][0],
+                                      height: 120,
+                                      placeholder: (context, url) => Shimmer(
+                                        color: Colors.black,
+                                        child: const SizedBox(
+                                          height: 120,
+                                          width: 120,
                                         ),
-                                        IconButton(
-                                          onPressed: () {
-                                            showDeleteConfirmationDialog(
-                                                context, data[index]['id']);
-                                          },
-                                          icon: SvgPicture.asset(
-                                            'assets/icons/delete.svg',
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: size.height * 0.06,
-                                      width: size.width * 0.6,
-                                      child: Text(
-                                        data[index]['description'],
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                        ),
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        QuantityCartWidget(
-                                          index: index,
-                                          productData: data,
-                                        ),
-                                        SizedBox(
-                                          width: size.width * 0.2,
-                                        ),
-                                        FittedBox(
-                                            child: StreamBuilder(
-                                          stream: FirebaseFirestore.instance
-                                              .collection('users')
-                                              .doc(email)
-                                              .collection('cart')
-                                              .snapshots(),
-                                          builder: (context, snapshot2) {
-                                            if (snapshot2.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const Text('hi');
-                                            }
-                                            if (!snapshot.hasData) {
-                                              return const Text(
-                                                "₹0",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                ),
-                                              );
-                                            }
-                                            final data2 =
-                                                snapshot2.data!.docs.toList();
-
-                                            return Text(
-                                              "₹${data2[index]['price']}",
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Wrap(
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        // spacing: size.width * 0.2,
+                                        children: [
+                                          SizedBox(
+                                            width: size.width * 0.5,
+                                            child: Text(
+                                              "${dataList[index]['brand']} - ${dataList[index]['productName']}",
                                               style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 18,
+                                                fontSize: 16,
                                               ),
-                                            );
-                                          },
-                                        )),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                            ),
+                                          ),
+                                          true
+                                              ? IconButton(
+                                                  onPressed: () {
+                                                    showDeleteConfirmationDialog(
+                                                        context,
+                                                        dataList[index]['id'],
+                                                        dataList);
+                                                  },
+                                                  icon: SvgPicture.asset(
+                                                    'assets/icons/delete.svg',
+                                                    color: Colors.red,
+                                                  ),
+                                                )
+                                              : const SizedBox(
+                                                  height: 46,
+                                                  width: 46,
+                                                ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.06,
+                                        width: size.width * 0.6,
+                                        child: Text(
+                                          dataList[index]['description'],
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                          ),
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          QuantityCartWidget(
+                                            index: index,
+                                            productData: dataList,
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.2,
+                                          ),
+                                          FittedBox(
+                                            child: false
+                                                ? FutureBuilder(
+                                                    future: FirebaseFirestore
+                                                        .instance
+                                                        .collection('users')
+                                                        .doc(email)
+                                                        .collection('cart')
+                                                        .get(),
+                                                    builder:
+                                                        (context, snapshot2) {
+                                                      if (snapshot2
+                                                              .connectionState ==
+                                                          ConnectionState
+                                                              .waiting) {
+                                                        return const Text('hi');
+                                                      }
+                                                      if (!snapshot.hasData) {
+                                                        return const Text(
+                                                          "₹0",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 18,
+                                                          ),
+                                                        );
+                                                      }
+                                                      final data2 = snapshot2
+                                                          .data!.docs
+                                                          .toList();
+
+                                                      if (data2.isEmpty) {
+                                                        return const Text(
+                                                          "₹0",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 18,
+                                                          ),
+                                                        );
+                                                      }
+                                                      return Text(
+                                                        "₹${data2[index]['price']}",
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 18,
+                                                        ),
+                                                      );
+                                                    },
+                                                  )
+                                                : Text(
+                                                    "₹${productPrice[index]}",
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              )
-            ],
-          ),
-        ),
+                    );
+                  },
+                )
+              ],
+            );
+          },
+        )),
         bottomSheet: Visibility(
-          visible: totalPrice != 0,
+          visible: dataList.isNotEmpty,
           child: Container(
             color: kMainBgColor,
             height: size.height * 0.1,
@@ -297,7 +393,8 @@ class _MainCartScreenState extends State<MainCartScreen> {
     );
   }
 
-  showDeleteConfirmationDialog(BuildContext context, String documentId) {
+  showDeleteConfirmationDialog(
+      BuildContext context, String documentId, dynamic data) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -322,11 +419,16 @@ class _MainCartScreenState extends State<MainCartScreen> {
                     .collection('cart')
                     .where('productId', isEqualTo: documentId)
                     .get();
-
                 await deleteFromCart(querySnapshot.docs.first.id);
-                setState(() {});
+                setState(() {
+                  dataList.removeWhere((item) => item['id'] == documentId);
+                });
+                totalPriceNotifier.value =
+                    totalPrice - querySnapshot.docs.first.get('price');
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
+
+                setState(() {});
               },
             ),
           ],

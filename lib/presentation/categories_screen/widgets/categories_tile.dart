@@ -1,36 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shimmer_animation/shimmer_animation.dart';
+import '../../../core/strings.dart';
 import 'category_specific_grid.dart';
 
 class CategoriesTile extends StatelessWidget {
-  CategoriesTile({super.key, required this.index});
+  const CategoriesTile({super.key, required this.index});
 
   final int index;
-
-  final dummyCategoryName = [
-    "Headphones",
-    "In-Ears",
-    "Wireless",
-    "DACS & Amps",
-    "Hi-Res Audio Players",
-  ];
-  
-  final dummyCategoryImage = [
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-HiFiMAN-HE400se-1160-1160-7.jpg?v=1614245064&width=800",
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/KZ-ZSN-Pro-X-Black-01_960774c7-2c57-4f9c-ab41-12cff3d684de.jpg?v=1650864564&width=800",
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-WF-1000XM4-Black-07.jpg?v=1642060231&width=800",
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/astell-kern-ak-xb10-headphone-zone-13983714246719.jpg?v=1589284696&width=800",
-    "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-NW-ZX707-012.jpg?v=1674635770&width=800",
-  ];
-
-  final categoryFirebaseName = [
-    "Headphones",
-    "inEars",
-    "Earbuds",
-    "DAC & Amp",
-    "Hi-Res Audio Player"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +24,21 @@ class CategoriesTile extends StatelessWidget {
                     categoryFirebaseName: categoryFirebaseName[index]),
               ));
         },
-        leading: Image.network(dummyCategoryImage[index]),
+        leading: SizedBox(
+            height: 50,
+            child: CachedNetworkImage(
+              imageUrl: dummyCategoryImage[index],
+              placeholder: (context, url) => Shimmer(
+                color: Colors.black,
+                child: Container(
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  height: 50,
+                  width: 50,
+                ),
+              ),
+              errorWidget: (context, url, error) =>
+                  Image.asset('assets/icons/no_image.svg'),
+            )),
         title: Text(
           dummyCategoryName[index],
           style: const TextStyle(

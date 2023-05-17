@@ -4,6 +4,7 @@ import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/models/functions.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,16 +55,25 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
         return SafeArea(
           child: Scaffold(
             backgroundColor: kMainBgColor,
+            appBar: AppBar(
+              backgroundColor: kMainBgColor,
+              elevation: 0,
+              // automaticallyImplyLeading: true,
+              foregroundColor: Colors.black,
+
+              title: Text(
+                widget.categoryTitle,
+                style: const TextStyle(
+                  color: kTextBlackColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    const CustomAppBar(
-                      title: "My Wishlist",
-                      showBackButton: true,
-                      replaceNavigatorPop: true,
-                    ),
                     GridView.count(
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: 2,
@@ -89,17 +99,20 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
                             children: [
                               Stack(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        // color: Colors.red,
-                                        image: DecorationImage(
-                                      image: NetworkImage(data[index]
-                                              ['networkImageList']
-                                          .first),
-                                      fit: BoxFit.cover,
-                                    )),
+                                  CachedNetworkImage(
                                     height: 180,
-                                    // width: size.width,
+                                    imageUrl: data[index]['networkImageList']
+                                        [0],
+                                    placeholder: (context, url) => Shimmer(
+                                      color: Colors.black,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                            'assets/icons/no_image.svg'),
                                   ),
                                   Positioned(
                                       right: 0,

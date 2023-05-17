@@ -40,9 +40,11 @@ class _WishlistButtonState extends State<WishlistButton> {
         .where('productId', isEqualTo: widget.searchList[widget.index]['id'])
         .get();
     if (snapshot.docs.isNotEmpty) {
-      setState(() {
-        alreadyAdded = true;
-      });
+      if (mounted) {
+        setState(() {
+          alreadyAdded = true;
+        });
+      }
     }
   }
 
@@ -70,7 +72,7 @@ class _WishlistButtonState extends State<WishlistButton> {
               .where('productId',
                   isEqualTo: widget.searchList[widget.index]['id'])
               .get();
-          await deleteFromWishlist(snapshot.docs.first.id );
+          await deleteFromWishlist(snapshot.docs.first.id);
           setState(() {
             alreadyAdded = false;
           });
