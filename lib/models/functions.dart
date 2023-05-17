@@ -189,16 +189,21 @@ Future<void> deleteFromCart(String id) {
   });
 }
 
-Future<void> updateCartQuantity(int quantity, num price,String id) async {
+Future<void> updateCartQuantity(
+    int quantity, num price, String id, int productQuantity) async {
   final users = FirebaseFirestore.instance.collection('users');
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final reference = users.doc(email).collection('cart').doc(id);
   try {
-    await reference.update({
-      'quantity': quantity,
-      'price': price,
-    });
-    log("Updated cart quantity");
+    if (quantity <= productQuantity) {
+      await reference.update({
+        'quantity': quantity,
+        'price': price,
+      });
+      log("Updated cart quantity");
+    } else {
+      log("Only $productQuantity products are available");
+    }
   } catch (error) {
     log("Failed to update address: $error");
   }

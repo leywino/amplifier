@@ -76,8 +76,12 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
                                   quantityNotifier.value--;
                                 }
                                 quantityNotifier.value--;
-                                await updateCartQuantity(quantity--, price,
-                                    data[widget.index]['id']);
+                                await updateCartQuantity(
+                                    quantity--,
+                                    price,
+                                    data[widget.index]['id'],
+                                    widget.productData[widget.index]
+                                        ['quantity']);
                                 totalPriceNotifier.value = totalPrice -
                                     widget.productData[widget.index]['price'];
                               },
@@ -107,7 +111,11 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
                                       data[widget.index]['price'];
                                 }
                                 await updateCartQuantity(
-                                    quantity, price, data[widget.index]['id']);
+                                    quantity,
+                                    price,
+                                    data[widget.index]['id'],
+                                    widget.productData[widget.index]
+                                        ['quantity']);
                                 totalPriceNotifier.value = totalPrice +
                                     widget.productData[widget.index]['price'];
                               },
@@ -155,8 +163,12 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
                                   quantityNotifier.value--;
                                 }
                                 quantityNotifier.value--;
-                                await updateCartQuantity(quantity--, price,
-                                    data[widget.index]['id']);
+                                await updateCartQuantity(
+                                    quantity--,
+                                    price,
+                                    data[widget.index]['id'],
+                                    widget.productData[widget.index]
+                                        ['quantity']);
                                 totalPriceNotifier.value = totalPrice -
                                     widget.productData[widget.index]['price'];
                               },
@@ -184,7 +196,11 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
                                       data[widget.index]['price'];
                                 }
                                 await updateCartQuantity(
-                                    quantity, price, data[widget.index]['id']);
+                                    quantity,
+                                    price,
+                                    data[widget.index]['id'],
+                                    widget.productData[widget.index]
+                                        ['quantity']);
                                 totalPriceNotifier.value = totalPrice +
                                     widget.productData[widget.index]['price'];
                               },
