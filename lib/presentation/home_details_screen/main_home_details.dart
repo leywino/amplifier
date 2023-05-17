@@ -1,10 +1,12 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/add_to_cart_widget.dart';
+import 'package:amplifier/presentation/home_details_screen/widgets/full_image_widget.dart';
 import 'package:amplifier/presentation/home_screen/widget/add_to_wishlist_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
@@ -49,46 +51,115 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
               child: Column(
                 children: [
                   widget.data['networkImageList'].length == 1
-                      ? CachedNetworkImage(
-                          imageUrl: widget.data['networkImageList'][0],
-                          placeholder: (context, url) => Shimmer(
-                            color: Colors.black,
-                            child: Container(
-                              decoration:
-                                  const BoxDecoration(shape: BoxShape.circle),
-                              width: size.width,
+                      ? Stack(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FullImageScreen(
+                                          imageUrl: widget
+                                              .data['networkImageList'][0]),
+                                    ));
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: widget.data['networkImageList'][0],
+                                placeholder: (context, url) => Shimmer(
+                                  color: Colors.black,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle),
+                                    width: size.width,
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset('assets/icons/no_image.svg'),
+                              ),
                             ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Image.asset('assets/icons/no_image.svg'),
-                        )
-                      : FlutterCarousel(
-                          items: List.generate(
-                            widget.data['networkImageList'].length,
-                            (index) => CachedNetworkImage(
-                              imageUrl: widget.data['networkImageList'][index],
-                              placeholder: (context, url) => Shimmer(
-                                color: Colors.black,
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle),
-                                  width: size.width,
+                            Positioned(
+                              top: 5,
+                              right: 5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FullImageScreen(
+                                            imageUrl: widget
+                                                .data['networkImageList'][0]),
+                                      ));
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/icons/full_screen.svg',
+                                  height: 36,
                                 ),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  Image.asset('assets/icons/no_image.svg'),
                             ),
-                          ),
-                          options: CarouselOptions(
-                            initialPage: initialPage ?? 0,
-                            indicatorMargin: 5,
-                            viewportFraction: 1,
-                            slideIndicator: const CircularSlideIndicator(
-                              indicatorRadius: 4,
-                              itemSpacing: 15,
-                              currentIndicatorColor: Colors.black,
+                          ],
+                        )
+                      : Stack(
+                          children: [
+                            FlutterCarousel(
+                              items: List.generate(
+                                widget.data['networkImageList'].length,
+                                (index) => GestureDetector(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FullImageScreen(
+                                            imageList:
+                                                widget.data['networkImageList'],isCarousal: true,
+                                                    ),
+                                      )),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.data['networkImageList']
+                                        [index],
+                                    placeholder: (context, url) => Shimmer(
+                                      color: Colors.black,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle),
+                                        width: size.width,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                            'assets/icons/no_image.svg'),
+                                  ),
+                                ),
+                              ),
+                              options: CarouselOptions(
+                                initialPage: initialPage ?? 0,
+                                indicatorMargin: 5,
+                                viewportFraction: 1,
+                                slideIndicator: const CircularSlideIndicator(
+                                  indicatorRadius: 4,
+                                  itemSpacing: 15,
+                                  currentIndicatorColor: Colors.black,
+                                ),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              top: 5,
+                              right: 5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FullImageScreen(
+                                            imageUrl: widget
+                                                .data['networkImageList'][0]),
+                                      ));
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/icons/full_screen.svg',
+                                  height: 36,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                   Padding(
                     padding:
