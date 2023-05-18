@@ -23,7 +23,6 @@ class MainCartScreen extends StatefulWidget {
 
 class _MainCartScreenState extends State<MainCartScreen> {
   List dataList = [];
-  List productPrice = [];
   bool cartIsEmpty = false;
   @override
   void initState() {
@@ -56,7 +55,6 @@ class _MainCartScreenState extends State<MainCartScreen> {
 
   getProduct() async {
     List<String> productIdList = [];
-    List<int> productPrice = [];
     final String email = FirebaseAuth.instance.currentUser!.email!;
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -67,9 +65,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
     for (var doc in querySnapshot.docs) {
       productIdList.add(doc.get('productId'));
     }
-    for (var doc in querySnapshot.docs) {
-      productPrice.add(doc.get('price'));
-    }
+
     // log(productIdList.toString());
     if (querySnapshot.docs.isNotEmpty) {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -82,7 +78,6 @@ class _MainCartScreenState extends State<MainCartScreen> {
       if (mounted) {
         setState(() {
           this.dataList = dataList;
-          this.productPrice = productPrice;
         });
       }
     }
@@ -261,64 +256,13 @@ class _MainCartScreenState extends State<MainCartScreen> {
                                             width: size.width * 0.2,
                                           ),
                                           FittedBox(
-                                            child: false
-                                                ? FutureBuilder(
-                                                    future: FirebaseFirestore
-                                                        .instance
-                                                        .collection('users')
-                                                        .doc(email)
-                                                        .collection('cart')
-                                                        .get(),
-                                                    builder:
-                                                        (context, snapshot2) {
-                                                      if (snapshot2
-                                                              .connectionState ==
-                                                          ConnectionState
-                                                              .waiting) {
-                                                        return const Text('hi');
-                                                      }
-                                                      if (!snapshot.hasData) {
-                                                        return const Text(
-                                                          "₹0",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 18,
-                                                          ),
-                                                        );
-                                                      }
-                                                      final data2 = snapshot2
-                                                          .data!.docs
-                                                          .toList();
-
-                                                      if (data2.isEmpty) {
-                                                        return const Text(
-                                                          "₹0",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 18,
-                                                          ),
-                                                        );
-                                                      }
-                                                      return Text(
-                                                        "₹${data2[index]['price']}",
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18,
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Text(
-                                                    "₹${productPrice[index]}",
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
+                                            child: Text(
+                                              "₹${dataList[index]['price']}",
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
