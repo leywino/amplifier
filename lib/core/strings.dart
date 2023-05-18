@@ -22,12 +22,21 @@ final List<String> categoryFirebaseName = [
   "Hi-Res Audio Player"
 ];
 
+final List<String> profileTitles = [
+  "Orders",
+  "Address",
+  "Dark Mode",
+  "Privacy Policy",
+  "Terms & Conditions",
+  "Log Out",
+];
 
-  final List<String> profileTitles = [
-    "Orders",
-    "Address",
-    "Dark Mode",
-    "Privacy Policy",
-    "Terms & Conditions",
-    "Log Out",
-  ];
+final List<String> paymentTitles = [
+  "UPI",
+  "Cash On Delivery",
+];
+
+final List<String> paymentIcons = [
+  "assets/icons/upi.svg",
+  "assets/icons/cash.svg",
+];
