@@ -1,12 +1,48 @@
 import 'package:amplifier/core/colors/main_colors.dart';
+import 'package:amplifier/core/strings.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
-class CheckoutScreen extends StatelessWidget {
-  CheckoutScreen({super.key});
+class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({super.key});
 
-  final ValueNotifier<int> radioNotifier = ValueNotifier(0);
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  @override
+  void initState() {
+    getAddress();
+    super.initState();
+  }
+
+  List addressList = [];
+
+  getAddress() async {
+    final email = FirebaseAuth.instance.currentUser!.email;
+    CollectionReference reference = FirebaseFirestore.instance
+        .collection('users')
+        .doc(email)
+        .collection('address');
+
+    QuerySnapshot snapshot = await reference.get();
+
+    List<DocumentSnapshot> documents = snapshot.docs;
+    List<dynamic> addressList = documents.map((doc) => doc.data()).toList();
+    if (mounted) {
+      setState(() {
+        this.addressList = addressList;
+      });
+    }
+  }
+
+  int selectedPaymentIndex = 0;
+  int selectedAddressIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,59 +75,57 @@ class CheckoutScreen extends StatelessWidget {
                   SizedBox(
                     height: size.height * 0.02,
                   ),
-                  FutureBuilder(
-                    builder: (context, snapshot) {
-                      return Column(
-                        children: List.generate(
-                          3,
-                          (index) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 6),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(
-                                    12.0), // set the border radius to 12.0
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Colors.grey[400],
-                                    child: SvgPicture.asset(
-                                        "assets/icons/location.svg"),
-                                  ),
-                                  title: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'John Doe',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                  addressList.isNotEmpty
+                      ? Column(
+                          children: List.generate(
+                            addressList.length,
+                            (index) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 6),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(
+                                      12.0), // set the border radius to 12.0
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      radius: 30,
+                                      backgroundColor: Colors.grey[400],
+                                      child: SvgPicture.asset(
+                                          "assets/icons/location.svg"),
+                                    ),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          addressList[index]['name'],
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 4.0),
-                                      FittedBox(
-                                        child: Text(
-                                          'johndoe@example.com',
-                                          style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 12),
+                                        const SizedBox(height: 4.0),
+                                        FittedBox(
+                                          child: Text(
+                                            "${addressList[index]['city']} , ${addressList[index]['state']}, ${addressList[index]['pin code']}",
+                                            style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 12),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  trailing: ValueListenableBuilder(
-                                    valueListenable: radioNotifier,
-                                    builder: (context, radioIndex, child) =>
-                                        Radio(
-                                      value: radioIndex == index,
+                                      ],
+                                    ),
+                                    trailing: Radio(
+                                      value: selectedAddressIndex == index,
                                       groupValue: true,
                                       onChanged: (value) {
-                                        radioNotifier.value = index;
+                                        setState(() {
+                                          selectedAddressIndex = index;
+                                        });
                                       },
                                       activeColor: Colors.black,
                                     ),
@@ -100,10 +134,8 @@ class CheckoutScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  )
+                        )
+                      : addressShimmerEffect(size),
                 ],
               ),
               SizedBox(
@@ -124,7 +156,7 @@ class CheckoutScreen extends StatelessWidget {
               ),
               Column(
                 children: List.generate(
-                  1,
+                  2,
                   (index) => Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
@@ -142,25 +174,24 @@ class CheckoutScreen extends StatelessWidget {
                             backgroundColor: Colors.grey[400],
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset("assets/icons/upi.svg"),
+                              child: SvgPicture.asset(paymentIcons[index]),
                             ),
                           ),
-                          title: const Text(
-                            'UPI',
-                            style: TextStyle(
+                          title: Text(
+                            paymentTitles[index],
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          trailing: ValueListenableBuilder(
-                            valueListenable: radioNotifier,
-                            builder: (context, radioIndex, child) => Radio(
-                              value: radioIndex == index,
-                              groupValue: true,
-                              onChanged: (value) {
-                                radioNotifier.value = index;
-                              },
-                              activeColor: Colors.black,
-                            ),
+                          trailing: Radio(
+                            value: selectedPaymentIndex == index,
+                            groupValue: true,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedPaymentIndex = index;
+                              });
+                            },
+                            activeColor: Colors.black,
                           ),
                         ),
                       ),
@@ -210,4 +241,31 @@ class CheckoutScreen extends StatelessWidget {
       ],
     );
   }
+}
+
+addressShimmerEffect(Size size) {
+  return Column(
+    children: List.generate(
+      2,
+      (index) => Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Shimmer(
+                  color: Colors.black,
+                  child: SizedBox(
+                    width: size.width * 0.9,
+                    height: size.height * 0.09,
+                  )),
+            ],
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+        ],
+      ),
+    ),
+  );
 }
