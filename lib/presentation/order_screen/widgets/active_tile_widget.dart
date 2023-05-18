@@ -74,7 +74,9 @@ class ActiveTileWidget extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  orderCancelConfirm(context);
+                                },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
@@ -120,4 +122,83 @@ class ActiveTileWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+orderCancelConfirm(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Container(
+        color: Colors.transparent,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Cancel Order',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Are you sure you want to cancel this order?',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.white)),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(
+                          context, false); // Return false if cancel is pressed
+                    },
+                  ),
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.white)),
+                    child: const Text(
+                      'Confirm',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(
+                          context, true); // Return true if confirm is pressed
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

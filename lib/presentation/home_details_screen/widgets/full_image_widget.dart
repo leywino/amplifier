@@ -76,9 +76,6 @@ class _FullImageScreenState extends State<FullImageScreen> {
               children: [
                 Column(
                   children: [
-                    SizedBox(
-                      height: size.height * 0.15,
-                    ),
                     GestureDetector(
                       onHorizontalDragEnd: (DragEndDetails details) {
                         if (details.velocity.pixelsPerSecond.dx > 0) {
@@ -106,7 +103,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
                         }
                       },
                       child: SizedBox(
-                        height: size.width,
+                        height: size.height * 0.8,
                         width: size.width,
                         child: PageView.builder(
                           onPageChanged: (value) {
@@ -127,9 +124,6 @@ class _FullImageScreenState extends State<FullImageScreen> {
                           },
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.12,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
