@@ -69,7 +69,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
         .doc(email)
         .collection('cart')
         .get();
-
+        
     for (var doc in querySnapshot.docs) {
       productIdList.add(doc.get('productId'));
     }

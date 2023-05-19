@@ -1,8 +1,10 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/core/icons/custom_icon_icons.dart';
+import 'package:amplifier/models/product_model.dart';
 import 'package:amplifier/presentation/home_screen/widget/home_product_tile.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import '../../models/functions.dart';
@@ -24,6 +26,8 @@ class HomeScreen extends StatelessWidget {
         }
       });
     });
+
+
 
     final size = MediaQuery.of(context).size;
     return SafeArea(
@@ -146,9 +150,10 @@ class HomeScreen extends StatelessWidget {
                                   ConnectionState.waiting) {
                                 return homeProductShimmerEffect();
                               }
-                              List myProducts = snapshot.data;
-                              List<dynamic> searchList = myProducts
-                                  .where((element) => element['productName']
+                             List<DocumentSnapshot> documents = snapshot.data!;
+                              List<Products> productList = convertToProductsList(documents);
+                              List<Products> searchList = productList
+                                  .where((element) => element.productName
                                       .toString()
                                       .toLowerCase()
                                       .contains(searchController.text

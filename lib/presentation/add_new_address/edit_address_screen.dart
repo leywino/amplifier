@@ -96,12 +96,13 @@ class _EditAdressScreenState extends State<EditAdressScreen> {
                   onPressed: () async {
                     await updateAddress(
                         Address(
-                            nameController.text.trim(),
-                            int.parse(pincodeController.text.trim()),
-                            addressController.text.trim(),
-                            stateController.text.trim(),
-                            widget.data['defaultAddressBool'],
-                            cityController.text.trim()),
+                          name: nameController.text.trim(),
+                          pinCode: int.parse(pincodeController.text.trim()),
+                          permanentAddress: addressController.text.trim(),
+                          state: stateController.text.trim(),
+                          defaultAddressBool: false,
+                          city: cityController.text.trim(),
+                        ),
                         context,
                         widget.data['id']);
 

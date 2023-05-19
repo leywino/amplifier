@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../../core/colors/main_colors.dart';
+import '../../../models/product_model.dart';
 import '../../home_details_screen/main_home_details.dart';
 import 'add_to_wishlist_button.dart';
 
@@ -12,7 +13,7 @@ class HomeProductTile extends StatelessWidget {
     required this.searchList,
   });
 
-  final List searchList;
+  final List<Products> searchList;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,8 @@ class HomeProductTile extends StatelessWidget {
       childAspectRatio: 1 / 1.8,
       shrinkWrap: true,
       children: List.generate(searchList.length, (index) {
-        int percentage = (searchList[index]['price'] /
-                searchList[index]['actualPrice'] *
+        int percentage = (searchList[index].price /
+                searchList[index].actualPrice *
                 100.0)
             .round();
 
@@ -47,7 +48,7 @@ class HomeProductTile extends StatelessWidget {
               Stack(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: searchList[index]['networkImageList'][0],
+                    imageUrl: searchList[index].networkImageList![0],
                     placeholder: (context, url) => Shimmer(
                       color: Colors.black,
                       child: Container(
@@ -70,25 +71,25 @@ class HomeProductTile extends StatelessWidget {
                 ],
               ),
               Text(
-                searchList[index]['brand'],
+                searchList[index].brand,
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
               Text(
-                searchList[index]['productName'],
+                searchList[index].productName,
                 style: const TextStyle(
                     fontSize: 18,
                     color: kTextBlackColor,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                searchList[index]['description'],
+                searchList[index].description,
                 style: const TextStyle(fontSize: 14, color: kTextBlackColor),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "₹${NumberFormat.decimalPattern().format(searchList[index]['price'])}",
+                    "₹${NumberFormat.decimalPattern().format(searchList[index].price)}",
                     style: const TextStyle(
                         fontSize: 18,
                         color: kTextBlackColor,

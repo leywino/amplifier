@@ -6,12 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../models/product_model.dart';
+
 class AddToCartWidget extends StatefulWidget {
   const AddToCartWidget({
     super.key,
-    this.data,
+    required this.data,
   });
-  final dynamic data;
+  final Products data;
 
   @override
   State<AddToCartWidget> createState() => _AddToCartWidgetState();
@@ -33,7 +35,7 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
         .collection('users')
         .doc(email)
         .collection('cart')
-        .where('productId', isEqualTo: widget.data['id'])
+        .where('productId', isEqualTo: widget.data.id)
         .get();
     if (snapshot.docs.isNotEmpty) {
       setState(() {
@@ -54,9 +56,9 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
               if (alreadyAdded == false) {
                 addToCart(
                     Cart(
-                        productId: widget.data['id'],
+                        productId: widget.data.id,
                         quantity: 1,
-                        price: widget.data['price']),
+                        price: widget.data.price),
                     context);
                 setState(() {
                   alreadyAdded = true;
@@ -68,7 +70,7 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
                     .collection('users')
                     .doc(email)
                     .collection('cart')
-                    .where('productId', isEqualTo: widget.data['id'])
+                    .where('productId', isEqualTo: widget.data.id)
                     .get();
                 await deleteFromCart(snapshot.docs.first.id);
                 setState(() {
