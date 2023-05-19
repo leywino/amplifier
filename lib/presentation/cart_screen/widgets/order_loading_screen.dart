@@ -10,17 +10,21 @@ import '../../../models/functions.dart';
 import '../../../models/order_model.dart';
 
 class OrderLoadingScreen extends StatefulWidget {
-  const OrderLoadingScreen(
-      {super.key,
-      required this.addressMap,
-      required this.totalPrice,
-      required this.paymentMethod,
-      required this.cartList});
+  const OrderLoadingScreen({
+    super.key,
+    required this.addressList,
+    required this.totalPrice,
+    required this.paymentMethod,
+    required this.cartList,
+    required this.productList, required this.cartProductIdList,
+  });
 
-  final Map addressMap;
+  final Map addressList;
   final num totalPrice;
   final String paymentMethod;
   final List cartList;
+  final List productList;
+  final List cartProductIdList;
 
   @override
   State<OrderLoadingScreen> createState() => _OrderLoadingScreenState();
@@ -30,14 +34,17 @@ class _OrderLoadingScreenState extends State<OrderLoadingScreen> {
   final email = FirebaseAuth.instance.currentUser!.email;
   bool checked = false;
   @override
+
+  
   void initState() {
-    deleteAllCart();
+    deleteAllCart(widget.cartProductIdList, widget.cartList,);
     addNewOrder(
         Orders(
-          addressMap: widget.addressMap,
+          addressMap: widget.addressList,
           totalPrice: widget.totalPrice,
           paymentMethod: widget.paymentMethod,
           cartList: widget.cartList,
+          productList: widget.productList,
         ),
         context);
     delayChecked();

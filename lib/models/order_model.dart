@@ -3,6 +3,7 @@ class Orders {
   final num? totalPrice;
   final String? paymentMethod;
   final List? cartList;
+  final List? productList;
 
   Orders.fromJson(Map<String, Object?> json)
       : this(
@@ -10,6 +11,7 @@ class Orders {
           totalPrice: json['totalPrice']! as num,
           paymentMethod: json['paymentMethod']! as String,
           cartList: json['cartList']! as List,
+           productList: json['productList']! as List,
         );
 
   Orders({
@@ -17,5 +19,6 @@ class Orders {
     required this.totalPrice,
     required this.paymentMethod,
     required this.cartList,
+    required this.productList,
   });
 }

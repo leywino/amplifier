@@ -1,5 +1,6 @@
 import 'package:amplifier/models/functions.dart';
 import 'package:amplifier/presentation/cart_screen/main_cart_screen.dart';
+import 'package:amplifier/presentation/login_screen/widgets/forgot_password.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,102 +36,103 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
           child: ValueListenableBuilder(
             valueListenable: editNotifier,
             builder: (context, editBool, child) {
-            return FutureBuilder(
-                      future: FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(email)
-                          .collection('cart')
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center();
-                        }
-                        final data = snapshot.data!.docs.toList();
+              return FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(email)
+                    .collection('cart')
+                    .orderBy('price')
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center();
+                  }
+                  final data = snapshot.data!.docs.toList();
 
-                        if (data.isEmpty) {
-                          return const Text('empty');
-                        }
-                        int totalPrice = 0;
-                        for (int i = 0; i < data.length; i++) {
-                          totalPrice = data[i]['price'] + totalPrice;
-                        }
-                        return Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                if (data[widget.index]['quantity'] != 1) {
-                                  setState(() {});
-                                  int quantity =
-                                      await data[widget.index]['quantity'] - 1;
-                                  num price = 0;
+                  if (data.isEmpty) {
+                    return const Text('empty');
+                  }
+                  int totalPrice = 0;
+                  for (int i = 0; i < data.length; i++) {
+                    totalPrice = data[i]['totalPrice'] + totalPrice;
+                  }
+                  return Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          if (data[widget.index]['quantity'] != 1) {
+                            setState(() {});
+                            int quantity =
+                                await data[widget.index]['quantity'] - 1;
+                            num price = 0;
 
-                                  if (quantity == 0 || quantity == 1) {
-                                    price = await widget
-                                        .productData[widget.index]['price'];
-                                  } else {
-                                    price = await data[widget.index]['price'] -
-                                        widget.productData[widget.index]
-                                            ['price'];
-                                    quantityNotifier.value--;
-                                  }
-                                  quantityNotifier.value--;
-                                  await updateCartQuantity(
-                                      quantity--,
-                                      price,
-                                      data[widget.index]['id'],
-                                      widget.productData[widget.index]
-                                          ['quantity']);
-                                  totalPriceNotifier.value = totalPrice -
-                                      widget.productData[widget.index]['price'];
-                                }
-                              },
-                              child: const Icon(
-                                CupertinoIcons.minus,
-                                size: 16,
-                              ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 5),
-                                child: Text(
-                                    data[widget.index]['quantity'].toString())),
-                            GestureDetector(
-                              onTap: () async {
-                                setState(() {});
-                                int quantity =
-                                    data[widget.index]['quantity'] + 1;
-                                num price = 0;
-                                if (quantity == 0 || quantity == 1) {
-                                  price = await widget.productData[widget.index]
-                                      ['price'];
-                                } else {
-                                  quantityNotifier.value++;
+                            if (quantity == 1) {
+                              price = await widget.productData[widget.index]
+                                  ['price'];
+                            } else {
+                              price = await data[widget.index]['totalPrice'] -
+                                  widget.productData[widget.index]['price'];
+                              quantityNotifier.value--;
+                            }
+                            quantityNotifier.value--;
+                            await updateCartQuantity(
+                                quantity--,
+                                price,
+                                data[widget.index]['id'],
+                                widget.productData[widget.index]['quantity']);
+                            totalPriceNotifier.value = totalPrice -
+                                widget.productData[widget.index]['price'];
+                          }
+                        },
+                        child: const Icon(
+                          CupertinoIcons.minus,
+                          size: 16,
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child:
+                              Text(data[widget.index]['quantity'].toString())),
+                      GestureDetector(
+                        onTap: () async {
+                          if (data[widget.index]['quantity'] !=
+                              widget.productData[widget.index]['quantity']) {
+                            setState(() {});
+                            int quantity = data[widget.index]['quantity'] + 1;
+                            num price = 0;
+                            if (quantity == 1) {
+                              price = await widget.productData[widget.index]
+                                  ['price'];
+                            } else {
+                              quantityNotifier.value++;
 
-                                  price = await widget.productData[widget.index]
-                                          ['price'] +
-                                      data[widget.index]['price'];
-                                }
-                                await updateCartQuantity(
-                                    quantity,
-                                    price,
-                                    data[widget.index]['id'],
-                                    widget.productData[widget.index]
-                                        ['quantity']);
-                                totalPriceNotifier.value = totalPrice +
-                                    widget.productData[widget.index]['price'];
-                              },
-                              child: const Icon(
-                                CupertinoIcons.add,
-                                size: 16,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                 
+                              price = await widget.productData[widget.index]
+                                      ['price'] +
+                                  data[widget.index]['totalPrice'];
+                            }
+                            await updateCartQuantity(
+                                quantity,
+                                price,
+                                data[widget.index]['id'],
+                                widget.productData[widget.index]['quantity']);
+                            totalPriceNotifier.value = totalPrice +
+                                widget.productData[widget.index]['price'];
+                          } else {
+                            showEmailSentSnackbar(
+                                context, "Product out of stock");
+                          }
+                        },
+                        child: const Icon(
+                          CupertinoIcons.add,
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           )),
     );

@@ -1,11 +1,14 @@
 import 'package:amplifier/core/colors/main_colors.dart';
+import 'package:amplifier/models/product_model.dart';
 import 'package:amplifier/presentation/order_screen/widgets/active_tile_widget.dart';
 import 'package:amplifier/presentation/order_screen/widgets/complete_tile_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OrderScreen extends StatelessWidget {
-  const OrderScreen({super.key});
+   OrderScreen({super.key});
+
+  List<Products> cartList = [];
 
   @override
   Widget build(BuildContext context) {

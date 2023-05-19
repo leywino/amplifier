@@ -40,6 +40,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
         .collection('users')
         .doc(email)
         .collection('cart')
+        .orderBy('price')
         .get();
     List<DocumentSnapshot> documents = querySnapshot.docs;
     List<dynamic> cartList = documents.map((doc) => doc.data()).toList();
@@ -50,7 +51,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
     }
     if (querySnapshot.docs.isNotEmpty) {
       for (var doc in querySnapshot.docs) {
-        totalPrice = doc.get('price') + totalPrice;
+        totalPrice = doc.get('totalPrice') + totalPrice;
       }
       if (mounted) {
         setState(() {
@@ -68,6 +69,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
         .collection('users')
         .doc(email)
         .collection('cart')
+        .orderBy('price')
         .get();
 
     for (var doc in querySnapshot.docs) {
@@ -79,6 +81,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('products')
           .where('id', whereIn: productIdList)
+          .orderBy('price')
           .get();
 
       List<DocumentSnapshot> documents = snapshot.docs;
@@ -315,7 +318,8 @@ class _MainCartScreenState extends State<MainCartScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => CheckoutScreen(
-                                  cartProductIdList: productIdList),
+                                  cartProductIdList: productIdList,
+                                  productList: dataList),
                             ));
                       },
                       icon: const Icon(
@@ -369,7 +373,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
                   dataList.removeWhere((item) => item['id'] == documentId);
                 });
                 totalPriceNotifier.value =
-                    totalPrice - querySnapshot.docs.first.get('price');
+                    totalPrice - querySnapshot.docs.first.get('totalPrice');
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
 
