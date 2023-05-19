@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import '../../models/functions.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
@@ -27,12 +28,10 @@ class HomeScreen extends StatelessWidget {
       });
     });
 
-
-
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         body: SingleChildScrollView(
           controller: _scrollController,
           physics: const BouncingScrollPhysics(),
@@ -50,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () => Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => BottomNavBar(
+                            pageBuilder: (_, __, ___) => const BottomNavBar(
                               pageIndex: 1,
                             ),
                             transitionDuration: const Duration(seconds: 0),
@@ -142,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                               if (snapshot.hasError) {
                                 return const Text(
                                   'Something went wrong',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: kBlackColor),
                                 );
                               }
 
@@ -150,8 +149,9 @@ class HomeScreen extends StatelessWidget {
                                   ConnectionState.waiting) {
                                 return homeProductShimmerEffect();
                               }
-                             List<DocumentSnapshot> documents = snapshot.data!;
-                              List<Products> productList = convertToProductsList(documents);
+                              List<DocumentSnapshot> documents = snapshot.data!;
+                              List<Products> productList =
+                                  convertToProductsList(documents);
                               List<Products> searchList = productList
                                   .where((element) => element.productName
                                       .toString()

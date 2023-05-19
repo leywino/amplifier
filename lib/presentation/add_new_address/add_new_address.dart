@@ -20,7 +20,7 @@ class AddNewAddresScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,11 +76,11 @@ class AddNewAddresScreen extends StatelessWidget {
                     await addAddress(
                         Address(
                           name: nameController.text.trim(),
-                         pinCode:  int.parse(pincodeController.text.trim()),
+                          pinCode: int.parse(pincodeController.text.trim()),
                           permanentAddress: addressController.text.trim(),
-                         state:  stateController.text.trim(),
-                         defaultAddressBool:  false,
-                         city:  cityController.text.trim(),
+                          state: stateController.text.trim(),
+                          defaultAddressBool: false,
+                          city: cityController.text.trim(),
                         ),
                         context);
 
@@ -96,11 +96,11 @@ class AddNewAddresScreen extends StatelessWidget {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
-                        side: const BorderSide(color: Colors.black),
+                        side: const BorderSide(color: kBlackColor),
                       ),
                     ),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black),
+                        MaterialStateProperty.all<Color>(kBlackColor),
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(vertical: 20)),
                   ),
@@ -110,7 +110,7 @@ class AddNewAddresScreen extends StatelessWidget {
                       Text(
                         'Add',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: kWhiteColor,
                           fontSize: 20,
                         ),
                       ),

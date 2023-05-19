@@ -15,10 +15,10 @@ class OrderScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: kMainBgColor,
+          backgroundColor: kWhiteColor,
           elevation: 0,
           // automaticallyImplyLeading: true,
-          foregroundColor: Colors.black,
+          foregroundColor: kBlackColor,
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
             icon: const Icon(CupertinoIcons.back),
@@ -57,7 +57,7 @@ class OrderScreen extends StatelessWidget {
             labelColor: kTextBlackColor,
             indicator: UnderlineTabIndicator(
               borderSide: BorderSide(
-                color: Colors.black,
+                color: kBlackColor,
                 width: 3.0,
               ),
               insets: EdgeInsets.symmetric(horizontal: 16.0),

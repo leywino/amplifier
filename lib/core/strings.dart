@@ -25,7 +25,6 @@ final List<String> categoryFirebaseName = [
 final List<String> profileTitles = [
   "Orders",
   "Address",
-  "Dark Mode",
   "Privacy Policy",
   "Terms & Conditions",
   "Log Out",

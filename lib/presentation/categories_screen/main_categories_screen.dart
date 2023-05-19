@@ -10,7 +10,7 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: kMainBgColor,
+      backgroundColor: kWhiteColor,
       body: Column(
         children: [
           const CustomAppBar(
@@ -18,7 +18,11 @@ class CategoriesScreen extends StatelessWidget {
             showBackButton: false,
           ),
           Column(
-            children: List.generate(5, (index) => CategoriesTile(index: index,)),
+            children: List.generate(
+                5,
+                (index) => CategoriesTile(
+                      index: index,
+                    )),
           ),
         ],
       ),

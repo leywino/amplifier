@@ -42,7 +42,7 @@ class _EditAdressScreenState extends State<EditAdressScreen> {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,11 +118,11 @@ class _EditAdressScreenState extends State<EditAdressScreen> {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
-                        side: const BorderSide(color: Colors.black),
+                        side: const BorderSide(color: kBlackColor),
                       ),
                     ),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black),
+                        MaterialStateProperty.all<Color>(kBlackColor),
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(vertical: 20)),
                   ),
@@ -132,7 +132,7 @@ class _EditAdressScreenState extends State<EditAdressScreen> {
                       Text(
                         'Save',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: kWhiteColor,
                           fontSize: 20,
                         ),
                       ),

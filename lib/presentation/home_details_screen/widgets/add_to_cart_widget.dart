@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import '../../../core/colors/main_colors.dart';
 import '../../../models/product_model.dart';
 
 class AddToCartWidget extends StatefulWidget {
@@ -47,7 +47,7 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white.withOpacity(0),
+      color: kWhiteColor.withOpacity(0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -81,7 +81,7 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadiusDirectional.circular(30),
-                  color: Colors.black),
+                  color: kBlackColor),
               child: Padding(
                 padding: !alreadyAdded
                     ? const EdgeInsets.symmetric(horizontal: 20, vertical: 8)
@@ -95,14 +95,14 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
                         padding: const EdgeInsets.only(bottom: 4.0),
                         child: SvgPicture.asset(
                           "assets/icons/bag.svg",
-                          color: Colors.white,
+                          color: kWhiteColor,
                           height: 24,
                         ),
                       ),
                     ),
                     Text(
                       !alreadyAdded ? "Add to Cart" : "Remove from cart",
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                      style: const TextStyle(color: kWhiteColor, fontSize: 20),
                     ),
                   ],
                 ),

@@ -32,7 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         elevation: 0,
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: navbarIndex != 0 ? home1 : home2,
@@ -72,7 +72,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
         ],
         currentIndex: navbarIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: kBlackColor,
         showUnselectedLabels: true,
         iconSize: 20,
         unselectedItemColor: Colors.grey,

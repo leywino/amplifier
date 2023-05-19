@@ -49,7 +49,6 @@ class _AddressScreenState extends State<AddressScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -59,7 +58,7 @@ class _AddressScreenState extends State<AddressScreen> {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: kMainBgColor,
+          backgroundColor: kWhiteColor,
           body: SingleChildScrollView(
             child: Column(children: [
               const CustomAppBar(
@@ -82,7 +81,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     return Padding(
                       padding: const EdgeInsets.all(10),
                       child: Shimmer(
-                          color: Colors.black,
+                          color: kBlackColor,
                           child: const SizedBox(
                             height: 70,
                             width: double.infinity,
@@ -168,7 +167,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                           updateRadioButtonValue(
                                               addressList[index].id!);
                                         },
-                                        activeColor: Colors.black,
+                                        activeColor: kBlackColor,
                                       );
                                     }
                                   }),
@@ -235,7 +234,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       const Text(
                         'Add New Address',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: kBlackColor,
                           fontSize: 20,
                         ),
                       ),

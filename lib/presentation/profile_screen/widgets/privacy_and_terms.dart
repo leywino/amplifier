@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../../core/colors/main_colors.dart';
+
 class SettingsMenuPop extends StatelessWidget {
   SettingsMenuPop({Key? key, this.radius = 8, required this.mdFileName})
       : assert(
@@ -31,7 +33,7 @@ class SettingsMenuPop extends StatelessWidget {
                                   bodyText2: TextStyle(
                                       fontFamily: "Inter",
                                       fontSize: 15.0,
-                                      color: Colors.white)))),
+                                      color: kWhiteColor)))),
                           data: snapshot.data.toString());
                     }
                     return const Center(
@@ -51,7 +53,7 @@ class SettingsMenuPop extends StatelessWidget {
                 width: double.infinity,
                 child: const Text(
                   'OK',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: kWhiteColor),
                 ),
               ))
         ],

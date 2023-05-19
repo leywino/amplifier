@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/colors/main_colors.dart';
 import '../../../models/functions.dart';
 import '../../../models/order_model.dart';
 
@@ -79,7 +80,7 @@ class _OrderLoadingScreenState extends State<OrderLoadingScreen> {
               child: DefaultTextStyle(
                 style: GoogleFonts.comfortaa(
                   fontSize: 30.0,
-                  color: Colors.black,
+                  color: kBlackColor,
                 ),
                 child: AnimatedTextKit(
                   totalRepeatCount: 1,

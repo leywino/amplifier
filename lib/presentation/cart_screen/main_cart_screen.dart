@@ -69,7 +69,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
         .doc(email)
         .collection('cart')
         .get();
-        
+
     for (var doc in querySnapshot.docs) {
       productIdList.add(doc.get('productId'));
     }
@@ -98,12 +98,12 @@ class _MainCartScreenState extends State<MainCartScreen> {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         appBar: AppBar(
-          backgroundColor: kMainBgColor,
+          backgroundColor: kWhiteColor,
           elevation: 0,
           // automaticallyImplyLeading: true,
-          foregroundColor: Colors.black,
+          foregroundColor: kBlackColor,
 
           title: const Text(
             "My Cart",
@@ -140,7 +140,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
                     // if (snapshot.hasError) {
                     //   return const Text(
                     //     'Something went wrong',
-                    //     style: TextStyle(color: Colors.black),
+                    //     style: TextStyle(color: kBlackColor),
                     //   );
                     // }
                     // // if (snapshot.connectionState == ConnectionState.waiting) {
@@ -175,104 +175,101 @@ class _MainCartScreenState extends State<MainCartScreen> {
                             // width: 300,
                             height: size.height * 0.16,
                             // color: Colors.red,
-                            child: Container(
-                              // color: Colors.red,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    child: CachedNetworkImage(
-                                      imageUrl: dataList[index]
-                                          ['networkImageList'][0],
-                                      height: 120,
-                                      placeholder: (context, url) => Shimmer(
-                                        color: Colors.black,
-                                        child: const SizedBox(
-                                          height: 120,
-                                          width: 120,
-                                        ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: CachedNetworkImage(
+                                    imageUrl: dataList[index]
+                                        ['networkImageList'][0],
+                                    height: 120,
+                                    placeholder: (context, url) => Shimmer(
+                                      color: kBlackColor,
+                                      child: const SizedBox(
+                                        height: 120,
+                                        width: 120,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Wrap(
-                                        crossAxisAlignment:
-                                            WrapCrossAlignment.center,
-                                        // spacing: size.width * 0.2,
-                                        children: [
-                                          SizedBox(
-                                            width: size.width * 0.5,
-                                            child: Text(
-                                              "${dataList[index]['brand']} - ${dataList[index]['productName']}",
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      // spacing: size.width * 0.2,
+                                      children: [
+                                        SizedBox(
+                                          width: size.width * 0.5,
+                                          child: Text(
+                                            "${dataList[index]['brand']} - ${dataList[index]['productName']}",
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
                                             ),
                                           ),
-                                          IconButton(
-                                                  onPressed: () {
-                                                    showDeleteConfirmationDialog(
-                                                        context,
-                                                        dataList[index]['id'],
-                                                        dataList);
-                                                  },
-                                                  icon: SvgPicture.asset(
-                                                    'assets/icons/delete.svg',
-                                                    color: Colors.red,
-                                                  ),
-                                                )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.06,
-                                        width: size.width * 0.6,
-                                        child: Text(
-                                          dataList[index]['description'],
-                                          style: const TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                          ),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          QuantityCartWidget(
-                                            index: index,
-                                            productData: dataList,
+                                        IconButton(
+                                          onPressed: () {
+                                            showDeleteConfirmationDialog(
+                                                context,
+                                                dataList[index]['id'],
+                                                dataList);
+                                          },
+                                          icon: SvgPicture.asset(
+                                            'assets/icons/delete.svg',
+                                            // ignore: deprecated_member_use
+                                            color: Colors.red,
                                           ),
-                                          SizedBox(
-                                            width: size.width * 0.2,
-                                          ),
-                                          FittedBox(
-                                            child: Text(
-                                              "₹${dataList[index]['price']}",
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                              ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.06,
+                                      width: size.width * 0.6,
+                                      child: Text(
+                                        dataList[index]['description'],
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          color: kBlackColor,
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        QuantityCartWidget(
+                                          index: index,
+                                          productData: dataList,
+                                        ),
+                                        SizedBox(
+                                          width: size.width * 0.2,
+                                        ),
+                                        FittedBox(
+                                          child: Text(
+                                            "₹${dataList[index]['price']}",
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -287,7 +284,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
         bottomSheet: Visibility(
           visible: dataList.isNotEmpty,
           child: Container(
-            color: kMainBgColor,
+            color: kWhiteColor,
             height: size.height * 0.1,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -309,7 +306,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: kBlackColor,
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: TextButton.icon(
@@ -323,12 +320,12 @@ class _MainCartScreenState extends State<MainCartScreen> {
                       },
                       icon: const Icon(
                         CupertinoIcons.checkmark_square,
-                        color: Colors.white,
+                        color: kWhiteColor,
                         size: 30,
                       ),
                       label: const Text(
                         'Checkout',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: kWhiteColor, fontSize: 24),
                       ),
                     ),
                   ),
@@ -427,7 +424,7 @@ cartShimmerEffect(Size size) {
               Column(
                 children: [
                   Shimmer(
-                    color: Colors.black,
+                    color: kBlackColor,
                     child: const SizedBox(
                       height: 140,
                       width: 100,
@@ -450,7 +447,7 @@ cartShimmerEffect(Size size) {
                     spacing: 10,
                     children: [
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: SizedBox(
                           // color: Colors.red,
                           width: size.width * 0.5,
@@ -459,7 +456,7 @@ cartShimmerEffect(Size size) {
                         ),
                       ),
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: const SizedBox(
                           height: 30,
                           width: 30,
@@ -468,7 +465,7 @@ cartShimmerEffect(Size size) {
                     ],
                   ),
                   Shimmer(
-                    color: Colors.black,
+                    color: kBlackColor,
                     child: SizedBox(
                       height: size.height * 0.06,
                       width: size.width * 0.6,
@@ -482,14 +479,14 @@ cartShimmerEffect(Size size) {
                     spacing: size.width * 0.2,
                     children: [
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: SizedBox(
                           width: size.width * 0.2,
                           height: 25,
                         ),
                       ),
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: SizedBox(
                           width: size.width * 0.2,
                           height: 25,

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:amplifier/presentation/widgets/text_field_widget.dart';
@@ -39,7 +38,7 @@ class EditProfileScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,7 +83,7 @@ class EditProfileScreen extends StatelessWidget {
               ),
               SizedBox(
                 height: size.height * 0.3,
-            ),
+              ),
               ValueListenableBuilder(
                 valueListenable: editNotifier,
                 builder: (context, editOrUpdate, child) => TextButton(
@@ -96,11 +95,11 @@ class EditProfileScreen extends StatelessWidget {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
-                        side: const BorderSide(color: Colors.black),
+                        side: const BorderSide(color: kBlackColor),
                       ),
                     ),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black),
+                        MaterialStateProperty.all<Color>(kBlackColor),
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         EdgeInsets.symmetric(
                             horizontal: size.width * 0.30, vertical: 20)),
@@ -108,7 +107,7 @@ class EditProfileScreen extends StatelessWidget {
                   child: Text(
                     !editOrUpdate ? 'Edit' : 'Update',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: kWhiteColor,
                       fontSize: 20,
                     ),
                   ),

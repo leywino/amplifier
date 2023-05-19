@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import '../../../core/colors/main_colors.dart';
 
 class CompletedTileWidget extends StatelessWidget {
   const CompletedTileWidget({
@@ -34,7 +35,7 @@ class CompletedTileWidget extends StatelessWidget {
                     imageUrl:
                         'https://firebasestorage.googleapis.com/v0/b/leywin-amplifier.appspot.com/o/images%2Fchu?alt=media&token=c9313e96-0b5f-4116-8030-a268c7c47e36',
                     placeholder: (context, url) => Shimmer(
-                      color: Colors.black,
+                      color: kBlackColor,
                       child: Container(
                         decoration: const BoxDecoration(shape: BoxShape.circle),
                         width: size.width,
@@ -70,7 +71,7 @@ class CompletedTileWidget extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.black,
+                                color: kBlackColor,
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -80,7 +81,7 @@ class CompletedTileWidget extends StatelessWidget {
                                 child: const Text(
                                   'Buy Again',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: kWhiteColor,
                                     fontSize: 16,
                                   ),
                                 ),

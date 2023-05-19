@@ -65,7 +65,7 @@ class TextFieldWidget extends StatelessWidget {
                           controller: textController,
                           obscureText: hideField,
                           keyboardType: numPad ? TextInputType.phone : null,
-                          maxLines: hideField ? 1 :null,
+                          maxLines: hideField ? 1 : null,
                           decoration: InputDecoration(
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,

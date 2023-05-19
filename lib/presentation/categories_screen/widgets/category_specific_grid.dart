@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/models/functions.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
@@ -54,12 +53,12 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
         final data = snapshot.data;
         return SafeArea(
           child: Scaffold(
-            backgroundColor: kMainBgColor,
+            backgroundColor: kWhiteColor,
             appBar: AppBar(
-              backgroundColor: kMainBgColor,
+              backgroundColor: kWhiteColor,
               elevation: 0,
               // automaticallyImplyLeading: true,
-              foregroundColor: Colors.black,
+              foregroundColor: kBlackColor,
 
               title: Text(
                 widget.categoryTitle,
@@ -104,7 +103,7 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
                                     imageUrl: data[index]['networkImageList']
                                         [0],
                                     placeholder: (context, url) => Shimmer(
-                                      color: Colors.black,
+                                      color: kBlackColor,
                                       child: Container(
                                         decoration: const BoxDecoration(
                                             shape: BoxShape.circle),
@@ -200,7 +199,7 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
 categoryShimmerEffect() {
   return SafeArea(
     child: Scaffold(
-      backgroundColor: kMainBgColor,
+      backgroundColor: kWhiteColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -224,7 +223,7 @@ categoryShimmerEffect() {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: Container(
                           height: 180,
                         ),
@@ -233,7 +232,7 @@ categoryShimmerEffect() {
                         height: 5,
                       ),
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: Container(
                           height: 10,
                         ),
@@ -242,7 +241,7 @@ categoryShimmerEffect() {
                         height: 5,
                       ),
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: Container(
                           height: 10,
                         ),
@@ -251,7 +250,7 @@ categoryShimmerEffect() {
                         height: 5,
                       ),
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: Container(
                           height: 10,
                         ),
@@ -260,7 +259,7 @@ categoryShimmerEffect() {
                         height: 5,
                       ),
                       Shimmer(
-                        color: Colors.black,
+                        color: kBlackColor,
                         child: const SizedBox(
                           height: 30,
                           width: 100,
