@@ -23,6 +23,8 @@ class MainCartScreen extends StatefulWidget {
 
 class _MainCartScreenState extends State<MainCartScreen> {
   List dataList = [];
+  List productIdList = [];
+  List cartList = [];
   bool cartIsEmpty = false;
   @override
   void initState() {
@@ -39,7 +41,13 @@ class _MainCartScreenState extends State<MainCartScreen> {
         .doc(email)
         .collection('cart')
         .get();
-
+    List<DocumentSnapshot> documents = querySnapshot.docs;
+    List<dynamic> cartList = documents.map((doc) => doc.data()).toList();
+    if (mounted) {
+      setState(() {
+        this.cartList = cartList;
+      });
+    }
     if (querySnapshot.docs.isNotEmpty) {
       for (var doc in querySnapshot.docs) {
         totalPrice = doc.get('price') + totalPrice;
@@ -78,6 +86,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
       if (mounted) {
         setState(() {
           this.dataList = dataList;
+          this.productIdList = productIdList;
         });
       }
     }
@@ -86,6 +95,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
   int totalPrice = 0;
   @override
   Widget build(BuildContext context) {
+    bool codAvailable = totalPrice > 50000;
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -314,7 +324,8 @@ class _MainCartScreenState extends State<MainCartScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CheckoutScreen(),
+                              builder: (context) => CheckoutScreen(
+                                  cartProductIdList: productIdList),
                             ));
                       },
                       icon: const Icon(
