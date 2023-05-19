@@ -24,19 +24,19 @@ Stream getProducts() async* {
   yield docs;
 }
 
-      List<Products> convertToProductsList(List<DocumentSnapshot> documents) {
-    return documents.map((snapshot) {
-      return Products.fromJson(snapshot.data() as Map<String, dynamic>);
-    }).toList();
-  }
+List<Products> convertToProductsList(List<DocumentSnapshot> documents) {
+  return documents.map((snapshot) {
+    return Products.fromJson(snapshot.data() as Map<String, dynamic>);
+  }).toList();
+}
 
 //wishlist section
 
-      List<Products> convertToWishList(List<DocumentSnapshot> documents) {
-    return documents.map((snapshot) {
-      return Products.fromJson(snapshot.data() as Map<String, dynamic>);
-    }).toList();
-  }
+List<Products> convertToWishList(List<DocumentSnapshot> documents) {
+  return documents.map((snapshot) {
+    return Products.fromJson(snapshot.data() as Map<String, dynamic>);
+  }).toList();
+}
 
 Future<void> addToWishlist(Wishlist wishlistClass, BuildContext context) async {
   final users = FirebaseFirestore.instance.collection('users');
@@ -72,12 +72,11 @@ Future<void> deleteFromWishlist(String id) {
 
 //address section
 
-  List<Address> convertToAddressList(List<DocumentSnapshot> documents) {
-    return documents.map((snapshot) {
-      return Address.fromJson(snapshot.data() as Map<String, dynamic>);
-    }).toList();
-  }
-
+List<Address> convertToAddressList(List<DocumentSnapshot> documents) {
+  return documents.map((snapshot) {
+    return Address.fromJson(snapshot.data() as Map<String, dynamic>);
+  }).toList();
+}
 
 Stream getAddress() async* {
   final String email = FirebaseAuth.instance.currentUser!.email!;
@@ -189,6 +188,7 @@ Future<void> addToCart(Cart cartClass, BuildContext context) async {
       'color': cartClass.color,
       'quantity': cartClass.quantity,
       'price': cartClass.price,
+      'totalPrice': cartClass.totalPrice
     });
     log("Added to cart");
   } catch (error) {
@@ -210,8 +210,25 @@ Future<void> deleteFromCart(String id) {
   });
 }
 
-void deleteAllCart() async {
+void deleteAllCart(List cartProductIdList, List cartList) async {
   final String email = FirebaseAuth.instance.currentUser!.email!;
+  QuerySnapshot productSnapshot = await FirebaseFirestore.instance
+      .collection('products')
+      .where('id', whereIn: cartProductIdList)
+      .orderBy('price')
+      .get();
+
+  List<DocumentSnapshot> documents = productSnapshot.docs;
+  List<dynamic> productList = documents.map((doc) => doc.data()).toList();
+
+  for (int i = 0; i < cartProductIdList.length; i++) {
+    FirebaseFirestore.instance
+        .collection('products')
+        .doc(cartProductIdList[i])
+        .update({
+      'quantity': (productList[i]['quantity'] - cartList[i]['quantity']),
+    });
+  }
   CollectionReference products = FirebaseFirestore.instance
       .collection('users')
       .doc(email)
@@ -226,7 +243,7 @@ void deleteAllCart() async {
 }
 
 Future<void> updateCartQuantity(
-    int quantity, num price, String id, int productQuantity) async {
+    int quantity, num totalPrice, String id, int productQuantity) async {
   final users = FirebaseFirestore.instance.collection('users');
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final reference = users.doc(email).collection('cart').doc(id);
@@ -234,7 +251,7 @@ Future<void> updateCartQuantity(
     if (quantity <= productQuantity) {
       await reference.update({
         'quantity': quantity,
-        'price': price,
+        'totalPrice': totalPrice,
       });
       log("Updated cart quantity");
     } else {
@@ -246,6 +263,12 @@ Future<void> updateCartQuantity(
 }
 
 //order section
+
+List<Orders> convertToOrderList(List<DocumentSnapshot> documents) {
+  return documents.map((snapshot) {
+    return Orders.fromJson(snapshot.data() as Map<String, dynamic>);
+  }).toList();
+}
 
 Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
   final reference = FirebaseFirestore.instance
@@ -259,6 +282,7 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
       'cartList': orderclass.cartList,
       'totalPrice': orderclass.totalPrice,
       'paymentMethod': orderclass.paymentMethod,
+      'productList': orderclass.productList,
       'email': email,
       'orderStatus': 'Pending',
     });

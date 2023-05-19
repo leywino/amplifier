@@ -10,8 +10,10 @@ import '../../../core/strings.dart';
 import '../../widgets/custom_app_bar.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key, required this.cartProductIdList});
+  const CheckoutScreen(
+      {super.key, required this.cartProductIdList, required this.productList});
   final List cartProductIdList;
+  final List productList;
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -53,7 +55,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         .doc(email)
         .collection('cart');
 
-    QuerySnapshot snapshot = await reference.get();
+    QuerySnapshot snapshot = await reference.orderBy('price').get();
 
     List<DocumentSnapshot> documents = snapshot.docs;
     List<dynamic> cartList = documents.map((doc) => doc.data()).toList();
@@ -82,7 +84,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     num totalPrice = 0;
     num totalQuantity = 0;
     for (int i = 0; i < cartList.length; i++) {
-      totalPrice += cartList[i]['price'];
+      totalPrice += cartList[i]['totalPrice'];
     }
     for (int i = 0; i < cartList.length; i++) {
       totalQuantity += cartList[i]['quantity'];
@@ -422,12 +424,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => OrderLoadingScreen(
-                                      addressMap:
-                                          addressList[selectedAddressIndex],
-                                      totalPrice: totalPrice,
-                                      paymentMethod:
-                                          paymentTitles[selectedPaymentIndex],
-                                      cartList: cartList),
+                                    addressList:
+                                        addressList[selectedAddressIndex],
+                                    totalPrice: totalPrice,
+                                    paymentMethod:
+                                        paymentTitles[selectedPaymentIndex],
+                                    cartList: cartList,
+                                    productList: widget.productList,
+                                    cartProductIdList: widget.cartProductIdList,
+                                  ),
                                 ));
                           }
                         },

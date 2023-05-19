@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:amplifier/models/cart_model.dart';
 import 'package:amplifier/models/functions.dart';
+import 'package:amplifier/presentation/login_screen/widgets/forgot_password.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -54,15 +55,22 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
           InkWell(
             onTap: () async {
               if (alreadyAdded == false) {
-                addToCart(
-                    Cart(
+                if (widget.data.quantity > 0) {
+                  addToCart(
+                      Cart(
                         productId: widget.data.id,
                         quantity: 1,
-                        price: widget.data.price),
-                    context);
-                setState(() {
-                  alreadyAdded = true;
-                });
+                        price: widget.data.price,
+                        totalPrice: widget.data.price,
+                      ),
+                      context);
+                  setState(() {
+                    alreadyAdded = true;
+                  });
+                } else {
+                  showEmailSentSnackbar(
+                      context, "This product is out of stock");
+                }
               } else {
                 final FirebaseFirestore firestore = FirebaseFirestore.instance;
                 final String email = FirebaseAuth.instance.currentUser!.email!;
