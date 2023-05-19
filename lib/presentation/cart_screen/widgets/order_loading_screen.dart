@@ -1,6 +1,7 @@
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:checkmark/checkmark.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,16 +26,18 @@ class OrderLoadingScreen extends StatefulWidget {
 }
 
 class _OrderLoadingScreenState extends State<OrderLoadingScreen> {
+  final email = FirebaseAuth.instance.currentUser!.email;
   bool checked = false;
   @override
   void initState() {
     deleteAllCart();
     addNewOrder(
         Orders(
-            addressMap: widget.addressMap,
-            totalPrice: widget.totalPrice,
-            paymentMethod: widget.paymentMethod,
-            cartList: widget.cartList),
+          addressMap: widget.addressMap,
+          totalPrice: widget.totalPrice,
+          paymentMethod: widget.paymentMethod,
+          cartList: widget.cartList,
+        ),
         context);
     delayChecked();
     super.initState();

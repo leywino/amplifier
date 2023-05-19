@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:amplifier/models/product_model.dart';
 import 'package:amplifier/models/wishlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +24,19 @@ Stream getProducts() async* {
   yield docs;
 }
 
+      List<Products> convertToProductsList(List<DocumentSnapshot> documents) {
+    return documents.map((snapshot) {
+      return Products.fromJson(snapshot.data() as Map<String, dynamic>);
+    }).toList();
+  }
+
 //wishlist section
+
+      List<Products> convertToWishList(List<DocumentSnapshot> documents) {
+    return documents.map((snapshot) {
+      return Products.fromJson(snapshot.data() as Map<String, dynamic>);
+    }).toList();
+  }
 
 Future<void> addToWishlist(Wishlist wishlistClass, BuildContext context) async {
   final users = FirebaseFirestore.instance.collection('users');
@@ -58,6 +71,13 @@ Future<void> deleteFromWishlist(String id) {
 }
 
 //address section
+
+  List<Address> convertToAddressList(List<DocumentSnapshot> documents) {
+    return documents.map((snapshot) {
+      return Address.fromJson(snapshot.data() as Map<String, dynamic>);
+    }).toList();
+  }
+
 
 Stream getAddress() async* {
   final String email = FirebaseAuth.instance.currentUser!.email!;
@@ -228,9 +248,10 @@ Future<void> updateCartQuantity(
 //order section
 
 Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
-  final users = FirebaseFirestore.instance.collection('users');
+  final reference = FirebaseFirestore.instance
+      .collection('orders')
+      .doc(DateTime.now().toString());
   final String email = FirebaseAuth.instance.currentUser!.email!;
-  final reference = users.doc(email).collection('orders').doc();
   try {
     await reference.set({
       'addressMap': orderclass.addressMap,
@@ -238,6 +259,8 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
       'cartList': orderclass.cartList,
       'totalPrice': orderclass.totalPrice,
       'paymentMethod': orderclass.paymentMethod,
+      'email': email,
+      'orderStatus': 'Pending',
     });
     log("new order placed");
   } catch (error) {

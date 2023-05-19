@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../core/icons/genereal_icons.dart';
 import '../../../models/functions.dart';
+import '../../../models/product_model.dart';
 import '../../../models/wishlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,7 +14,7 @@ class WishlistButton extends StatefulWidget {
     required this.index,
   });
 
-  final List searchList;
+  final List<Products> searchList;
   final int index;
 
   @override
@@ -37,7 +38,7 @@ class _WishlistButtonState extends State<WishlistButton> {
         .doc(email)
         .collection('wishlist')
         .where('email', isEqualTo: email)
-        .where('productId', isEqualTo: widget.searchList[widget.index]['id'])
+        .where('productId', isEqualTo: widget.searchList[widget.index].id)
         .get();
     if (snapshot.docs.isNotEmpty) {
       if (mounted) {
@@ -55,7 +56,7 @@ class _WishlistButtonState extends State<WishlistButton> {
         if (!alreadyAdded) {
           addToWishlist(
               Wishlist(
-                id: widget.searchList[widget.index]['id'],
+                id: widget.searchList[widget.index].id,
               ),
               context);
           setState(() {
@@ -70,7 +71,7 @@ class _WishlistButtonState extends State<WishlistButton> {
               .collection('wishlist')
               .where('email', isEqualTo: email)
               .where('productId',
-                  isEqualTo: widget.searchList[widget.index]['id'])
+                  isEqualTo: widget.searchList[widget.index].id)
               .get();
           await deleteFromWishlist(snapshot.docs.first.id);
           setState(() {

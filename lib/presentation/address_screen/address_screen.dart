@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import '../../models/address_model.dart';
 import '../../models/functions.dart';
 import '../add_new_address/add_new_address.dart';
 
@@ -48,6 +49,7 @@ class _AddressScreenState extends State<AddressScreen> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -88,9 +90,11 @@ class _AddressScreenState extends State<AddressScreen> {
                     );
                   }
                   List<DocumentSnapshot> documents = snapshot.data!;
+                  List<Address> addressList = convertToAddressList(documents);
+
                   return Column(
                     children: List.generate(
-                      documents.length,
+                      addressList.length,
                       (index) => Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 15, vertical: 6),
@@ -108,7 +112,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => EditAdressScreen(
-                                        data: documents[index]),
+                                        data: addressList[index]),
                                   ),
                                 );
                               },
@@ -122,7 +126,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    documents[index]['name'],
+                                    addressList[index].name!,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -130,7 +134,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                   const SizedBox(height: 4.0),
                                   FittedBox(
                                     child: Text(
-                                      '${documents[index]['state']}, ${documents[index]['city']}, ${documents[index]['pin code']}',
+                                      '${addressList[index].state!}, ${addressList[index].city!}, ${addressList[index].pinCode}',
                                       style: TextStyle(
                                           color: Colors.grey[600],
                                           fontSize: 12),
@@ -148,7 +152,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                           onTap: () {
                                             showDeleteConfirmationDialog(
                                                 context,
-                                                documents[index]['id']);
+                                                addressList[index].id!);
                                           },
                                           child: SvgPicture.asset(
                                               'assets/icons/delete.svg'),
@@ -162,7 +166,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                           radioNotifier.value = index;
 
                                           updateRadioButtonValue(
-                                              documents[index]['id']);
+                                              addressList[index].id!);
                                         },
                                         activeColor: Colors.black,
                                       );

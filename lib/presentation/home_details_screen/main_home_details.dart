@@ -1,4 +1,5 @@
 import 'package:amplifier/core/colors/main_colors.dart';
+import 'package:amplifier/models/product_model.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/add_to_cart_widget.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/full_image_widget.dart';
 import 'package:amplifier/presentation/home_screen/widget/add_to_wishlist_button.dart';
@@ -17,8 +18,8 @@ class HomeDetailsPage extends StatefulWidget {
       required this.productList,
       required this.index});
 
-  final dynamic data;
-  final List productList;
+  final Products data;
+  final List<Products> productList;
   final int index;
 
   @override
@@ -40,7 +41,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
   @override
   Widget build(BuildContext context) {
     int percentage =
-        (widget.data['price'] / widget.data['actualPrice'] * 100.0).round();
+        (widget.data.price / widget.data.actualPrice * 100.0).round();
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Stack(
@@ -50,7 +51,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  widget.data['networkImageList'].length == 1
+                  widget.data.networkImageList!.length == 1
                       ? Stack(
                           children: [
                             GestureDetector(
@@ -60,11 +61,11 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                     MaterialPageRoute(
                                       builder: (context) => FullImageScreen(
                                           imageUrl: widget
-                                              .data['networkImageList'][0]),
+                                              .data.networkImageList!.first),
                                     ));
                               },
                               child: CachedNetworkImage(
-                                imageUrl: widget.data['networkImageList'][0],
+                                imageUrl: widget.data.networkImageList!.first,
                                 placeholder: (context, url) => Shimmer(
                                   color: Colors.black,
                                   child: Container(
@@ -87,7 +88,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                       MaterialPageRoute(
                                         builder: (context) => FullImageScreen(
                                             imageUrl: widget
-                                                .data['networkImageList'][0]),
+                                                .data.networkImageList!.first),
                                       ));
                                 },
                                 child: SvgPicture.asset(
@@ -102,19 +103,19 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                           children: [
                             FlutterCarousel(
                               items: List.generate(
-                                widget.data['networkImageList'].length,
+                                widget.data.networkImageList!.length,
                                 (index) => GestureDetector(
                                   onTap: () => Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => FullImageScreen(
                                           imageList:
-                                              widget.data['networkImageList'],
+                                              widget.data.networkImageList!,
                                           isCarousal: true,
                                         ),
                                       )),
                                   child: CachedNetworkImage(
-                                    imageUrl: widget.data['networkImageList']
+                                    imageUrl: widget.data.networkImageList!
                                         [index],
                                     placeholder: (context, url) => Shimmer(
                                       color: Colors.black,
@@ -151,7 +152,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                       MaterialPageRoute(
                                         builder: (context) => FullImageScreen(
                                             imageUrl: widget
-                                                .data['networkImageList'][0]),
+                                                .data.networkImageList!.first),
                                       ));
                                 },
                                 child: SvgPicture.asset(
@@ -175,7 +176,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                             SizedBox(
                               width: size.width * 0.8,
                               child: Text(
-                                "${widget.data['brand']} - ${widget.data['productName']}",
+                                "${widget.data.brand} - ${widget.data.productName}",
                                 style: const TextStyle(
                                     fontSize: 26, fontWeight: FontWeight.bold),
                               ),
@@ -186,7 +187,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                           ],
                         ),
                         Text(
-                          widget.data['description'],
+                          widget.data.description,
                           style: const TextStyle(fontSize: 18),
                         ),
                         SizedBox(
@@ -196,7 +197,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "₹${NumberFormat.decimalPattern().format(widget.data['price'])}",
+                              "₹${NumberFormat.decimalPattern().format(widget.data.price)}",
                               style: const TextStyle(
                                   fontSize: 28,
                                   color: kTextBlackColor,
@@ -215,7 +216,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                         SizedBox(
                           width: size.width,
                           child: Text(
-                            widget.data['long description'],
+                            widget.data.longDescription,
                             style: const TextStyle(fontSize: 18),
                           ),
                         ),
@@ -223,7 +224,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                           height: size.height * 0.02,
                         ),
                         Visibility(
-                          visible: widget.data['networkImageList'].length != 1,
+                          visible: widget.data.networkImageList!.length != 1,
                           child: Column(
                             children: [
                               Row(
@@ -238,7 +239,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                     valueListenable: choiceColorNotifier,
                                     builder: (context, selectedIndex, child) =>
                                         Text(
-                                      widget.data['colorStringList']
+                                      widget.data.colorStringList!
                                           [selectedIndex],
                                       style: TextStyle(
                                         color: Colors.grey[700],
@@ -251,7 +252,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 // implement choicechip color idiot
                                 children: List.generate(
-                                    widget.data['networkImageList'].length,
+                                    widget.data.networkImageList!.length,
                                     (index) => ValueListenableBuilder(
                                           valueListenable: choiceColorNotifier,
                                           builder: (context, selectedIndex,
@@ -279,8 +280,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                                                 )),
                                                       image: DecorationImage(
                                                         image: NetworkImage(
-                                                          widget.data[
-                                                                  'networkImageList']
+                                                          widget.data.networkImageList!
                                                               [index],
                                                         ),
                                                       ),

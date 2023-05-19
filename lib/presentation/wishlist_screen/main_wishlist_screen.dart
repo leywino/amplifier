@@ -1,5 +1,6 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/models/functions.dart';
+import 'package:amplifier/models/product_model.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +17,7 @@ class MainWishlistScreen extends StatefulWidget {
 }
 
 class _MainWishlistScreenState extends State<MainWishlistScreen> {
-  List dataList = [];
+  List<Products> dataList = [];
 
   @override
   void initState() {
@@ -43,9 +44,10 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
           .get();
 
       List<DocumentSnapshot> documents = snapshot.docs;
-      List<dynamic> dataList = documents.map((doc) => doc.data()).toList();
+      List<Products> wishlistList = convertToWishList(documents);
+    } else {
       setState(() {
-        this.dataList = dataList;
+        dataList = [];
       });
     }
   }
@@ -124,7 +126,7 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                                     // color: Colors.red,
                                     image: DecorationImage(
                                   image: NetworkImage(dataList[index]
-                                          ['networkImageList']
+                                          .networkImageList!
                                       .first),
                                   fit: BoxFit.cover,
                                 )),
@@ -146,9 +148,8 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                                               .where('email', isEqualTo: email)
                                               .where('productId',
                                                   isEqualTo: dataList[index]
-                                                      ['id'])
+                                                      .id)
                                               .get();
-
                                       getProduct();
                                       deleteFromWishlist(
                                           snapshot.docs.first.id);
@@ -163,19 +164,19 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                             ],
                           ),
                           Text(
-                            dataList[index]['brand'],
+                            dataList[index].brand,
                             style: const TextStyle(
                                 fontSize: 12, color: Colors.grey),
                           ),
                           Text(
-                            dataList[index]['productName'],
+                            dataList[index].productName,
                             style: const TextStyle(
                                 fontSize: 18,
                                 color: kTextBlackColor,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            dataList[index]['description'],
+                            dataList[index].description,
                             style: const TextStyle(
                                 fontSize: 14, color: kTextBlackColor),
                             // overflow: TextOverflow.ellipsis,
@@ -184,7 +185,7 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "₹${NumberFormat.decimalPattern().format(dataList[index]['price'])}",
+                                "₹${NumberFormat.decimalPattern().format(dataList[index].price)}",
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: kTextBlackColor,
