@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'address_model.dart';
 import 'cart_model.dart';
+import 'order_model.dart';
 
 void showSnackbar(BuildContext context, String message) {
   final snackBar = SnackBar(
@@ -206,5 +207,27 @@ Future<void> updateCartQuantity(
     }
   } catch (error) {
     log("Failed to update address: $error");
+  }
+}
+
+//order section
+
+Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
+  final users = FirebaseFirestore.instance.collection('users');
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  final reference = users.doc(email).collection('cart').doc();
+  try {
+    showSnackbar(context, "New order placed");
+    await reference.set({
+      'addressMap': orderclass.addressMap,
+      'id': reference.id,
+      'cartList': orderclass.cartList,
+      'totalPrice': orderclass.totalPrice,
+      'paymentMethod': orderclass.paymentMethod,
+    });
+    log("new order placed");
+  } catch (error) {
+    showSnackbar(context, "Failed to place new order: $error");
+    log("Failed to place new order: $error");
   }
 }

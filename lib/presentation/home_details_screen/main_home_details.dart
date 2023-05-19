@@ -108,9 +108,10 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => FullImageScreen(
-                                            imageList:
-                                                widget.data['networkImageList'],isCarousal: true,
-                                                    ),
+                                          imageList:
+                                              widget.data['networkImageList'],
+                                          isCarousal: true,
+                                        ),
                                       )),
                                   child: CachedNetworkImage(
                                     imageUrl: widget.data['networkImageList']
@@ -213,12 +214,9 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                         ),
                         SizedBox(
                           width: size.width,
-                          child: Flexible(
-                            fit: FlexFit.loose,
-                            child: Text(
-                              widget.data['long description'],
-                              style: const TextStyle(fontSize: 18),
-                            ),
+                          child: Text(
+                            widget.data['long description'],
+                            style: const TextStyle(fontSize: 18),
                           ),
                         ),
                         SizedBox(

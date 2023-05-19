@@ -62,28 +62,31 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                setState(() {});
-                                int quantity =
-                                    await data[widget.index]['quantity'] - 1;
-                                num price = 0;
+                                if (data[widget.index]['quantity'] != 1) {
+                                  setState(() {});
+                                  int quantity =
+                                      await data[widget.index]['quantity'] - 1;
+                                  num price = 0;
 
-                                if (quantity == 0 || quantity == 1) {
-                                  price = await widget.productData[widget.index]
-                                      ['price'];
-                                } else {
-                                  price = await data[widget.index]['price'] -
-                                      widget.productData[widget.index]['price'];
+                                  if (quantity == 0 || quantity == 1) {
+                                    price = await widget
+                                        .productData[widget.index]['price'];
+                                  } else {
+                                    price = await data[widget.index]['price'] -
+                                        widget.productData[widget.index]
+                                            ['price'];
+                                    quantityNotifier.value--;
+                                  }
                                   quantityNotifier.value--;
+                                  await updateCartQuantity(
+                                      quantity--,
+                                      price,
+                                      data[widget.index]['id'],
+                                      widget.productData[widget.index]
+                                          ['quantity']);
+                                  totalPriceNotifier.value = totalPrice -
+                                      widget.productData[widget.index]['price'];
                                 }
-                                quantityNotifier.value--;
-                                await updateCartQuantity(
-                                    quantity--,
-                                    price,
-                                    data[widget.index]['id'],
-                                    widget.productData[widget.index]
-                                        ['quantity']);
-                                totalPriceNotifier.value = totalPrice -
-                                    widget.productData[widget.index]['price'];
                               },
                               child: const Icon(
                                 CupertinoIcons.minus,
