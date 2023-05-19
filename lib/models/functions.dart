@@ -190,6 +190,21 @@ Future<void> deleteFromCart(String id) {
   });
 }
 
+void deleteAllCart() async {
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  CollectionReference products = FirebaseFirestore.instance
+      .collection('users')
+      .doc(email)
+      .collection('cart');
+  QuerySnapshot snapshot = await products.get();
+
+  WriteBatch batch = FirebaseFirestore.instance.batch();
+  for (var document in snapshot.docs) {
+    batch.delete(document.reference);
+  }
+  await batch.commit();
+}
+
 Future<void> updateCartQuantity(
     int quantity, num price, String id, int productQuantity) async {
   final users = FirebaseFirestore.instance.collection('users');
@@ -215,9 +230,8 @@ Future<void> updateCartQuantity(
 Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
   final users = FirebaseFirestore.instance.collection('users');
   final String email = FirebaseAuth.instance.currentUser!.email!;
-  final reference = users.doc(email).collection('cart').doc();
+  final reference = users.doc(email).collection('orders').doc();
   try {
-    showSnackbar(context, "New order placed");
     await reference.set({
       'addressMap': orderclass.addressMap,
       'id': reference.id,
@@ -227,7 +241,6 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
     });
     log("new order placed");
   } catch (error) {
-    showSnackbar(context, "Failed to place new order: $error");
     log("Failed to place new order: $error");
   }
 }

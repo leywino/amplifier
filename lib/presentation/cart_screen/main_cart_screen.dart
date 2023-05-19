@@ -95,7 +95,6 @@ class _MainCartScreenState extends State<MainCartScreen> {
   int totalPrice = 0;
   @override
   Widget build(BuildContext context) {
-    bool codAvailable = totalPrice > 50000;
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -138,7 +137,6 @@ class _MainCartScreenState extends State<MainCartScreen> {
               children: [
                 StreamBuilder(
                   builder: (context, snapshot) {
-                    final email = FirebaseAuth.instance.currentUser!.email;
                     // if (snapshot.hasError) {
                     //   return const Text(
                     //     'Something went wrong',
@@ -219,8 +217,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
                                               ),
                                             ),
                                           ),
-                                          true
-                                              ? IconButton(
+                                          IconButton(
                                                   onPressed: () {
                                                     showDeleteConfirmationDialog(
                                                         context,
@@ -232,10 +229,6 @@ class _MainCartScreenState extends State<MainCartScreen> {
                                                     color: Colors.red,
                                                   ),
                                                 )
-                                              : const SizedBox(
-                                                  height: 46,
-                                                  width: 46,
-                                                ),
                                         ],
                                       ),
                                       SizedBox(

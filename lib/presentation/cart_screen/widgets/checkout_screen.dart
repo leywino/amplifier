@@ -1,4 +1,5 @@
 import 'package:amplifier/core/colors/main_colors.dart';
+import 'package:amplifier/presentation/cart_screen/widgets/order_loading_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -416,7 +417,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         onTap: () {
                           if (codAva && selectedPaymentIndex == 1) {
                             showAlertDialog();
-                          } else {}
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OrderLoadingScreen(
+                                      addressMap:
+                                          addressList[selectedAddressIndex],
+                                      totalPrice: totalPrice,
+                                      paymentMethod:
+                                          paymentTitles[selectedPaymentIndex],
+                                      cartList: cartList),
+                                ));
+                          }
                         },
                         child: Container(
                           color: Colors.black,
