@@ -47,7 +47,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
       child: Stack(
         children: [
           Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: kWhiteColor,
             body: SingleChildScrollView(
               child: Column(
                 children: [
@@ -67,7 +67,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                               child: CachedNetworkImage(
                                 imageUrl: widget.data.networkImageList!.first,
                                 placeholder: (context, url) => Shimmer(
-                                  color: Colors.black,
+                                  color: kBlackColor,
                                   child: Container(
                                     decoration: const BoxDecoration(
                                         shape: BoxShape.circle),
@@ -115,10 +115,10 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                         ),
                                       )),
                                   child: CachedNetworkImage(
-                                    imageUrl: widget.data.networkImageList!
-                                        [index],
+                                    imageUrl:
+                                        widget.data.networkImageList![index],
                                     placeholder: (context, url) => Shimmer(
-                                      color: Colors.black,
+                                      color: kBlackColor,
                                       child: Container(
                                         decoration: const BoxDecoration(
                                             shape: BoxShape.circle),
@@ -138,7 +138,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                 slideIndicator: const CircularSlideIndicator(
                                   indicatorRadius: 4,
                                   itemSpacing: 15,
-                                  currentIndicatorColor: Colors.black,
+                                  currentIndicatorColor: kBlackColor,
                                 ),
                               ),
                             ),
@@ -232,15 +232,15 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                   const Text(
                                     "Color: ",
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: kBlackColor,
                                     ),
                                   ),
                                   ValueListenableBuilder(
                                     valueListenable: choiceColorNotifier,
                                     builder: (context, selectedIndex, child) =>
                                         Text(
-                                      widget.data.colorStringList!
-                                          [selectedIndex],
+                                      widget
+                                          .data.colorStringList![selectedIndex],
                                       style: TextStyle(
                                         color: Colors.grey[700],
                                       ),
@@ -261,8 +261,8 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                                   // materialTapTargetSize:
                                                   //     MaterialTapTargetSize.shrinkWrap,
                                                   padding: EdgeInsets.zero,
-                                                  backgroundColor: Colors.white,
-                                                  selectedColor: Colors.white,
+                                                  backgroundColor: kWhiteColor,
+                                                  selectedColor: kWhiteColor,
                                                   label: Container(
                                                     decoration: BoxDecoration(
                                                       color: Colors.red,
@@ -280,8 +280,9 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                                                 )),
                                                       image: DecorationImage(
                                                         image: NetworkImage(
-                                                          widget.data.networkImageList!
-                                                              [index],
+                                                          widget.data
+                                                                  .networkImageList![
+                                                              index],
                                                         ),
                                                       ),
                                                     ),
@@ -329,19 +330,19 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 3),
                                 child: ChoiceChip(
-                                  backgroundColor: Colors.white,
-                                  selectedColor: Colors.white,
+                                  backgroundColor: kWhiteColor,
+                                  selectedColor: kWhiteColor,
                                   shape: StadiumBorder(
                                     side: selectedIndex != index
                                         ? const BorderSide(color: Colors.grey)
-                                        : const BorderSide(color: Colors.black),
+                                        : const BorderSide(color: kBlackColor),
                                   ),
                                   label: Text(
                                     _dummyChipText[index],
                                     style: TextStyle(
                                       color: selectedIndex != index
                                           ? Colors.grey
-                                          : Colors.black,
+                                          : kBlackColor,
                                     ),
                                   ),
                                   selected: selectedIndex == index,

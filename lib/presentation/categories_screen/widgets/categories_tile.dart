@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import '../../../core/colors/main_colors.dart';
 import '../../../core/strings.dart';
 import 'category_specific_grid.dart';
 
@@ -29,7 +30,7 @@ class CategoriesTile extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: dummyCategoryImage[index],
               placeholder: (context, url) => Shimmer(
-                color: Colors.black,
+                color: kBlackColor,
                 child: Container(
                   decoration: const BoxDecoration(shape: BoxShape.circle),
                   height: 50,
@@ -44,7 +45,7 @@ class CategoriesTile extends StatelessWidget {
           style: const TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: kBlackColor,
           ),
         ),
         trailing: Container(
@@ -57,7 +58,7 @@ class CategoriesTile extends StatelessWidget {
           child: const Center(
             child: Icon(
               CupertinoIcons.chevron_forward,
-              color: Colors.black,
+              color: kBlackColor,
             ),
           ),
         ),

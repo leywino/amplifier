@@ -74,7 +74,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           height: 50,
           width: 50,
           child: CircularProgressIndicator(
-            color: Colors.black,
+            color: kBlackColor,
           ),
         ),
       );
@@ -95,12 +95,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final size = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.white.withOpacity(1),
+      color: kWhiteColor.withOpacity(1),
       child: SafeArea(
         child: Stack(
           children: [
             Scaffold(
-              backgroundColor: kMainBgColor,
+              backgroundColor: kWhiteColor,
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -117,15 +117,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           border: Border(
                             top: BorderSide(
                               width: 1,
-                              color: Colors.black,
+                              color: kBlackColor,
                             ),
-                            bottom: BorderSide(color: Colors.black, width: 1),
+                            bottom: BorderSide(color: kBlackColor, width: 1),
                             right: BorderSide(
                               width: 1,
-                              color: Colors.black,
+                              color: kBlackColor,
                             ),
                             left:
-                                BorderSide(color: Colors.black, width: 1), // Ad
+                                BorderSide(color: kBlackColor, width: 1), // Ad
                           ),
                         ),
                         child: Padding(
@@ -190,7 +190,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           child: Text(
                                             'Change',
                                             style: TextStyle(
-                                              color: Colors.black,
+                                              color: kBlackColor,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -219,14 +219,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           border: Border(
                             top: BorderSide(
                               width: 1,
-                              color: Colors.black,
+                              color: kBlackColor,
                             ),
-                            bottom: BorderSide(color: Colors.black, width: 1),
+                            bottom: BorderSide(color: kBlackColor, width: 1),
                             right: BorderSide(
                               width: 1,
-                              color: Colors.black,
+                              color: kBlackColor,
                             ),
-                            left: BorderSide(color: Colors.black, width: 1),
+                            left: BorderSide(color: kBlackColor, width: 1),
                           ),
                         ),
                         child: Padding(
@@ -363,7 +363,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     selectedPaymentIndex = index;
                                   });
                                 },
-                                activeColor: Colors.black,
+                                activeColor: kBlackColor,
                               ),
                             ),
                           ),
@@ -432,7 +432,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           }
                         },
                         child: Container(
-                          color: Colors.black,
+                          color: kBlackColor,
                           width: size.width * 0.6,
                           child: const Center(
                             child: Row(
@@ -441,11 +441,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 Text(
                                   "Proceed",
                                   style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
+                                      fontSize: 18, color: kWhiteColor),
                                 ),
                                 Icon(
                                   CupertinoIcons.chevron_forward,
-                                  color: Colors.white,
+                                  color: kWhiteColor,
                                   size: 20,
                                 )
                               ],
@@ -482,7 +482,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               },
               child: const Text(
                 "OK",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: kBlackColor),
               ),
             ),
           ],
@@ -570,7 +570,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       selectedAddressIndex = index;
                                     });
                                   },
-                                  activeColor: Colors.black,
+                                  activeColor: kBlackColor,
                                 ),
                               ),
                             ),
@@ -583,7 +583,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ElevatedButton(
                   style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(
-                      Colors.black,
+                      kBlackColor,
                     ),
                   ),
                   onPressed: () {

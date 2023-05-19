@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../../core/colors/main_colors.dart';
 import '../widgets/snackbar.dart';
 import '../widgets/text_field_widget.dart';
 
@@ -68,13 +69,13 @@ class MainSignupScreen extends StatelessWidget {
             () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => BottomNavBar(),
+                builder: (context) => const BottomNavBar(),
               ),
             ),
           );
         } else {
           return Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: kBlackColor,
             body: SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
               child: Column(
@@ -83,7 +84,7 @@ class MainSignupScreen extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     height: size.height * 0.1,
-                    color: Colors.black,
+                    color: kBlackColor,
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
@@ -91,7 +92,7 @@ class MainSignupScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: kWhiteColor,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -165,11 +166,11 @@ class MainSignupScreen extends StatelessWidget {
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  side: const BorderSide(color: Colors.black),
+                                  side: const BorderSide(color: kBlackColor),
                                 ),
                               ),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.black),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(kBlackColor),
                               padding: MaterialStateProperty.all<EdgeInsets>(
                                   EdgeInsets.symmetric(
                                       horizontal: size.width * 0.29,
@@ -178,7 +179,7 @@ class MainSignupScreen extends StatelessWidget {
                             child: const Text(
                               'Sign Up',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: kWhiteColor,
                                 fontSize: 20,
                               ),
                             ),
@@ -199,11 +200,11 @@ class MainSignupScreen extends StatelessWidget {
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  side: const BorderSide(color: Colors.black),
+                                  side: const BorderSide(color: kBlackColor),
                                 ),
                               ),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.black),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(kBlackColor),
                               padding: MaterialStateProperty.all<EdgeInsets>(
                                   EdgeInsets.symmetric(
                                       horizontal: size.width * 0.12,
@@ -212,7 +213,7 @@ class MainSignupScreen extends StatelessWidget {
                             child: const Text(
                               'Sign Up With Google',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: kWhiteColor,
                                 fontSize: 20,
                               ),
                             ),
@@ -242,7 +243,7 @@ class MainSignupScreen extends StatelessWidget {
                                   TextSpan(
                                     text: "Login",
                                     style: const TextStyle(
-                                      color: Colors.black,
+                                      color: kBlackColor,
                                       // decoration: TextDecoration.underline,
                                     ),
                                     recognizer: TapGestureRecognizer()
@@ -270,7 +271,7 @@ class MainSignupScreen extends StatelessWidget {
           );
         }
         return Container(
-          color: Colors.black,
+          color: kBlackColor,
           child: const Center(
             child: CircularProgressIndicator(),
           ),

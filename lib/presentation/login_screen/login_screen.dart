@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:amplifier/presentation/login_screen/widgets/forgot_password.dart';
 import 'package:amplifier/presentation/signup_screen/signup_screen.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
@@ -9,7 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import '../../core/colors/main_colors.dart';
 import '../widgets/text_field_widget.dart';
 
 class MainLoginScreen extends StatelessWidget {
@@ -47,7 +46,7 @@ class MainLoginScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Scaffold(
-              backgroundColor: Colors.black,
+              backgroundColor: kBlackColor,
               body: SingleChildScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 child: Column(
@@ -56,7 +55,7 @@ class MainLoginScreen extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: size.height * 0.2,
-                      color: Colors.black,
+                      color: kBlackColor,
                       child: SizedBox(
                         height: 120,
                         width: 120,
@@ -127,12 +126,12 @@ class MainLoginScreen extends StatelessWidget {
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
-                                    side: const BorderSide(color: Colors.black),
+                                    side: const BorderSide(color: kBlackColor),
                                   ),
                                 ),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.black),
+                                        kBlackColor),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
                                         horizontal: size.width * 0.32,
@@ -141,7 +140,7 @@ class MainLoginScreen extends StatelessWidget {
                               child: const Text(
                                 'Login',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: kWhiteColor,
                                   fontSize: 20,
                                 ),
                               ),
@@ -170,7 +169,7 @@ class MainLoginScreen extends StatelessWidget {
                                 ),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.white),
+                                        kWhiteColor),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                   EdgeInsets.symmetric(
                                       horizontal: size.width * 0.12,
@@ -185,7 +184,7 @@ class MainLoginScreen extends StatelessWidget {
                                   const Text(
                                     'Login with Google',
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: kBlackColor,
                                       fontSize: 20,
                                     ),
                                   ),
@@ -217,7 +216,7 @@ class MainLoginScreen extends StatelessWidget {
                                   TextSpan(
                                     text: "Sign Up",
                                     style: const TextStyle(
-                                      color: Colors.black,
+                                      color: kBlackColor,
                                       // decoration: TextDecoration.underline,
                                     ),
                                     recognizer: TapGestureRecognizer()
@@ -247,7 +246,7 @@ class MainLoginScreen extends StatelessWidget {
                                   TextSpan(
                                     text: "Reset Now",
                                     style: const TextStyle(
-                                      color: Colors.black,
+                                      color: kBlackColor,
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
@@ -281,14 +280,14 @@ class MainLoginScreen extends StatelessWidget {
               () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => BottomNavBar(),
+                  builder: (context) => const BottomNavBar(),
                 ),
               ),
             );
           }
 
           return Container(
-            color: Colors.black,
+            color: kBlackColor,
             child: const Center(
               child: CircularProgressIndicator(),
             ),

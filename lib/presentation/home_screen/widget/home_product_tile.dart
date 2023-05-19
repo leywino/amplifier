@@ -26,10 +26,9 @@ class HomeProductTile extends StatelessWidget {
       childAspectRatio: 1 / 1.8,
       shrinkWrap: true,
       children: List.generate(searchList.length, (index) {
-        int percentage = (searchList[index].price /
-                searchList[index].actualPrice *
-                100.0)
-            .round();
+        int percentage =
+            (searchList[index].price / searchList[index].actualPrice * 100.0)
+                .round();
 
         return InkWell(
           onTap: () => Navigator.push(
@@ -50,7 +49,7 @@ class HomeProductTile extends StatelessWidget {
                   CachedNetworkImage(
                     imageUrl: searchList[index].networkImageList![0],
                     placeholder: (context, url) => Shimmer(
-                      color: Colors.black,
+                      color: kBlackColor,
                       child: Container(
                         decoration: const BoxDecoration(shape: BoxShape.circle),
                         width: size.width * 0.4,
@@ -123,7 +122,7 @@ homeProductShimmerEffect() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Shimmer(
-            color: Colors.black,
+            color: kBlackColor,
             child: Container(
               height: 180,
             ),
@@ -132,7 +131,7 @@ homeProductShimmerEffect() {
             height: 5,
           ),
           Shimmer(
-            color: Colors.black,
+            color: kBlackColor,
             child: Container(
               height: 10,
             ),
@@ -141,7 +140,7 @@ homeProductShimmerEffect() {
             height: 5,
           ),
           Shimmer(
-            color: Colors.black,
+            color: kBlackColor,
             child: Container(
               height: 10,
             ),
@@ -150,7 +149,7 @@ homeProductShimmerEffect() {
             height: 5,
           ),
           Shimmer(
-            color: Colors.black,
+            color: kBlackColor,
             child: Container(
               height: 10,
             ),
@@ -159,7 +158,7 @@ homeProductShimmerEffect() {
             height: 5,
           ),
           Shimmer(
-            color: Colors.black,
+            color: kBlackColor,
             child: const SizedBox(
               height: 30,
               width: 100,

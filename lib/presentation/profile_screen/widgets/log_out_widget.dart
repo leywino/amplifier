@@ -3,7 +3,7 @@ import 'package:amplifier/presentation/profile_screen/main_profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import '../../../core/colors/main_colors.dart';
 import '../../widgets/snackbar.dart';
 
 class LogOutWidget extends StatelessWidget {
@@ -44,7 +44,7 @@ class LogOutWidget extends StatelessWidget {
             child: Text(
               'Are you sure you want to log out?',
               style: TextStyle(
-                color: Colors.black,
+                color: kBlackColor,
                 fontSize: 20,
               ),
             ),
@@ -66,14 +66,14 @@ class LogOutWidget extends StatelessWidget {
                     ),
                   ),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                      MaterialStateProperty.all<Color>(kWhiteColor),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   child: Text(
                     'Cancel',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: kBlackColor,
                       fontSize: 18,
                     ),
                   ),
@@ -100,14 +100,14 @@ class LogOutWidget extends StatelessWidget {
                     ),
                   ),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                      MaterialStateProperty.all<Color>(kBlackColor),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 18),
                   child: Text(
                     'Yes, Logout',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: kWhiteColor,
                       fontSize: 18,
                     ),
                   ),

@@ -17,7 +17,7 @@ class MainWishlistScreen extends StatefulWidget {
 }
 
 class _MainWishlistScreenState extends State<MainWishlistScreen> {
-  List<Products> dataList = [];
+  List<Products> wishlistList = [];
 
   @override
   void initState() {
@@ -45,9 +45,12 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
 
       List<DocumentSnapshot> documents = snapshot.docs;
       List<Products> wishlistList = convertToWishList(documents);
+      setState(() {
+        this.wishlistList = wishlistList;
+      });
     } else {
       setState(() {
-        dataList = [];
+        wishlistList = [];
       });
     }
   }
@@ -56,9 +59,9 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    if (dataList.isEmpty) {
+    if (wishlistList.isEmpty) {
       return Scaffold(
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         body: Column(
           children: [
             const CustomAppBar(
@@ -85,7 +88,7 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kMainBgColor,
+        backgroundColor: kWhiteColor,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -104,14 +107,14 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                   childAspectRatio: 1 / 1.8,
                   shrinkWrap: true,
                   children: List.generate(
-                    dataList.length,
+                    wishlistList.length,
                     (index) => InkWell(
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeDetailsPage(
-                              data: dataList[index],
-                              productList: dataList,
+                              data: wishlistList[index],
+                              productList: wishlistList,
                               index: index,
                             ),
                           )),
@@ -125,8 +128,8 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                                 decoration: BoxDecoration(
                                     // color: Colors.red,
                                     image: DecorationImage(
-                                  image: NetworkImage(dataList[index]
-                                          .networkImageList!
+                                  image: NetworkImage(wishlistList[index]
+                                      .networkImageList!
                                       .first),
                                   fit: BoxFit.cover,
                                 )),
@@ -147,8 +150,8 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                                               .collection('wishlist')
                                               .where('email', isEqualTo: email)
                                               .where('productId',
-                                                  isEqualTo: dataList[index]
-                                                      .id)
+                                                  isEqualTo:
+                                                      wishlistList[index].id)
                                               .get();
                                       getProduct();
                                       deleteFromWishlist(
@@ -164,19 +167,19 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                             ],
                           ),
                           Text(
-                            dataList[index].brand,
+                            wishlistList[index].brand,
                             style: const TextStyle(
                                 fontSize: 12, color: Colors.grey),
                           ),
                           Text(
-                            dataList[index].productName,
+                            wishlistList[index].productName,
                             style: const TextStyle(
                                 fontSize: 18,
                                 color: kTextBlackColor,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            dataList[index].description,
+                            wishlistList[index].description,
                             style: const TextStyle(
                                 fontSize: 14, color: kTextBlackColor),
                             // overflow: TextOverflow.ellipsis,
@@ -185,7 +188,7 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "₹${NumberFormat.decimalPattern().format(dataList[index].price)}",
+                                "₹${NumberFormat.decimalPattern().format(wishlistList[index].price)}",
                                 style: const TextStyle(
                                     fontSize: 18,
                                     color: kTextBlackColor,

@@ -12,7 +12,7 @@ SvgPicture shoppingCart2 = SvgPicture.asset(
 );
 SvgPicture profile1 = SvgPicture.asset(
   "assets/icons/profile1.svg",
-  // ignore: deprecated_member_use
+  // ignore: deprecated_member_uses
   color: bottomNavBarUnselectedColor,
 );
 SvgPicture profile2 = SvgPicture.asset(

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import '../../../core/colors/main_colors.dart';
 
 class ActiveTileWidget extends StatelessWidget {
   const ActiveTileWidget({
@@ -34,7 +35,7 @@ class ActiveTileWidget extends StatelessWidget {
                     imageUrl:
                         'https://firebasestorage.googleapis.com/v0/b/leywin-amplifier.appspot.com/o/images%2Fchu?alt=media&token=c9313e96-0b5f-4116-8030-a268c7c47e36',
                     placeholder: (context, url) => Shimmer(
-                      color: Colors.black,
+                      color: kBlackColor,
                       child: Container(
                         decoration: const BoxDecoration(shape: BoxShape.circle),
                         width: size.width,
@@ -83,7 +84,7 @@ class ActiveTileWidget extends StatelessWidget {
                                   child: Text(
                                     'Cancel',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: kWhiteColor,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -93,7 +94,7 @@ class ActiveTileWidget extends StatelessWidget {
                             const SizedBox(width: 8),
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.black,
+                                color: kBlackColor,
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -103,7 +104,7 @@ class ActiveTileWidget extends StatelessWidget {
                                 child: const Text(
                                   'Track',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: kWhiteColor,
                                     fontSize: 16,
                                   ),
                                 ),
@@ -132,7 +133,7 @@ orderCancelConfirm(BuildContext context) {
         color: Colors.transparent,
         child: Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: kWhiteColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
@@ -163,12 +164,11 @@ orderCancelConfirm(BuildContext context) {
                 children: <Widget>[
                   ElevatedButton(
                     style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.white)),
+                        backgroundColor: MaterialStatePropertyAll(kWhiteColor)),
                     child: const Text(
                       'Cancel',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: kBlackColor,
                         fontSize: 18,
                       ),
                     ),
@@ -179,8 +179,7 @@ orderCancelConfirm(BuildContext context) {
                   ),
                   ElevatedButton(
                     style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.white)),
+                        backgroundColor: MaterialStatePropertyAll(kWhiteColor)),
                     child: const Text(
                       'Confirm',
                       style: TextStyle(

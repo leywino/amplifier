@@ -3,6 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../../../core/colors/main_colors.dart';
 import '../../widgets/text_field_widget.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
@@ -30,7 +31,7 @@ class ResetPasswordScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Scaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: kWhiteColor,
               body: SingleChildScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 child: Column(
@@ -73,11 +74,11 @@ class ResetPasswordScreen extends StatelessWidget {
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  side: const BorderSide(color: Colors.black),
+                                  side: const BorderSide(color: kBlackColor),
                                 ),
                               ),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.black),
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(kBlackColor),
                               padding: MaterialStateProperty.all<EdgeInsets>(
                                   EdgeInsets.symmetric(
                                       horizontal: size.width * 0.22,
@@ -86,7 +87,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             child: const Text(
                               'Send Mail',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: kWhiteColor,
                                 fontSize: 20,
                               ),
                             ),
@@ -121,7 +122,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 TextSpan(
                                   text: "Login",
                                   style: const TextStyle(
-                                    color: Colors.black,
+                                    color: kBlackColor,
                                     // decoration: TextDecoration.underline,
                                   ),
                                   recognizer: TapGestureRecognizer()
@@ -149,14 +150,14 @@ class ResetPasswordScreen extends StatelessWidget {
               () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => BottomNavBar(),
+                  builder: (context) => const BottomNavBar(),
                 ),
               ),
             );
           }
 
           return Container(
-            color: Colors.black,
+            color: kBlackColor,
             child: const Center(
               child: CircularProgressIndicator(),
             ),

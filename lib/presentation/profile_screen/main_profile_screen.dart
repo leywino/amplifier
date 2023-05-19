@@ -8,6 +8,7 @@ import 'package:amplifier/presentation/profile_screen/widgets/profile_tile_widge
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../core/strings.dart';
@@ -21,11 +22,15 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+final TextEditingController nameController = TextEditingController();
+
 class _ProfileScreenState extends State<ProfileScreen> {
   String? profileImage;
+  bool enableTextField = false;
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
+    nameController.text = user!.displayName!;
     profileImage = user!.photoURL ??
         "https://cdn.pixabay.com/photo/2017/11/10/05/24/add-2935429_960_720.png";
     super.initState();
@@ -34,7 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final List<IconData> _profileIcons = [
     CustomIcon.locationiconfluttter,
     CustomIcon.locationiconfluttter,
-    CustomIcon.mooniconfluttter,
     CustomIcon.shieldiconfluttter,
     CustomIcon.document_align_left_5iconfluttter,
     CustomIcon.logouticonfluttter,
@@ -44,9 +48,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-          backgroundColor: kMainBgColor,
+          backgroundColor: kWhiteColor,
           body: Column(
             children: [
               const CustomAppBar(title: "Profile", showBackButton: false),
@@ -72,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: CachedNetworkImage(
                         imageUrl: profileImage!,
                         placeholder: (context, url) => Shimmer(
-                          color: Colors.black,
+                          color: kBlackColor,
                           child: Container(
                             decoration:
                                 const BoxDecoration(shape: BoxShape.circle),
@@ -84,11 +89,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     )),
                   ),
                   const SizedBox(height: 16.0),
-                  Text(
-                    user!.displayName!,
-                    style: const TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: EdgeInsets.only(left: size.width * 0.12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: size.width * 0.6,
+                          child: Center(
+                            child: TextField(
+                              onSubmitted: (value) {
+                                user!.updateDisplayName(
+                                    nameController.text.trim());
+                              },
+                              enabled: enableTextField,
+                              controller: nameController,
+                              style: const TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                                color: kBlackColor,
+                              ),
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              enableTextField = !enableTextField;
+                            });
+                            !enableTextField
+                                ? user!.updateDisplayName(nameController.text)
+                                : null;
+                          },
+                          icon: !enableTextField
+                              ? SvgPicture.asset(
+                                  'assets/icons/edit.svg',
+                                  height: 20,
+                                )
+                              : SvgPicture.asset(
+                                  'assets/icons/check.svg',
+                                  height: 20,
+                                ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 8.0),

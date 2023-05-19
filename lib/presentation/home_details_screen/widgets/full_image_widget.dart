@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
+import '../../../core/colors/main_colors.dart';
 
 class FullImageScreen extends StatefulWidget {
   const FullImageScreen({
@@ -50,18 +51,18 @@ class _FullImageScreenState extends State<FullImageScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.black,
+        backgroundColor: kBlackColor,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
           },
           child: const Icon(
             CupertinoIcons.back,
-            color: Colors.white,
+            color: kWhiteColor,
           ),
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: kBlackColor,
       body: !widget.isCarousal
           ? Center(
               child: SizedBox(
@@ -138,8 +139,8 @@ class _FullImageScreenState extends State<FullImageScreen> {
                             // materialTapTargetSize:
                             //     MaterialTapTargetSize.shrinkWrap,
                             padding: EdgeInsets.zero,
-                            backgroundColor: Colors.black,
-                            selectedColor: Colors.black,
+                            backgroundColor: kBlackColor,
+                            selectedColor: kBlackColor,
                             label: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
@@ -154,7 +155,7 @@ class _FullImageScreenState extends State<FullImageScreen> {
                                             )
                                           : const BorderSide(
                                               width: 2,
-                                              color: Colors.black,
+                                              color: kBlackColor,
                                             )),
                                   image: DecorationImage(
                                     image: NetworkImage(
