@@ -163,7 +163,6 @@ class _AddressScreenState extends State<AddressScreen> {
                                         groupValue: true,
                                         onChanged: (value) async {
                                           radioNotifier.value = index;
-
                                           updateRadioButtonValue(
                                               addressList[index].id!);
                                         },

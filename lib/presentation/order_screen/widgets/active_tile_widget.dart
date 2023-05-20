@@ -29,21 +29,44 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
 
   getOrderList() async {
     final email = FirebaseAuth.instance.currentUser!.email;
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('orders').where('email',isEqualTo: email).get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('orders')
+        .where('email', isEqualTo: email)
+        .get();
 
-    List<DocumentSnapshot> documents = querySnapshot.docs;
-    List<Orders> orderList = convertToOrderList(documents);
+    if (querySnapshot.docs.isNotEmpty) {
+      List<DocumentSnapshot> documents = querySnapshot.docs;
+      List<Orders> orderList = convertToOrderList(documents);
 
-    if (mounted) {
+      if (mounted) {
+        setState(() {
+          this.orderList = orderList;
+        });
+      }
+    } else {
       setState(() {
-        this.orderList = orderList;
+        orderList = [];
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    if (orderList.isEmpty) {
+      return SizedBox(
+        height: size.height * 0.8,
+        child: const Center(
+          child: Text(
+            "You have no active orders!",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
+    }
     return Column(
         children: List.generate(
       orderList.length,
@@ -87,21 +110,25 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                         Text(
                           productList[index]['productName'],
                           style: const TextStyle(
-                            fontSize: 24,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          productList[index]['description'],
-                          style: const TextStyle(
-                            fontSize: 18,
+                        SizedBox(
+                          width: widget.size.width * 0.6,
+                          child: Text(
+                            productList[index]['description'],
+                            maxLines: 2,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                         SizedBox(height: widget.size.height * 0.02),
                         Padding(
                           padding:
-                              EdgeInsets.only(left: widget.size.width * 0.15),
+                              EdgeInsets.only(left: widget.size.width * 0.25),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -111,8 +138,16 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: GestureDetector(
-                                  onTap: () {
-                                    orderCancelConfirm(context);
+                                  onTap: () async {
+                                    orderCancelConfirm(
+                                      context,
+                                      orderList[superIndex].cartList![index]
+                                          ['productId'],
+                                      orderList[superIndex].cartList!,
+                                      index,
+                                      superIndex,
+                                      productList,
+                                    );
                                   },
                                   child: const Padding(
                                     padding: EdgeInsets.symmetric(
@@ -160,81 +195,88 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
       ),
     ));
   }
-}
 
-orderCancelConfirm(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (context) {
-      return Container(
-        color: Colors.transparent,
-        child: Container(
-          decoration: const BoxDecoration(
-            color: kWhiteColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
+  orderCancelConfirm(BuildContext context, String productId, List cartList,
+      int index, int superIndex, List productList) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          color: Colors.transparent,
+          child: Container(
+            decoration: const BoxDecoration(
+              color: kWhiteColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Cancel Order',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Are you sure you want to cancel this order?',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(kWhiteColor)),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: kBlackColor,
+                          fontSize: 18,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                    ),
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(kWhiteColor)),
+                      child: const Text(
+                        'Confirm',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 18,
+                        ),
+                      ),
+                      onPressed: () async {
+                        await cancelOrderItem(context, productId, cartList,
+                            index, superIndex, productList);
+                        Navigator.pop(context, true);
+                        setState(() {
+                          getOrderList();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
+              ],
             ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'Cancel Order',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'Are you sure you want to cancel this order?',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(kWhiteColor)),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        color: kBlackColor,
-                        fontSize: 18,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(
-                          context, false); // Return false if cancel is pressed
-                    },
-                  ),
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(kWhiteColor)),
-                    child: const Text(
-                      'Confirm',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 18,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(
-                          context, true); // Return true if confirm is pressed
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }

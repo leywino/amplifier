@@ -17,8 +17,8 @@ class _EditableTextWidgetState extends State<EditableTextWidget> {
   @override
   void initState() {
     super.initState();
-    textEditingController.text = widget.user!.displayName!;
-    editedText = widget.user!.displayName!;
+    textEditingController.text = widget.user.displayName!;
+    editedText = widget.user.displayName!;
   }
 
   @override
