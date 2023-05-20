@@ -154,12 +154,12 @@ void updateRadioButtonValue(String selectedDocumentId) {
 
 Future<void> deleteFromAddress(String id) {
   final String email = FirebaseAuth.instance.currentUser!.email!;
-  CollectionReference products = FirebaseFirestore.instance
+  CollectionReference address = FirebaseFirestore.instance
       .collection('users')
       .doc(email)
       .collection('address');
 
-  return products.doc(id).delete().then((value) {
+  return address.doc(id).delete().then((value) {
     log("Address Deleted");
   }).catchError((error) {
     log("Failed to delete address: $error");
@@ -290,4 +290,44 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
   } catch (error) {
     log("Failed to place new order: $error");
   }
+}
+
+Future<void> cancelOrderItem(BuildContext context, String productId,
+    List cartList, int index, int superIndex, List productList) async {
+  final String email = FirebaseAuth.instance.currentUser!.email!;
+  final collectionRef = FirebaseFirestore.instance.collection('orders');
+  final querySnapshot =
+      await collectionRef.where('email', isEqualTo: email).get();
+  final documentRef = querySnapshot.docs[superIndex].reference;
+
+  DocumentReference products =
+      FirebaseFirestore.instance.collection('products').doc(productId);
+  DocumentSnapshot snapshot = await products.get();
+
+  final itemQuantity = snapshot.get('quantity');
+  final totalItems = cartList[index]['quantity'] + itemQuantity;
+  CollectionReference productCollectionRef =
+      FirebaseFirestore.instance.collection('products');
+
+  if (cartList.length != 1) {
+    int index = cartList.indexWhere(
+        (element) => element['productId'].toString().contains(productId));
+    log(index.toString());
+    productList.removeAt(index);
+    cartList.removeAt(index);
+    await documentRef.update({
+      'cartList': cartList,
+      'productList': productList,
+    });
+  } else {
+    documentRef.delete();
+  }
+
+  return productCollectionRef
+      .doc(productId)
+      .update({'quantity': totalItems}).then((value) {
+    log("Product quantity updated");
+  }).catchError((error) {
+    log("Failed to update product quantity: $error");
+  });
 }
