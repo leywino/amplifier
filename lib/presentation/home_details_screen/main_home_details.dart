@@ -125,6 +125,20 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                   ),
                                 ),
                               ),
+                              widget.data.quantity == 0
+                                  ? Positioned(
+                                      bottom: 15,
+                                      right: 10,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8.0),
+                                        color: Colors.black.withOpacity(0.6),
+                                        child: const Text(
+                                          'Out of Stock',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
                             ],
                           )
                         : Stack(
@@ -199,6 +213,20 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                   ),
                                 ),
                               ),
+                              widget.data.quantity == 0
+                                  ? Positioned(
+                                      bottom: 15,
+                                      right: 10,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8.0),
+                                        color: Colors.black.withOpacity(0.6),
+                                        child: const Text(
+                                          'Out of Stock',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
                             ],
                           ),
                     Padding(
