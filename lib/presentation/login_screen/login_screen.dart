@@ -8,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../core/colors/main_colors.dart';
 import '../widgets/text_field_widget.dart';
 
@@ -36,264 +37,299 @@ class MainLoginScreen extends StatelessWidget {
     return null;
   }
 
+  Future<bool> checkIfInternetIsAvailable() async {
+    bool result = await InternetConnectionChecker().hasConnection;
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Scaffold(
-              backgroundColor: kBlackColor,
-              body: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: size.height * 0.2,
-                      color: kBlackColor,
-                      child: SizedBox(
-                        height: 120,
-                        width: 120,
-                        child: Image.asset("assets/icons/logo_white.png"),
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: size.height * 0.8,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 236, 236, 236),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(150),
+    return FutureBuilder(
+      future: checkIfInternetIsAvailable(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.black,
+            ),
+          );
+        }
+        if (snapshot.data == false) {
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: Text(
+                'No internet available\nTurn on wifi or mobile data',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          );
+        }
+        return SafeArea(
+          child: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Scaffold(
+                  backgroundColor: kBlackColor,
+                  body: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: size.height * 0.2,
+                          color: kBlackColor,
+                          child: SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Image.asset("assets/icons/logo_white.png"),
+                          ),
                         ),
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(
-                              height: size.height * 0.05,
+                        Container(
+                          width: double.infinity,
+                          height: size.height * 0.8,
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 236, 236, 236),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(150),
                             ),
-                            const Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 36,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.05,
-                            ),
-                            TextFieldWidget(
-                              size: size,
-                              validator: _validateEmailField,
-                              fieldName: "Email",
-                              textController: emailController,
-                            ),
-                            // SizedBox(
-                            //   height: size.height * 0.005,
-                            // ),
-                            Stack(
+                          ),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
+                                SizedBox(
+                                  height: size.height * 0.05,
+                                ),
+                                const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.05,
+                                ),
                                 TextFieldWidget(
                                   size: size,
-                                  fieldName: "Password",
-                                  validator: _validatePasswordField,
-                                  hideField: true,
-                                  textController: passwordController,
+                                  validator: _validateEmailField,
+                                  fieldName: "Email",
+                                  textController: emailController,
                                 ),
-                              ],
-                            ),
+                                // SizedBox(
+                                //   height: size.height * 0.005,
+                                // ),
+                                Stack(
+                                  children: [
+                                    TextFieldWidget(
+                                      size: size,
+                                      fieldName: "Password",
+                                      validator: _validatePasswordField,
+                                      hideField: true,
+                                      textController: passwordController,
+                                    ),
+                                  ],
+                                ),
 
-                            SizedBox(
-                              height: size.height * 0.05,
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                bool isLogin = await signIn(context);
-                                if (isLogin == true) {
-                                  showEmailSentSnackbar(
-                                      context, "Successfully Signed In");
-                                }
-                              },
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    side: const BorderSide(color: kBlackColor),
+                                SizedBox(
+                                  height: size.height * 0.05,
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    bool isLogin = await signIn(context);
+                                    if (isLogin == true) {
+                                      showEmailSentSnackbar(
+                                          context, "Successfully Signed In");
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: const BorderSide(
+                                            color: kBlackColor),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            kBlackColor),
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.symmetric(
+                                                horizontal: size.width * 0.32,
+                                                vertical: 20)),
                                   ),
-                                ),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        kBlackColor),
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.symmetric(
-                                        horizontal: size.width * 0.32,
-                                        vertical: 20)),
-                              ),
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(
-                                  color: kWhiteColor,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                            // SizedBox(
-                            //   height: size.height * 0.01,
-                            // ),
-                            // const Text(
-                            //   'OR',
-                            //   style: TextStyle(
-                            //     fontSize: 24.0,
-                            //     fontWeight: FontWeight.bold,
-                            //   ),
-                            // ),
-                            // SizedBox(
-                            //   height: size.height * 0.02,
-                            // ),
-                            TextButton(
-                              onPressed: () => loginWithGoogle(),
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        kWhiteColor),
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.symmetric(
-                                      horizontal: size.width * 0.12,
-                                      vertical: 20),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Login with Google',
+                                  child: const Text(
+                                    'Login',
                                     style: TextStyle(
-                                      color: kBlackColor,
+                                      color: kWhiteColor,
                                       fontSize: 20,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: SvgPicture.asset(
-                                          'assets/icons/google_logo.svg'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.05,
-                            ),
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: "Don't have an account yet? ",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.grey[500],
-                                  fontWeight: FontWeight.bold,
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: "Sign Up",
-                                    style: const TextStyle(
-                                      color: kBlackColor,
-                                      // decoration: TextDecoration.underline,
+                                // SizedBox(
+                                //   height: size.height * 0.01,
+                                // ),
+                                // const Text(
+                                //   'OR',
+                                //   style: TextStyle(
+                                //     fontSize: 24.0,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
+                                // SizedBox(
+                                //   height: size.height * 0.02,
+                                // ),
+                                TextButton(
+                                  onPressed: () => loginWithGoogle(),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
                                     ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                MainSignupScreen(),
-                                          ),
-                                        );
-                                      },
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            kWhiteColor),
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                      EdgeInsets.symmetric(
+                                          horizontal: size.width * 0.12,
+                                          vertical: 20),
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: "Forgot password? ",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.grey[500],
-                                  fontWeight: FontWeight.bold,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Login with Google',
+                                        style: TextStyle(
+                                          color: kBlackColor,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: SizedBox(
+                                          height: 24,
+                                          width: 24,
+                                          child: SvgPicture.asset(
+                                              'assets/icons/google_logo.svg'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: "Reset Now",
-                                    style: const TextStyle(
-                                      color: kBlackColor,
+                                SizedBox(
+                                  height: size.height * 0.05,
+                                ),
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: "Don't have an account yet? ",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.grey[500],
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ResetPasswordScreen(),
-                                          ),
-                                        );
-                                      },
+                                    children: [
+                                      TextSpan(
+                                        text: "Sign Up",
+                                        style: const TextStyle(
+                                          color: kBlackColor,
+                                          // decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MainSignupScreen(),
+                                              ),
+                                            );
+                                          },
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: "Forgot password? ",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.grey[500],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: "Reset Now",
+                                        style: const TextStyle(
+                                          color: kBlackColor,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ResetPasswordScreen(),
+                                              ),
+                                            );
+                                          },
+                                      ),
+                                    ],
+                                  ),
+                                ),
 
-                            SizedBox(
-                              height: size.height * 0.05,
+                                SizedBox(
+                                  height: size.height * 0.05,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            );
-          } else {
-            Future.delayed(
-              const Duration(milliseconds: 100),
-              () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const BottomNavBar(),
-                ),
-              ),
-            );
-          }
+                  ),
+                );
+              } else {
+                Future.delayed(
+                  const Duration(milliseconds: 100),
+                  () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BottomNavBar(),
+                    ),
+                  ),
+                );
+              }
 
-          return Container(
-            color: kBlackColor,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        },
-      ),
+              return Container(
+                color: kBlackColor,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
