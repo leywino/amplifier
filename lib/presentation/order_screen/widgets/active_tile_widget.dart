@@ -40,9 +40,14 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
       List<DocumentSnapshot> documents = querySnapshot.docs;
       List<Orders> orderList = convertToOrderList(documents);
 
+      List<Orders> completedOrderList = orderList
+          .where((element) =>
+              element.orderStatusIndex != 3 && element.orderStatusIndex != 4)
+          .toList();
+
       if (mounted) {
         setState(() {
-          this.orderList = orderList;
+          this.orderList = completedOrderList;
         });
       }
     } else {

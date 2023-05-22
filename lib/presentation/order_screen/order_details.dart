@@ -1,6 +1,6 @@
 import 'package:amplifier/models/order_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/colors/main_colors.dart';
@@ -22,8 +22,9 @@ class OrderDetails extends StatelessWidget {
           // automaticallyImplyLeading: true,
           foregroundColor: Colors.black,
           leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: SvgPicture.asset("assets/back.svg")),
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(CupertinoIcons.back),
+          ),
           title: const Text(
             "Order Details",
             style: TextStyle(
@@ -237,34 +238,6 @@ class OrderDetails extends StatelessWidget {
                 height: size.height * 0.1,
               )
             ],
-          ),
-        ),
-        bottomSheet: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 55, 35, 111),
-            // borderRadius: BorderRadius.only(
-            //   topLeft: Radius.circular(10),
-            //   topRight: Radius.circular(10),
-            // ),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Order Status:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
