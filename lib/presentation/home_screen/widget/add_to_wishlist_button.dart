@@ -6,6 +6,7 @@ import '../../../models/functions.dart';
 import '../../../models/product_model.dart';
 import '../../../models/wishlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 
 class WishlistButton extends StatefulWidget {
   const WishlistButton({
@@ -53,31 +54,34 @@ class _WishlistButtonState extends State<WishlistButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if (!alreadyAdded) {
-          addToWishlist(
-              Wishlist(
-                id: widget.searchList[widget.index].id,
-              ),
-              context);
-          setState(() {
-            alreadyAdded = true;
-          });
-        } else {
-          final FirebaseFirestore firestore = FirebaseFirestore.instance;
-          final String email = FirebaseAuth.instance.currentUser!.email!;
-          final QuerySnapshot snapshot = await firestore
-              .collection('users')
-              .doc(email)
-              .collection('wishlist')
-              .where('email', isEqualTo: email)
-              .where('productId',
-                  isEqualTo: widget.searchList[widget.index].id)
-              .get();
-          await deleteFromWishlist(snapshot.docs.first.id);
-          setState(() {
-            alreadyAdded = false;
-          });
-        }
+        EasyDebounce.debounce('my-debouncer', const Duration(milliseconds: 500),
+            () async {
+          if (!alreadyAdded) {
+            addToWishlist(
+                Wishlist(
+                  id: widget.searchList[widget.index].id,
+                ),
+                context);
+            setState(() {
+              alreadyAdded = true;
+            });
+          } else {
+            final FirebaseFirestore firestore = FirebaseFirestore.instance;
+            final String email = FirebaseAuth.instance.currentUser!.email!;
+            final QuerySnapshot snapshot = await firestore
+                .collection('users')
+                .doc(email)
+                .collection('wishlist')
+                .where('email', isEqualTo: email)
+                .where('productId',
+                    isEqualTo: widget.searchList[widget.index].id)
+                .get();
+            await deleteFromWishlist(snapshot.docs.first.id);
+            setState(() {
+              alreadyAdded = false;
+            });
+          }
+        });
       },
       child: SizedBox(
         height: 22,
