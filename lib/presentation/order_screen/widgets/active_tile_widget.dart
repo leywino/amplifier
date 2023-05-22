@@ -1,3 +1,4 @@
+import 'package:amplifier/presentation/order_screen/order_details.dart';
 import 'package:amplifier/presentation/order_screen/widgets/order_track.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -75,86 +76,125 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
         children:
             List.generate(orderList[superIndex].cartList!.length, (index) {
           List productList = orderList[superIndex].productList!;
-          return Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CachedNetworkImage(
-                      height: 100,
-                      width: 100,
-                      imageUrl: productList[index]['networkImageList'].first,
-                      placeholder: (context, url) => Shimmer(
-                        color: kBlackColor,
-                        child: Container(
-                          decoration:
-                              const BoxDecoration(shape: BoxShape.circle),
-                          width: widget.size.width,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          Image.asset('assets/icons/no_image.svg'),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderDetails(
+                      orderList: orderList[superIndex],
+                      index: index,
                     ),
-                    const SizedBox(width: 16),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          productList[index]['productName'],
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                  ));
+            },
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CachedNetworkImage(
+                        height: 100,
+                        width: 100,
+                        imageUrl: productList[index]['networkImageList'].first,
+                        placeholder: (context, url) => Shimmer(
+                          color: kBlackColor,
+                          child: Container(
+                            decoration:
+                                const BoxDecoration(shape: BoxShape.circle),
+                            width: widget.size.width,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        SizedBox(
-                          width: widget.size.width * 0.6,
-                          child: Text(
-                            productList[index]['description'],
-                            maxLines: 2,
+                        errorWidget: (context, url, error) =>
+                            Image.asset('assets/icons/no_image.svg'),
+                      ),
+                      const SizedBox(width: 16),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            productList[index]['productName'],
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                        SizedBox(height: widget.size.height * 0.02),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: widget.size.width * 0.25),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(50),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            width: widget.size.width * 0.6,
+                            child: Text(
+                              productList[index]['description'],
+                              maxLines: 2,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: widget.size.height * 0.02),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: widget.size.width * 0.25),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      orderCancelConfirm(
+                                        context,
+                                        orderList[superIndex].cartList![index]
+                                            ['productId'],
+                                        orderList[superIndex].cartList!,
+                                        index,
+                                        superIndex,
+                                        productList,
+                                      );
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                          color: kWhiteColor,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    orderCancelConfirm(
-                                      context,
-                                      orderList[superIndex].cartList![index]
-                                          ['productId'],
-                                      orderList[superIndex].cartList!,
-                                      index,
-                                      superIndex,
-                                      productList,
-                                    );
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      'Cancel',
+                                const SizedBox(width: 8),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: kBlackColor,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 5),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => TrackOrderScreen(
+                                            orderStatusIndex:
+                                                orderList[superIndex]
+                                                    .orderStatusIndex!),
+                                      ));
+                                    },
+                                    child: const Text(
+                                      'Track',
                                       style: TextStyle(
                                         color: kWhiteColor,
                                         fontSize: 16,
@@ -162,41 +202,16 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: kBlackColor,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 5),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                           TrackOrderScreen(orderStatusIndex: orderList[superIndex].orderStatusIndex!),
-                                    ));
-                                  },
-                                  child: const Text(
-                                    'Track',
-                                    style: TextStyle(
-                                      color: kWhiteColor,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }),
       ),
