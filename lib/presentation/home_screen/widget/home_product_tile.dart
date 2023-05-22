@@ -46,19 +46,55 @@ class HomeProductTile extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: searchList[index].networkImageList![0],
-                    placeholder: (context, url) => Shimmer(
-                      color: kBlackColor,
-                      child: Container(
-                        decoration: const BoxDecoration(shape: BoxShape.circle),
-                        width: size.width * 0.4,
-                        height: size.height * 0.195,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        Image.asset('assets/icons/no_image.svg'),
-                  ),
+                  searchList[index].quantity == 0
+                      ? Stack(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: searchList[index].networkImageList![0],
+                              placeholder: (context, url) => Shimmer(
+                                color: kBlackColor,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle),
+                                  width: size.width * 0.4,
+                                  height: size.height * 0.195,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  ColorFiltered(
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.grey, BlendMode.srcATop),
+                                child: Image.asset('assets/icons/no_image.svg'),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 8.0,
+                              right: 8.0,
+                              child: Container(
+                                padding: const EdgeInsets.all(8.0),
+                                color: Colors.black.withOpacity(0.6),
+                                child: const Text(
+                                  'Out of Stock',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: searchList[index].networkImageList![0],
+                          placeholder: (context, url) => Shimmer(
+                            color: kBlackColor,
+                            child: Container(
+                              decoration:
+                                  const BoxDecoration(shape: BoxShape.circle),
+                              width: size.width * 0.4,
+                              height: size.height * 0.195,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Image.asset('assets/icons/no_image.svg'),
+                        ),
                   Positioned(
                     right: 0,
                     top: 0,
