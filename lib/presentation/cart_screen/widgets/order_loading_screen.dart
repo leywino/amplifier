@@ -16,7 +16,8 @@ class OrderLoadingScreen extends StatefulWidget {
     required this.totalPrice,
     required this.paymentMethod,
     required this.cartList,
-    required this.productList, required this.cartProductIdList,
+    required this.productList,
+    required this.cartProductIdList,
   });
 
   final Map addressList;
@@ -34,10 +35,11 @@ class _OrderLoadingScreenState extends State<OrderLoadingScreen> {
   final email = FirebaseAuth.instance.currentUser!.email;
   bool checked = false;
   @override
-
-  
   void initState() {
-    deleteAllCart(widget.cartProductIdList, widget.cartList,);
+    deleteAllCart(
+      widget.cartProductIdList,
+      widget.cartList,
+    );
     addNewOrder(
         Orders(
           addressMap: widget.addressList,
@@ -45,6 +47,7 @@ class _OrderLoadingScreenState extends State<OrderLoadingScreen> {
           paymentMethod: widget.paymentMethod,
           cartList: widget.cartList,
           productList: widget.productList,
+          orderStatusIndex: 0,
         ),
         context);
     delayChecked();

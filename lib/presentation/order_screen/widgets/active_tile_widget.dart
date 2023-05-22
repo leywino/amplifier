@@ -1,3 +1,4 @@
+import 'package:amplifier/presentation/order_screen/widgets/order_track.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -171,7 +172,13 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 5),
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                           TrackOrderScreen(orderStatusIndex: orderList[superIndex].orderStatusIndex!),
+                                    ));
+                                  },
                                   child: const Text(
                                     'Track',
                                     style: TextStyle(

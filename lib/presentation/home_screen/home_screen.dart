@@ -5,6 +5,7 @@ import 'package:amplifier/presentation/home_screen/widget/home_product_tile.dart
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import '../../models/functions.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
   final TextEditingController searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier _isAtTop = ValueNotifier(true);
+  final ValueNotifier<String> searchStringNotifier = ValueNotifier("");
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +108,13 @@ class HomeScreen extends StatelessWidget {
                               child: Center(
                                 child: TextField(
                                   controller: searchController,
+                                  onChanged: (value) {
+                                    EasyDebounce.debounce(
+                                        'search-debouncer',
+                                        const Duration(milliseconds: 400),
+                                        () => searchStringNotifier.value =
+                                            searchController.text);
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: "Search",
                                       border: InputBorder.none,
@@ -133,8 +142,8 @@ class HomeScreen extends StatelessWidget {
                         height: size.height * 0.02,
                       ),
                       ValueListenableBuilder(
-                        valueListenable: searchController,
-                        builder: (context, searchController, child) {
+                        valueListenable: searchStringNotifier,
+                        builder: (context, searchString, child) {
                           return StreamBuilder(
                             stream: getProducts(),
                             builder: (context, snapshot) {
@@ -156,7 +165,7 @@ class HomeScreen extends StatelessWidget {
                                   .where((element) => element.productName
                                       .toString()
                                       .toLowerCase()
-                                      .contains(searchController.text
+                                      .contains(searchString
                                           .toLowerCase()
                                           .replaceAll(RegExp(r"\s+"), "")))
                                   .toList();
