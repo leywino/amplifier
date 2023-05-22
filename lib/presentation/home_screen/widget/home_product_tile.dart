@@ -79,21 +79,47 @@ class HomeProductTile extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Positioned(
+                              top: 8.0,
+                              left: 8.0,
+                              child: Text(
+                                "$percentage%",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: offerPercentageColor,
+                                ),
+                              ),
+                            ),
                           ],
                         )
-                      : CachedNetworkImage(
-                          imageUrl: searchList[index].networkImageList![0],
-                          placeholder: (context, url) => Shimmer(
-                            color: kBlackColor,
-                            child: Container(
-                              decoration:
-                                  const BoxDecoration(shape: BoxShape.circle),
-                              width: size.width * 0.4,
-                              height: size.height * 0.195,
+                      : Stack(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: searchList[index].networkImageList![0],
+                              placeholder: (context, url) => Shimmer(
+                                color: kBlackColor,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                      shape: BoxShape.circle),
+                                  width: size.width * 0.4,
+                                  height: size.height * 0.195,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Image.asset('assets/icons/no_image.svg'),
                             ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Image.asset('assets/icons/no_image.svg'),
+                            Positioned(
+                              top: 8.0,
+                              left: 8.0,
+                              child: Text(
+                                "$percentage%",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: offerPercentageColor,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                   Positioned(
                     right: 0,
@@ -126,17 +152,26 @@ class HomeProductTile extends StatelessWidget {
                   Text(
                     "₹${NumberFormat.decimalPattern().format(searchList[index].price)}",
                     style: const TextStyle(
-                        fontSize: 18,
-                        color: kTextBlackColor,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 18,
+                      color: kTextBlackColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+
+                  const SizedBox(
+                      width:
+                          8), // Add some spacing between the actual price and percentage
                   Text(
-                    "$percentage%",
+                    "₹${NumberFormat.decimalPattern().format(searchList[index].actualPrice)}", // Replace with the actual price value
                     style: const TextStyle(
-                        fontSize: 14, color: offerPercentageColor),
-                  )
+                      fontSize: 18,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         );

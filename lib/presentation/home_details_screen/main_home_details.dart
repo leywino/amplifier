@@ -193,8 +193,10 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => FullImageScreen(
-                                              imageUrl: widget.data
-                                                  .networkImageList!.first),
+                                            imageList:
+                                                widget.data.networkImageList!,
+                                            isCarousal: true,
+                                          ),
                                         ));
                                   },
                                   child: SvgPicture.asset(
@@ -274,7 +276,18 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                                 "$percentage%",
                                 style: const TextStyle(
                                     fontSize: 18, color: offerPercentageColor),
-                              )
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                "₹${NumberFormat.decimalPattern().format(widget.data.actualPrice)}",
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
                             ],
                           ),
                           SizedBox(

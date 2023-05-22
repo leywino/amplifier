@@ -16,7 +16,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int navbarIndex = 0;
+  late int navbarIndex = widget.pageIndex;
 
   final _pages = [
     HomeScreen(),
