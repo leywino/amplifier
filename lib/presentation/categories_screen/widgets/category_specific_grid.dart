@@ -1,16 +1,17 @@
 import 'dart:developer';
 import 'package:amplifier/core/colors/main_colors.dart';
-import 'package:amplifier/models/functions.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
+import 'package:amplifier/presentation/home_screen/widget/add_to_wishlist_button.dart';
 import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-import '../../../core/icons/genereal_icons.dart';
+
+import '../../../models/functions.dart';
+import '../../../models/product_model.dart';
 
 class CategorySpecificGrid extends StatefulWidget {
   const CategorySpecificGrid(
@@ -51,6 +52,8 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return categoryShimmerEffect();
         }
+        List<DocumentSnapshot> documents = snapshot.data!;
+        List<Products> productList = convertToProductsList(documents);
         final data = snapshot.data;
         return SafeArea(
           child: Scaffold(
@@ -119,35 +122,8 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
                                         Image.asset(
                                             'assets/icons/no_image.svg'),
                                   ),
-                                  Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: IconButton(
-                                        onPressed: () async {
-                                          final String email = FirebaseAuth
-                                              .instance.currentUser!.email!;
-                                          final QuerySnapshot snapshot =
-                                              await FirebaseFirestore.instance
-                                                  .collection('users')
-                                                  .doc(email)
-                                                  .collection('wishlist')
-                                                  .where('email',
-                                                      isEqualTo: email)
-                                                  .where('productId',
-                                                      isEqualTo: data[index]
-                                                          ['id'])
-                                                  .get();
-
-                                          deleteFromWishlist(
-                                              snapshot.docs.first.id);
-                                          setState(() {});
-                                        },
-                                        icon: SizedBox(
-                                          height: 22,
-                                          width: 22,
-                                          child: cHeartFillIcon,
-                                        ),
-                                      )),
+                                  WishlistButton(
+                                      searchList: productList, index: index),
                                 ],
                               ),
                               Text(
