@@ -1,17 +1,22 @@
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/models/product_model.dart';
+import 'package:amplifier/presentation/cart_screen/widgets/checkout_screen.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/add_to_cart_widget.dart';
 import 'package:amplifier/presentation/home_details_screen/widgets/full_image_widget.dart';
 import 'package:amplifier/presentation/home_screen/widget/add_to_wishlist_button.dart';
 import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+
+import '../../models/cart_model.dart';
+import '../../models/functions.dart';
 
 class HomeDetailsPage extends StatefulWidget {
   const HomeDetailsPage(
@@ -446,12 +451,82 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                   ],
                 ),
               ),
+              bottomSheet: Container(
+                height: 60,
+                decoration:
+                    const BoxDecoration(border: Border(top: BorderSide())),
+                width: size.width,
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        final email = FirebaseAuth.instance.currentUser!.email;
+                        List productIdList = [];
+                        productIdList.add(widget.productList[widget.index].id);
+                        CollectionReference collectionRef = FirebaseFirestore
+                            .instance
+                            .collection('users')
+                            .doc(email)
+                            .collection('cart');
+
+                        QuerySnapshot querySnapshot = await collectionRef.get();
+                        for (var document in querySnapshot.docs) {
+                          document.reference.delete();
+                        }
+
+                        addToCart(
+                            Cart(
+                              productId: widget.data.id,
+                              quantity: 1,
+                              price: widget.data.price,
+                              totalPrice: widget.data.price,
+                            ),
+                            context);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CheckoutScreen(
+                                  cartProductIdList: productIdList,
+                                  productList: widget.productList),
+                            ));
+                      },
+                      child: SizedBox(
+                        width: size.width * 0.45,
+                        child: const Material(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Buy Now",
+                                    style: TextStyle(fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  // Text(
+                                  //   "",
+                                  //   style: TextStyle(
+                                  //     fontSize: 20,
+                                  //     fontWeight: FontWeight.bold,
+                                  //   ),
+                                  // )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    AddToCartWidget(
+                      data: widget.data,
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Positioned(
-              right: 10,
-              bottom: 10,
-              child: AddToCartWidget(data: widget.data),
-            )
           ],
         ),
       ),

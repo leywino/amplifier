@@ -61,10 +61,10 @@ class _AddressScreenState extends State<AddressScreen> {
           backgroundColor: kWhiteColor,
           body: SingleChildScrollView(
             child: Column(children: [
-              const CustomAppBar(
+              CustomAppBar(
                 title: "Address",
                 showBackButton: true,
-                showTrailingIcon: true,
+                showTrailingIcon: trueIndex != null,
                 goToProfileScreen: true,
               ),
               StreamBuilder(
@@ -90,6 +90,21 @@ class _AddressScreenState extends State<AddressScreen> {
                   }
                   List<DocumentSnapshot> documents = snapshot.data!;
                   List<Address> addressList = convertToAddressList(documents);
+
+                  if (addressList.isEmpty) {
+                    return SizedBox(
+                      height: size.height * 0.8,
+                      child: const Center(
+                        child: Text(
+                          "You have no added address!",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
 
                   return Column(
                     children: List.generate(

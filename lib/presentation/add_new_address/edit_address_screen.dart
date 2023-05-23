@@ -106,12 +106,13 @@ class _EditAdressScreenState extends State<EditAdressScreen> {
                         context,
                         widget.data['id']);
 
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       PageRouteBuilder(
                         transitionDuration: Duration.zero,
                         pageBuilder: (_, __, ___) => const AddressScreen(),
                       ),
+                      (route) => false,
                     );
                   },
                   style: ButtonStyle(
