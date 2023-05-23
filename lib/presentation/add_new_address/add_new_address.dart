@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 final _formKey = GlobalKey<FormState>();
 
 class AddNewAddresScreen extends StatelessWidget {
-  AddNewAddresScreen({super.key});
+  AddNewAddresScreen({super.key, this.fromCheckOut = false});
+
+  final bool fromCheckOut;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -96,14 +98,17 @@ class AddNewAddresScreen extends StatelessWidget {
                           ),
                           context);
 
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: Duration.zero,
-                          pageBuilder: (_, __, ___) => const AddressScreen(),
-                        ),
-                        (route) => route.isFirst,
-                      );
+                      !fromCheckOut
+                          ? Navigator.pushAndRemoveUntil(
+                              context,
+                              PageRouteBuilder(
+                                transitionDuration: Duration.zero,
+                                pageBuilder: (_, __, ___) =>
+                                    const AddressScreen(),
+                              ),
+                              (route) => route.isFirst,
+                            )
+                          : Navigator.pop(context);
                     }
                   },
                   style: ButtonStyle(

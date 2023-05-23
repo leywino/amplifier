@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import '../../../core/strings.dart';
-import '../../widgets/custom_app_bar.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen(
@@ -47,6 +46,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         this.addressList = addressList;
       });
     }
+  }
+
+  void refreshPageFromAddress() {
+    getAddress();
   }
 
   getCartList() async {
@@ -98,7 +101,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     if (addressList.isNotEmpty) {
       String words = addressList[selectedAddressIndex]['name'];
       List<String> wordL = words.split(" ");
-      wordL.removeAt(1);
+      if (wordL.length > 1) {
+        wordL.removeAt(1);
+      }
       name = wordL.join(" ");
     }
     final size = MediaQuery.of(context).size;
@@ -109,11 +114,45 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: Stack(
           children: [
             Scaffold(
+              appBar: AppBar(
+                backgroundColor: kWhiteColor,
+                elevation: 0,
+                // automaticallyImplyLeading: true,
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.back,
+                  ),
+                ),
+                foregroundColor: kBlackColor,
+
+                title: const Text(
+                  "Checkout",
+                  style: TextStyle(
+                    color: kTextBlackColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                actions: [
+                  GestureDetector(
+                    child: const Icon(
+                      Icons.refresh,
+                    ),
+                    onTap: () {
+                      setState(() {});
+                    },
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  )
+                ],
+              ),
               backgroundColor: kWhiteColor,
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomAppBar(title: "Checkout", showBackButton: true),
                   const SizedBox(
                     height: 12,
                   ),
@@ -185,7 +224,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            changeAddressPopUp();
+                                            changeAddressPopUp(size);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -225,7 +264,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AddNewAddresScreen(),
+                                    builder: (context) => AddNewAddresScreen(
+                                      fromCheckOut: true,
+                                    ),
                                   ));
                             },
                             child: Container(
@@ -547,7 +588,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  changeAddressPopUp() {
+  changeAddressPopUp(Size size) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -559,14 +600,41 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Change Address",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: size.width * 0.06),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Choose From Saved Address",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          width: 25,
+                          height: 25,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey[400],
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'x',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Container(
@@ -636,17 +704,46 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
-                      kBlackColor,
+                const Text(
+                  "OR",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddNewAddresScreen(
+                              fromCheckOut: true,
+                            ),
+                          ));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black,
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
+                    ),
+                    child: const Text(
+                      "Add New Address",
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Close'),
-                ),
+                )
               ],
             );
           },

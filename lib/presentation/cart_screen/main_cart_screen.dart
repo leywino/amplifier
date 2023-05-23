@@ -285,59 +285,78 @@ class _MainCartScreenState extends State<MainCartScreen> {
           },
         )),
         bottomSheet: Visibility(
-          visible: dataList.isNotEmpty,
-          child: Container(
-            color: kWhiteColor,
-            height: size.height * 0.1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+            visible: dataList.isNotEmpty,
+            child: Container(
+              height: 60,
+              decoration: const BoxDecoration(
+                color: kWhiteColor,
+                border: Border(top: BorderSide(), bottom: BorderSide()),
+              ),
+              width: size.width,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Total Price",
-                        style: TextStyle(
-                          color: kTextBlackColor.withOpacity(0.5),
-                          fontSize: 16.0,
-                        ),
+                  SizedBox(
+                    width: size.width * 0.33,
+                    child: Material(
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Total Price",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              TotalPriceWidget(totalPrice: totalPrice),
+                            ],
+                          ),
+                        ],
                       ),
-                      TotalPriceWidget(totalPrice: totalPrice),
-                    ],
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: kBlackColor,
-                      borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: TextButton.icon(
-                      onPressed: () {
+                  ),
+                  Material(
+                    child: InkWell(
+                      onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CheckoutScreen(
-                                  cartProductIdList: productIdList,
-                                  productList: dataList),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckoutScreen(
+                              cartProductIdList: productIdList,
+                              productList: dataList,
+                            ),
+                          ),
+                        );
                       },
-                      icon: const Icon(
-                        CupertinoIcons.checkmark_square,
-                        color: kWhiteColor,
-                        size: 30,
-                      ),
-                      label: const Text(
-                        'Checkout',
-                        style: TextStyle(color: kWhiteColor, fontSize: 24),
+                      child: Container(
+                        color: kBlackColor,
+                        width: size.width * 0.67,
+                        child: const Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Checkout",
+                                style:
+                                    TextStyle(fontSize: 18, color: kWhiteColor),
+                              ),
+                              Icon(
+                                CupertinoIcons.chevron_forward,
+                                color: kWhiteColor,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ),
-        ),
+            )),
       ),
     );
   }
@@ -404,7 +423,7 @@ class TotalPriceWidget extends StatelessWidget {
           "₹${NumberFormat.decimalPattern().format(value)}",
           style: const TextStyle(
             color: kTextBlackColor,
-            fontSize: 26.0,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         );

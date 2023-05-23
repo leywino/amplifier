@@ -6,6 +6,7 @@ import 'package:amplifier/presentation/widgets/custom_app_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -59,6 +60,11 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
               elevation: 0,
               // automaticallyImplyLeading: true,
               foregroundColor: kBlackColor,
+
+              leading: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(CupertinoIcons.back),
+              ),
 
               title: Text(
                 widget.categoryTitle,
