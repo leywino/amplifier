@@ -146,14 +146,16 @@ class ResetPasswordScreen extends StatelessWidget {
             );
           } else {
             Future.delayed(
-              const Duration(milliseconds: 100),
-              () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const BottomNavBar(),
-                ),
-              ),
-            );
+  const Duration(milliseconds: 100),
+  () => Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const BottomNavBar(),
+    ),
+    (route) => false,
+  ),
+);
+
           }
 
           return Container(

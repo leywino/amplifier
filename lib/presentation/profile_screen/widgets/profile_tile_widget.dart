@@ -208,12 +208,13 @@ void _showBottomModalSheet(BuildContext context) {
                     ProfileScreen.showLogOutNotifier.value = false;
                     FirebaseAuth.instance.signOut();
                     GoogleSignIn().signOut();
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       PageRouteBuilder(
                         transitionDuration: Duration.zero,
                         pageBuilder: (_, __, ___) => MainLoginScreen(),
                       ),
+                      (route) => false,
                     );
                   },
                   style: ButtonStyle(

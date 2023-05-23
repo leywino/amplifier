@@ -35,13 +35,14 @@ class CustomAppBar extends StatelessWidget {
           ? IconButton(
               onPressed: () => !replaceNavigatorPop
                   ? Navigator.pop(context)
-                  : Navigator.pushReplacement(
+                  : Navigator.pushAndRemoveUntil(
                       context,
                       PageRouteBuilder(
                         pageBuilder: (_, __, ___) =>
                             BottomNavBar(pageIndex: pageIndex),
                         transitionDuration: const Duration(seconds: 0),
                       ),
+                      (route) => false,
                     ),
               icon: const Icon(CupertinoIcons.back),
             )

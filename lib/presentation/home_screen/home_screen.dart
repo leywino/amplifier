@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        onPressed: () => Navigator.pushReplacement(
+                        onPressed: () => Navigator.pushAndRemoveUntil(
                           context,
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) => const BottomNavBar(
@@ -56,6 +56,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             transitionDuration: const Duration(seconds: 0),
                           ),
+                          (route) => false,
                         ),
                         icon: const Icon(
                           CustomIcon.buy_2iconfluttter,

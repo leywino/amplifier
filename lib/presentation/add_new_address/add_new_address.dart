@@ -96,12 +96,13 @@ class AddNewAddresScreen extends StatelessWidget {
                           ),
                           context);
 
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         PageRouteBuilder(
                           transitionDuration: Duration.zero,
                           pageBuilder: (_, __, ___) => const AddressScreen(),
                         ),
+                        (route) => route.isFirst,
                       );
                     }
                   },

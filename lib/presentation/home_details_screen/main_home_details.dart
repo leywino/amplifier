@@ -482,13 +482,16 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
                               totalPrice: widget.data.price,
                             ),
                             context);
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CheckoutScreen(
-                                  cartProductIdList: productIdList,
-                                  productList: widget.productList),
-                            ));
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckoutScreen(
+                              cartProductIdList: productIdList,
+                              productList: widget.productList,
+                            ),
+                          ),
+                          (route) => false,
+                        );
                       },
                       child: SizedBox(
                         width: size.width * 0.45,
