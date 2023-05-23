@@ -109,11 +109,13 @@ class _OrderLoadingScreenState extends State<OrderLoadingScreen> {
 
 navigateToHome(BuildContext context) {
   Future.delayed(
-    const Duration(milliseconds: 1500),
-    () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const BottomNavBar(),
-        )),
-  );
+      const Duration(milliseconds: 1500),
+      () => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const BottomNavBar(),
+            ),
+            (Route<dynamic> route) =>
+                false, // Condition to remove all previous screens
+          ));
 }
