@@ -66,11 +66,12 @@ class MainSignupScreen extends StatelessWidget {
         if (snapshot.hasData) {
           Future.delayed(
             const Duration(milliseconds: 100),
-            () => Navigator.pushReplacement(
+            () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                 builder: (context) => const BottomNavBar(),
               ),
+              (route) => false,
             ),
           );
         } else {

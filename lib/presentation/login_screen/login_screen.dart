@@ -262,12 +262,13 @@ class MainLoginScreen extends StatelessWidget {
                                         ),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            Navigator.pushReplacement(
+                                            Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     MainSignupScreen(),
                                               ),
+                                              (route) => false,
                                             );
                                           },
                                       ),
@@ -318,11 +319,12 @@ class MainLoginScreen extends StatelessWidget {
               } else {
                 Future.delayed(
                   const Duration(milliseconds: 100),
-                  () => Navigator.pushReplacement(
+                  () => Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const BottomNavBar(),
                     ),
+                    (route) => false,
                   ),
                 );
               }
