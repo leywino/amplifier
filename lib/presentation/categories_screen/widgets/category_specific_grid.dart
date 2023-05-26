@@ -96,8 +96,8 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => HomeDetailsPage(
-                                  data: data[index],
-                                  productList: data,
+                                  data: productList[index],
+                                  productList: productList,
                                   index: index,
                                 ),
                               )),
@@ -107,20 +107,23 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
                             children: [
                               Stack(
                                 children: [
-                                  CachedNetworkImage(
-                                    height: 180,
-                                    imageUrl: data[index]['networkImageList']
-                                        [0],
-                                    placeholder: (context, url) => Shimmer(
-                                      color: kBlackColor,
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                            shape: BoxShape.circle),
+                                  Hero(
+                                    tag: 'image_${productList[index].id}',
+                                    child: CachedNetworkImage(
+                                      height: 180,
+                                      imageUrl: data[index]['networkImageList']
+                                          [0],
+                                      placeholder: (context, url) => Shimmer(
+                                        color: kBlackColor,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle),
+                                        ),
                                       ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                              'assets/icons/no_image.svg'),
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
-                                            'assets/icons/no_image.svg'),
                                   ),
                                   WishlistButton(
                                       searchList: productList, index: index),

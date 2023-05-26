@@ -124,17 +124,20 @@ class _MainWishlistScreenState extends State<MainWishlistScreen> {
                         children: [
                           Stack(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // color: Colors.red,
-                                    image: DecorationImage(
-                                  image: NetworkImage(wishlistList[index]
-                                      .networkImageList!
-                                      .first),
-                                  fit: BoxFit.cover,
-                                )),
-                                height: 180,
-                                // width: size.width,
+                              Hero(
+                                tag: 'image_${wishlistList[index].id!}',
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      // color: Colors.red,
+                                      image: DecorationImage(
+                                    image: NetworkImage(wishlistList[index]
+                                        .networkImageList!
+                                        .first),
+                                    fit: BoxFit.cover,
+                                  )),
+                                  height: 180,
+                                  // width: size.width,
+                                ),
                               ),
                               Positioned(
                                   right: 0,
