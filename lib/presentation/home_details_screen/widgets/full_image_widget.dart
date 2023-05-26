@@ -9,10 +9,12 @@ class FullImageScreen extends StatefulWidget {
     this.imageUrl,
     this.isCarousal = false,
     this.imageList,
+    required this.id,
   });
   final String? imageUrl;
   final bool isCarousal;
   final List? imageList;
+  final String id;
 
   @override
   State<FullImageScreen> createState() => _FullImageScreenState();
@@ -68,8 +70,11 @@ class _FullImageScreenState extends State<FullImageScreen> {
               child: SizedBox(
                 height: size.width,
                 width: size.width,
-                child: PhotoView(
-                  imageProvider: NetworkImage(widget.imageUrl!),
+                child: Hero(
+                  tag: 'image_${widget.id}',
+                  child: PhotoView(
+                    imageProvider: NetworkImage(widget.imageUrl!),
+                  ),
                 ),
               ),
             )
@@ -118,9 +123,12 @@ class _FullImageScreenState extends State<FullImageScreen> {
                             return AnimatedContainer(
                               duration: const Duration(milliseconds: 150),
                               curve: Curves.easeInOut,
-                              child: PhotoView(
-                                  imageProvider:
-                                      NetworkImage(widget.imageList![index])),
+                              child: Hero(
+                                tag: 'image_${widget.id}',
+                                child: PhotoView(
+                                    imageProvider:
+                                        NetworkImage(widget.imageList![index])),
+                              ),
                             );
                           },
                         ),
