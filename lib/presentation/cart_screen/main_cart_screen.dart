@@ -182,15 +182,19 @@ class _MainCartScreenState extends State<MainCartScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Flexible(
-                                  child: CachedNetworkImage(
-                                    imageUrl: dataList[index]
-                                        ['networkImageList'][0],
-                                    height: 120,
-                                    placeholder: (context, url) => Shimmer(
-                                      color: kBlackColor,
-                                      child: const SizedBox(
-                                        height: 120,
-                                        width: 120,
+                                  child: Hero(
+                                    tag:
+                                        'image_${cartList[index]['productId']}',
+                                    child: CachedNetworkImage(
+                                      imageUrl: dataList[index]
+                                          ['networkImageList'][0],
+                                      height: 120,
+                                      placeholder: (context, url) => Shimmer(
+                                        color: kBlackColor,
+                                        child: const SizedBox(
+                                          height: 120,
+                                          width: 120,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -372,13 +376,18 @@ class _MainCartScreenState extends State<MainCartScreen> {
               'Are you sure you want to delete this product from cart?'),
           actions: [
             TextButton(
-              child: const Text('Cancel'),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              child: const Text('Cancel'),
             ),
             TextButton(
-              child: const Text('Delete'),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
+              ),
               onPressed: () async {
                 final String email = FirebaseAuth.instance.currentUser!.email!;
                 QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -393,11 +402,10 @@ class _MainCartScreenState extends State<MainCartScreen> {
                 });
                 totalPriceNotifier.value =
                     totalPrice - querySnapshot.docs.first.get('totalPrice');
-                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
-
                 setState(() {});
               },
+              child: const Text('Delete'),
             ),
           ],
         );

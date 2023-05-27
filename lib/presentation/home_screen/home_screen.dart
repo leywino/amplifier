@@ -17,6 +17,7 @@ class HomeScreen extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier _isAtTop = ValueNotifier(true);
   final ValueNotifier<String> searchStringNotifier = ValueNotifier("");
+  
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class HomeScreen extends StatelessWidget {
       });
     });
 
+    
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(

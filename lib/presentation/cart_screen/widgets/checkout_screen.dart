@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/add_new_address/add_new_address.dart';
 import 'package:amplifier/presentation/cart_screen/widgets/order_loading_screen.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../core/strings.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -20,11 +23,42 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  final _razorpay = Razorpay();
   @override
   void initState() {
     getAddress();
     getCartList();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    num totalPrice = 0;
+    for (int i = 0; i < cartList.length; i++) {
+      totalPrice += cartList[i]['totalPrice'];
+    }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrderLoadingScreen(
+            addressList: addressList[selectedAddressIndex],
+            totalPrice: totalPrice,
+            paymentMethod: paymentTitles[selectedPaymentIndex],
+            cartList: cartList,
+            productList: widget.productList,
+            cartProductIdList: widget.cartProductIdList,
+          ),
+        ));
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    log("Payment Failed");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    log("External Wallet Selected");
   }
 
   List addressList = [];
@@ -89,11 +123,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
       );
     }
-    num totalPrice = 0;
+
     num totalQuantity = 0;
+    num totalPrice = 0;
+
     for (int i = 0; i < cartList.length; i++) {
       totalPrice += cartList[i]['totalPrice'];
     }
+
     for (int i = 0; i < cartList.length; i++) {
       totalQuantity += cartList[i]['quantity'];
     }
@@ -512,20 +549,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           if (codAva && selectedPaymentIndex == 1) {
                             showAlertDialog();
                           } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => OrderLoadingScreen(
-                                    addressList:
-                                        addressList[selectedAddressIndex],
-                                    totalPrice: totalPrice,
-                                    paymentMethod:
-                                        paymentTitles[selectedPaymentIndex],
-                                    cartList: cartList,
-                                    productList: widget.productList,
-                                    cartProductIdList: widget.cartProductIdList,
-                                  ),
-                                ));
+                            if (selectedPaymentIndex == 1) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OrderLoadingScreen(
+                                      addressList:
+                                          addressList[selectedAddressIndex],
+                                      totalPrice: totalPrice,
+                                      paymentMethod:
+                                          paymentTitles[selectedPaymentIndex],
+                                      cartList: cartList,
+                                      productList: widget.productList,
+                                      cartProductIdList:
+                                          widget.cartProductIdList,
+                                    ),
+                                  ));
+                            } else {
+                              final user = FirebaseAuth.instance.currentUser;
+                              Map<String, dynamic> options = {
+                                'key': 'rzp_test_SyJPXIbUoAO8Lu',
+                                'amount': totalPrice * 100,
+                                'name': user!.displayName,
+                                'timeout': 300,
+                                'description': widget.productList[0]
+                                    ['productName'],
+                                'prefill': {'contact': '', 'email': user.email}
+                              };
+                              _razorpay.open(options);
+                            }
                           }
                         },
                         child: Container(
