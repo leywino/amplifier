@@ -41,12 +41,9 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
   final CollectionReference products =
       FirebaseFirestore.instance.collection('products');
 
-  // final _dummyChipText = ["3.5mm Without Mic", "Type-C with Mic"];
-
   int? initialPage;
 
   void goToHomeNav() {
-    // Implement your logic here
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
