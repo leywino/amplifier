@@ -55,7 +55,7 @@ class _HomeDetailsPageState extends State<HomeDetailsPage> {
   @override
   Widget build(BuildContext context) {
     int percentage =
-        (widget.data.price / widget.data.actualPrice * 100.0).round();
+        100 - (widget.data.price / widget.data.actualPrice * 100.0).round();
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Stack(

@@ -26,7 +26,7 @@ class HomeProductTile extends StatelessWidget {
       childAspectRatio: 1 / 1.8,
       shrinkWrap: true,
       children: List.generate(searchList.length, (index) {
-        int percentage =
+        int percentage = 100 -
             (searchList[index].price / searchList[index].actualPrice * 100.0)
                 .round();
 
@@ -168,10 +168,7 @@ class HomeProductTile extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
-                  const SizedBox(
-                      width:
-                          8), // Add some spacing between the actual price and percentage
+                  const SizedBox(width: 8),
                   Text(
                     "₹${NumberFormat.decimalPattern().format(searchList[index].actualPrice)}", // Replace with the actual price value
                     style: const TextStyle(

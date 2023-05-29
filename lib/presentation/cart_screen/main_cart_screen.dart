@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 ValueNotifier<int> quantityNotifier = ValueNotifier(1);
@@ -105,9 +106,8 @@ class _MainCartScreenState extends State<MainCartScreen> {
         appBar: AppBar(
           backgroundColor: kWhiteColor,
           elevation: 0,
-          // automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
           foregroundColor: kBlackColor,
-
           title: const Text(
             "My Cart",
             style: TextStyle(
@@ -325,10 +325,11 @@ class _MainCartScreenState extends State<MainCartScreen> {
                   Material(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => CheckoutScreen(
+                          PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: CheckoutScreen(
                               cartProductIdList: productIdList,
                               productList: dataList,
                             ),

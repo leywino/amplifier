@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/add_new_address/add_new_address.dart';
 import 'package:amplifier/presentation/cart_screen/widgets/order_loading_screen.dart';
+import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../core/strings.dart';
 
@@ -157,7 +159,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 // automaticallyImplyLeading: true,
                 leading: IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.topToBottom,
+                        child: const BottomNavBar(
+                          pageIndex: 1,
+                        ),
+                      ),
+                    );
                   },
                   icon: const Icon(
                     CupertinoIcons.back,
@@ -477,7 +487,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 backgroundColor: Colors.grey[200],
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(paymentIcons[index]),
+                                  child: index != 0
+                                      ? SvgPicture.asset(paymentIcons[index])
+                                      : Image.asset(paymentIcons[index]),
                                 ),
                               ),
                               title: Text(
@@ -570,11 +582,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               Map<String, dynamic> options = {
                                 'key': 'rzp_test_SyJPXIbUoAO8Lu',
                                 'amount': totalPrice * 100,
-                                'name': user!.displayName,
+                                'name': 'Amplifier',
                                 'timeout': 300,
                                 'description': widget.productList[0]
                                     ['productName'],
-                                'prefill': {'contact': '', 'email': user.email}
+                                'prefill': {'contact': '', 'email': user!.email}
                               };
                               _razorpay.open(options);
                             }
