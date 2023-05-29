@@ -1,4 +1,4 @@
-final List<String> dummyCategoryName = [
+const List<String> dummyCategoryName = [
   "Headphones",
   "In-Ears",
   "Wireless",
@@ -6,7 +6,7 @@ final List<String> dummyCategoryName = [
   "Hi-Res Audio Players",
 ];
 
-final List<String> dummyCategoryImage = [
+const List<String> dummyCategoryImage = [
   "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-HiFiMAN-HE400se-1160-1160-7.jpg?v=1614245064&width=800",
   "https://cdn.shopify.com/s/files/1/0153/8863/products/KZ-ZSN-Pro-X-Black-01_960774c7-2c57-4f9c-ab41-12cff3d684de.jpg?v=1650864564&width=800",
   "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-WF-1000XM4-Black-07.jpg?v=1642060231&width=800",
@@ -14,7 +14,7 @@ final List<String> dummyCategoryImage = [
   "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-Sony-NW-ZX707-012.jpg?v=1674635770&width=800",
 ];
 
-final List<String> categoryFirebaseName = [
+const List<String> categoryFirebaseName = [
   "Headphones",
   "inEars",
   "Earbuds",
@@ -22,7 +22,7 @@ final List<String> categoryFirebaseName = [
   "Hi-Res Audio Player"
 ];
 
-final List<String> profileTitles = [
+const List<String> profileTitles = [
   "Orders",
   "Address",
   "Privacy Policy",
@@ -30,12 +30,12 @@ final List<String> profileTitles = [
   "Log Out",
 ];
 
-final List<String> paymentTitles = [
-  "UPI",
+const List<String> paymentTitles = [
+  "Razor Pay",
   "Cash On Delivery",
 ];
 
-final List<String> paymentIcons = [
-  "assets/icons/upi.svg",
+const List<String> paymentIcons = [
+  "assets/icons/razorpay.png",
   "assets/icons/cash.svg",
 ];
