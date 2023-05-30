@@ -4,7 +4,6 @@ import 'package:checkmark/checkmark.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../../core/colors/main_colors.dart';
 import '../../../models/functions.dart';
@@ -19,7 +18,6 @@ class OrderLoadingScreen extends StatefulWidget {
     required this.cartList,
     required this.productList,
     required this.cartProductIdList,
-    this.response,
   });
 
   final Map addressList;
@@ -28,7 +26,6 @@ class OrderLoadingScreen extends StatefulWidget {
   final List cartList;
   final List productList;
   final List cartProductIdList;
-  final PaymentSuccessResponse? response;
 
   @override
   State<OrderLoadingScreen> createState() => _OrderLoadingScreenState();
@@ -51,7 +48,6 @@ class _OrderLoadingScreenState extends State<OrderLoadingScreen> {
           cartList: widget.cartList,
           productList: widget.productList,
           orderStatusIndex: 0,
-          razorPaymentId: widget.response!.paymentId,
         ),
         context);
     delayChecked();

@@ -12,7 +12,7 @@ import '../address_screen/address_screen.dart';
 class EditAdressScreen extends StatefulWidget {
   const EditAdressScreen({super.key, required this.data});
 
-  final dynamic data;
+  final Address data;
 
   @override
   State<EditAdressScreen> createState() => _EditAdressScreenState();
@@ -31,11 +31,11 @@ class _EditAdressScreenState extends State<EditAdressScreen> {
 
   @override
   void initState() {
-    nameController.text = widget.data['name'];
-    addressController.text = widget.data['permanent address'];
-    pincodeController.text = widget.data['pin code'].toString();
-    stateController.text = widget.data['state'];
-    cityController.text = widget.data['city'];
+    nameController.text = widget.data.name!;
+    addressController.text = widget.data.permanentAddress!;
+    pincodeController.text = widget.data.pinCode.toString();
+    stateController.text = widget.data.state!;
+    cityController.text = widget.data.city!;
     super.initState();
   }
 
@@ -106,7 +106,7 @@ class _EditAdressScreenState extends State<EditAdressScreen> {
                           city: cityController.text.trim(),
                         ),
                         context,
-                        widget.data['id']);
+                        widget.data.id!);
 
                     Navigator.pushAndRemoveUntil(
                       context,
