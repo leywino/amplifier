@@ -288,8 +288,8 @@ class _CompletedTileWidgetState extends State<CompletedTileWidget> {
                         ),
                       ),
                       onPressed: () async {
-                        await cancelOrderItem(context, productId, cartList,
-                            index, superIndex, productList);
+                        await cancelOrderItem(
+                            context, cartList, superIndex, productList);
                         Navigator.pop(context, true);
                         setState(() {
                           getOrderList();

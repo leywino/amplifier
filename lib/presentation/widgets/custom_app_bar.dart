@@ -3,6 +3,7 @@ import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import '../address_screen/address_screen.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -37,10 +38,9 @@ class CustomAppBar extends StatelessWidget {
                   ? Navigator.pop(context)
                   : Navigator.pushAndRemoveUntil(
                       context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) =>
-                            BottomNavBar(pageIndex: pageIndex),
-                        transitionDuration: const Duration(seconds: 0),
+                      PageTransition(
+                        type: PageTransitionType.bottomToTop,
+                        child: const BottomNavBar(),
                       ),
                       (route) => false,
                     ),

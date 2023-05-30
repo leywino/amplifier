@@ -4,6 +4,7 @@ import 'package:amplifier/models/wishlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'address_model.dart';
 import 'cart_model.dart';
 import 'order_model.dart';
@@ -285,6 +286,7 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
       'productList': orderclass.productList,
       'email': email,
       'orderStatusIndex': orderclass.orderStatusIndex,
+      'razorPaymentId': orderclass.razorPaymentId,
     });
     log("new order placed");
   } catch (error) {
@@ -292,42 +294,59 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
   }
 }
 
-Future<void> cancelOrderItem(BuildContext context, String productId,
-    List cartList, int index, int superIndex, List productList) async {
+Future<void> cancelOrderItem(BuildContext context, List cartList,
+    int superIndex, List productList) async {
+  final _razorpay = Razorpay();
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final collectionRef = FirebaseFirestore.instance.collection('orders');
   final querySnapshot =
       await collectionRef.where('email', isEqualTo: email).get();
   final documentRef = querySnapshot.docs[superIndex].reference;
 
-  DocumentReference products =
-      FirebaseFirestore.instance.collection('products').doc(productId);
-  DocumentSnapshot snapshot = await products.get();
+  
 
-  final itemQuantity = snapshot.get('quantity');
-  final totalItems = cartList[index]['quantity'] + itemQuantity;
-  CollectionReference productCollectionRef =
-      FirebaseFirestore.instance.collection('products');
-
-  if (cartList.length != 1) {
-    int index = cartList.indexWhere(
-        (element) => element['productId'].toString().contains(productId));
-    log(index.toString());
-    productList.removeAt(index);
-    cartList.removeAt(index);
-    await documentRef.update({
-      'cartList': cartList,
-      'productList': productList,
-    });
-  } else {
-    documentRef.delete();
+  List<String> productIdList = [];
+  for (var i in cartList) {
+    productIdList.add(i['productId']);
   }
 
-  return productCollectionRef
-      .doc(productId)
-      .update({'quantity': totalItems}).then((value) {
-    log("Product quantity updated");
-  }).catchError((error) {
-    log("Failed to update product quantity: $error");
-  });
+  log(productIdList.toString());
+  int i = 0;
+  for (String id in productIdList) {
+    DocumentReference products =
+        FirebaseFirestore.instance.collection('products').doc(id);
+    DocumentSnapshot snapshot = await products.get();
+
+    final itemQuantity = snapshot.get('quantity');
+    final totalItems = cartList[i]['quantity'] + itemQuantity;
+    i++;
+    CollectionReference productCollectionRef =
+        FirebaseFirestore.instance.collection('products');
+
+    productCollectionRef.doc(id).update({'quantity': totalItems});
+  }
+
+  documentRef.delete();
+
+  // if (cartList.length != 1) {
+  //   int index = cartList.indexWhere(
+  //       (element) => element['productId'].toString().contains(productId));
+  //   log(index.toString());
+  //   productList.removeAt(index);
+  //   cartList.removeAt(index);
+  //   await documentRef.update({
+  //     'cartList': cartList,
+  //     'productList': productList,
+  //   });
+  // } else {
+
+  // }
+
+  //  productCollectionRef
+  //     .doc(productId)
+  //     .update({'quantity': totalItems}).then((value) {
+  //   log("Product quantity updated");
+  // }).catchError((error) {
+  //   log("Failed to update product quantity: $error");
+  // });
 }

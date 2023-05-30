@@ -7,6 +7,7 @@ import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import '../../models/functions.dart';
 
@@ -17,7 +18,6 @@ class HomeScreen extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier _isAtTop = ValueNotifier(true);
   final ValueNotifier<String> searchStringNotifier = ValueNotifier("");
-  
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,6 @@ class HomeScreen extends StatelessWidget {
       });
     });
 
-    
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -51,15 +50,14 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () => Navigator.pushAndRemoveUntil(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => const BottomNavBar(
-                              pageIndex: 1,
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const BottomNavBar(
+                                pageIndex: 1,
+                              ),
                             ),
-                            transitionDuration: const Duration(seconds: 0),
-                          ),
-                          (route) => false,
-                        ),
+                            (route) => false),
                         icon: const Icon(
                           CustomIcon.buy_2iconfluttter,
                           color: kAppBarIconColor,
@@ -67,10 +65,11 @@ class HomeScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MainWishlistScreen(),
-                            )),
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.topToBottom,
+                              child: const MainWishlistScreen()),
+                        ),
                         icon: const Icon(
                           CustomIcon.hearticonfluttter,
                           color: kAppBarIconColor,
