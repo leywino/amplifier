@@ -1,12 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+
 class EditableTextWidget extends StatefulWidget {
-  const EditableTextWidget({super.key, required this.user});
+  const EditableTextWidget({
+    super.key,
+    required this.user,
+  });
 
   final User user;
+
   @override
-  _EditableTextWidgetState createState() => _EditableTextWidgetState();
+  State<EditableTextWidget> createState() => _EditableTextWidgetState();
 }
 
 class _EditableTextWidgetState extends State<EditableTextWidget> {

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/models/functions.dart';
 import 'package:amplifier/presentation/cart_screen/widgets/checkout_screen.dart';

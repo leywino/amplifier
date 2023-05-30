@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'package:amplifier/presentation/login_screen/widgets/forgot_password.dart';
 import 'package:amplifier/presentation/signup_screen/signup_screen.dart';

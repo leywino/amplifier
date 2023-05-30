@@ -99,6 +99,7 @@ class AddNewAddresScreen extends StatelessWidget {
                           context);
 
                       !fromCheckOut
+                          // ignore: use_build_context_synchronously
                           ? Navigator.pushAndRemoveUntil(
                               context,
                               PageRouteBuilder(
@@ -108,6 +109,7 @@ class AddNewAddresScreen extends StatelessWidget {
                               ),
                               (route) => route.isFirst,
                             )
+                          // ignore: use_build_context_synchronously
                           : Navigator.pop(context);
                     }
                   },

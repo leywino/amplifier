@@ -4,16 +4,14 @@ import '../colors/main_colors.dart';
 
 SvgPicture shoppingCart1 = SvgPicture.asset(
   "assets/icons/shoppingcart1.svg",
-  // ignore: deprecated_member_use
-  color: bottomNavBarUnselectedColor,
+  theme: const SvgTheme(currentColor: bottomNavBarUnselectedColor),
 );
 SvgPicture shoppingCart2 = SvgPicture.asset(
   "assets/icons/shoppingcart2.svg",
 );
 SvgPicture profile1 = SvgPicture.asset(
   "assets/icons/profile1.svg",
-  // ignore: deprecated_member_uses
-  color: bottomNavBarUnselectedColor,
+  theme: const SvgTheme(currentColor: bottomNavBarUnselectedColor),
 );
 SvgPicture profile2 = SvgPicture.asset(
   "assets/icons/profile2.svg",
@@ -23,13 +21,11 @@ SvgPicture gridview1 = SvgPicture.asset(
 );
 SvgPicture gridview2 = SvgPicture.asset(
   "assets/icons/gridview2.svg",
-  // ignore: deprecated_member_use
-  color: bottomNavBarUnselectedColor,
+  theme: const SvgTheme(currentColor: bottomNavBarUnselectedColor),
 );
 SvgPicture home1 = SvgPicture.asset(
   "assets/icons/home1.svg",
-  // ignore: deprecated_member_use
-  color: bottomNavBarUnselectedColor,
+  theme: const SvgTheme(currentColor: bottomNavBarUnselectedColor),
 );
 SvgPicture home2 = SvgPicture.asset(
   "assets/icons/home2.svg",
