@@ -98,7 +98,7 @@ class MainLoginScreen extends StatelessWidget {
                           child: SizedBox(
                             height: 120,
                             width: 120,
-                            child: Image.asset("assets/icons/logo_white.png"),
+                            child: Image.asset("assets/logo/logo_white.png"),
                           ),
                         ),
                         Container(
