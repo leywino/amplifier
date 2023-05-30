@@ -2,7 +2,7 @@
     package="com.example.amplifier">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="amplifier"
+        android:label="Amplifier"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
