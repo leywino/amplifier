@@ -25,8 +25,6 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int pageIndex = 0;
-    goToProfileScreen ? pageIndex = 3 : pageIndex = 0;
     return AppBar(
       backgroundColor: kWhiteColor,
       elevation: 0,

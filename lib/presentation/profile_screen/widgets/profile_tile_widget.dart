@@ -28,7 +28,7 @@ class ProfileTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profilePages = [
-      OrderScreen(),
+      const OrderScreen(),
       const AddressScreen(),
       SettingsMenuPop(
         mdFileName: 'privacy.md',

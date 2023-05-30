@@ -4,7 +4,6 @@ import 'package:amplifier/models/wishlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'address_model.dart';
 import 'cart_model.dart';
 import 'order_model.dart';
@@ -296,15 +295,11 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
 
 Future<void> cancelOrderItem(BuildContext context, List cartList,
     int superIndex, List productList) async {
-  final _razorpay = Razorpay();
   final String email = FirebaseAuth.instance.currentUser!.email!;
   final collectionRef = FirebaseFirestore.instance.collection('orders');
   final querySnapshot =
       await collectionRef.where('email', isEqualTo: email).get();
   final documentRef = querySnapshot.docs[superIndex].reference;
-
-  
-
   List<String> productIdList = [];
   for (var i in cartList) {
     productIdList.add(i['productId']);

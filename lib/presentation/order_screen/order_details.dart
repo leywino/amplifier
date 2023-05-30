@@ -35,29 +35,25 @@ class OrderDetails extends StatelessWidget {
         ),
         backgroundColor: kWhiteColor,
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: size.height * 0.05,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: size.width * 0.13),
-                    child: const Text(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: size.height * 0.05,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
                       "User Name: ",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 8.0),
-                    child: Row(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
@@ -76,26 +72,22 @@ class OrderDetails extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: size.width * 0.13),
-                    child: const Text(
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
                       "Address :",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 8.0),
-                    child: Row(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
@@ -114,28 +106,22 @@ class OrderDetails extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: size.width * 0.13),
-                child: const Text(
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
                   "Products :",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
-              ),
-              Column(
-                children: List.generate(
-                  orderList.productList!.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 32,
-                    ),
-                    child: Container(
+                Column(
+                  children: List.generate(
+                    orderList.productList!.length,
+                    (index) => Container(
                       decoration: BoxDecoration(
                         // color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(10),
@@ -154,7 +140,7 @@ class OrderDetails extends StatelessWidget {
                           Expanded(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -195,24 +181,17 @@ class OrderDetails extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: size.width * 0.13),
-                    child: const Text(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
                       "Payment Method :",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 8.0),
-                    child: Row(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
@@ -231,13 +210,13 @@ class OrderDetails extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: size.height * 0.1,
-              )
-            ],
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.1,
+                )
+              ],
+            ),
           ),
         ),
       ),

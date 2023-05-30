@@ -11,7 +11,7 @@ import '../../../models/functions.dart';
 import '../../../models/order_model.dart';
 
 class OrderLoadingScreen extends StatefulWidget {
-  OrderLoadingScreen({
+  const OrderLoadingScreen({
     super.key,
     required this.addressList,
     required this.totalPrice,
@@ -28,7 +28,7 @@ class OrderLoadingScreen extends StatefulWidget {
   final List cartList;
   final List productList;
   final List cartProductIdList;
-  PaymentSuccessResponse? response;
+  final PaymentSuccessResponse? response;
 
   @override
   State<OrderLoadingScreen> createState() => _OrderLoadingScreenState();
