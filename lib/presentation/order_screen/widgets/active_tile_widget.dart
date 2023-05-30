@@ -294,6 +294,7 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                         ),
                       ),
                       onPressed: () async {
+                        Navigator.pop(context);
                         await cancelOrderItem(
                             context, cartList, superIndex, productList);
                         // Navigator.pop(context, true);

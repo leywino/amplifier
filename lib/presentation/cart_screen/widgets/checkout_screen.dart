@@ -52,7 +52,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             cartList: cartList,
             productList: widget.productList,
             cartProductIdList: widget.cartProductIdList,
-            response: response,
           ),
         ));
   }
@@ -471,44 +470,49 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Column(
                     children: List.generate(
                       2,
-                      (index) => Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.05, vertical: 6),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(
-                                12.0), // set the border radius to 12.0
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.grey[200],
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: index != 0
-                                      ? SvgPicture.asset(paymentIcons[index])
-                                      : Image.asset(paymentIcons[index]),
+                      (index) => GestureDetector(
+                        onTap: () => setState(() {
+                          selectedPaymentIndex = index;
+                        }),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.05, vertical: 6),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(
+                                  12.0), // set the border radius to 12.0
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.grey[200],
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: index != 0
+                                        ? SvgPicture.asset(paymentIcons[index])
+                                        : Image.asset(paymentIcons[index]),
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                paymentTitles[index],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                title: Text(
+                                  paymentTitles[index],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              trailing: Radio(
-                                value: selectedPaymentIndex == index,
-                                groupValue: true,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedPaymentIndex = index;
-                                  });
-                                },
-                                activeColor: kBlackColor,
+                                trailing: Radio(
+                                  value: selectedPaymentIndex == index,
+                                  groupValue: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedPaymentIndex = index;
+                                    });
+                                  },
+                                  activeColor: kBlackColor,
+                                ),
                               ),
                             ),
                           ),
@@ -712,56 +716,68 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: List.generate(
                         addressList.length,
-                        (index) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 6),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.grey[400],
-                                  child: SvgPicture.asset(
-                                      "assets/icons/location.svg"),
-                                ),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      addressList[index]['name'],
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4.0),
-                                    FittedBox(
-                                      child: Text(
-                                        "${addressList[index]['city']} , ${addressList[index]['state']}, ${addressList[index]['pin code']}",
-                                        style: TextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 12,
+                        (index) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedAddressIndex = index;
+                            });
+                            super.setState(() {
+                              selectedAddressIndex = index;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 6),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: Colors.grey[400],
+                                    child: SvgPicture.asset(
+                                        "assets/icons/location.svg"),
+                                  ),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        addressList[index]['name'],
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                trailing: Radio(
-                                  value: selectedAddressIndex == index,
-                                  groupValue: true,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedAddressIndex = index;
-                                    });
-                                    super.setState(() {
-                                      selectedAddressIndex = index;
-                                    });
-                                  },
-                                  activeColor: kBlackColor,
+                                      const SizedBox(height: 4.0),
+                                      FittedBox(
+                                        child: Text(
+                                          "${addressList[index]['city']} , ${addressList[index]['state']}, ${addressList[index]['pin code']}",
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Radio(
+                                    value: selectedAddressIndex == index,
+                                    groupValue: true,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        selectedAddressIndex = index;
+                                      });
+                                      super.setState(() {
+                                        selectedAddressIndex = index;
+                                      });
+                                    },
+                                    activeColor: kBlackColor,
+                                  ),
                                 ),
                               ),
                             ),

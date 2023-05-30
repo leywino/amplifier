@@ -285,7 +285,6 @@ Future<void> addNewOrder(Orders orderclass, BuildContext context) async {
       'productList': orderclass.productList,
       'email': email,
       'orderStatusIndex': orderclass.orderStatusIndex,
-      'razorPaymentId': orderclass.razorPaymentId,
     });
     log("new order placed");
   } catch (error) {

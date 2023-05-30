@@ -1,11 +1,20 @@
+import 'dart:developer';
+
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/order_screen/widgets/active_tile_widget.dart';
 import 'package:amplifier/presentation/order_screen/widgets/complete_tile_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/functions.dart';
+import '../../models/order_model.dart';
+
 class OrderScreen extends StatelessWidget {
-  const OrderScreen({super.key});
+  OrderScreen({super.key});
+
+  final email = FirebaseAuth.instance.currentUser!.email;
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +39,87 @@ class OrderScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
               Tab(
-                child: Text(
-                  'Active',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    // color: kTextBlackColor,
-                    fontSize: 18,
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('orders')
+                            .where('email', isEqualTo: email)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text(
+                              'Active',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                // color: kTextBlackColor,
+                                fontSize: 18,
+                              ),
+                            );
+                          }
+                          if (!snapshot.hasData) {
+                            return const Text(
+                              'Active',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                // color: kTextBlackColor,
+                                fontSize: 18,
+                              ),
+                            );
+                          }
+                          List<DocumentSnapshot> documents =
+                              snapshot.data!.docs;
+                          List<Orders> orderList =
+                              convertToOrderList(documents);
+
+                          List<Orders> activeOrderList = orderList
+                              .where((element) =>
+                                  element.orderStatusIndex != 3 &&
+                                  element.orderStatusIndex != 4)
+                              .toList();
+                          return Row(
+                            children: [
+                              const Text(
+                                'Active',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  // color: kTextBlackColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Visibility(
+                                visible: activeOrderList.isNotEmpty,
+                                child: Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    CircleAvatar(
+                                      backgroundColor: Colors.black,
+                                      radius: 10,
+                                      child: Text(
+                                        orderList.length.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                  ],
                 ),
               ),
-              Tab(
+              const Tab(
                 child: Text(
                   'Complete',
                   style: TextStyle(
@@ -55,7 +132,7 @@ class OrderScreen extends StatelessWidget {
             ],
             unselectedLabelColor: Colors.grey,
             labelColor: kTextBlackColor,
-            indicator: UnderlineTabIndicator(
+            indicator: const UnderlineTabIndicator(
               borderSide: BorderSide(
                 color: kBlackColor,
                 width: 3.0,

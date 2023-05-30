@@ -6,6 +6,7 @@ import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:amplifier/presentation/wishlist_screen/main_wishlist_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -32,6 +33,7 @@ class HomeScreen extends StatelessWidget {
     });
 
     final size = MediaQuery.of(context).size;
+    final email = FirebaseAuth.instance.currentUser!.email;
     return SafeArea(
       child: Scaffold(
         backgroundColor: kWhiteColor,
@@ -48,21 +50,87 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        onPressed: () => Navigator.pushAndRemoveUntil(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: const BottomNavBar(
-                                pageIndex: 1,
-                              ),
-                            ),
-                            (route) => false),
-                        icon: const Icon(
-                          CustomIcon.buy_2iconfluttter,
-                          color: kAppBarIconColor,
-                        ),
-                      ),
+                      StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(email)
+                              .collection('cart')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return IconButton(
+                                onPressed: () => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: const BottomNavBar(
+                                        pageIndex: 1,
+                                      ),
+                                    ),
+                                    (route) => false),
+                                icon: const Icon(
+                                  CustomIcon.buy_2iconfluttter,
+                                  color: kAppBarIconColor,
+                                ),
+                              );
+                            }
+                            if (!snapshot.hasData) {
+                              return IconButton(
+                                onPressed: () => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: const BottomNavBar(
+                                        pageIndex: 1,
+                                      ),
+                                    ),
+                                    (route) => false),
+                                icon: const Icon(
+                                  CustomIcon.buy_2iconfluttter,
+                                  color: kAppBarIconColor,
+                                ),
+                              );
+                            }
+                            final cartData = snapshot.data!.docs.toList();
+                            return Stack(
+                              children: [
+                                IconButton(
+                                  onPressed: () => Navigator.pushAndRemoveUntil(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: const BottomNavBar(
+                                          pageIndex: 1,
+                                        ),
+                                      ),
+                                      (route) => false),
+                                  icon: const Icon(
+                                    CustomIcon.buy_2iconfluttter,
+                                    color: kAppBarIconColor,
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: cartData.isNotEmpty,
+                                  child: Positioned(
+                                    right: 5,
+                                    top: 5,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.black,
+                                      radius: 9,
+                                      child: Text(
+                                        cartData.length.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
                       IconButton(
                         onPressed: () => Navigator.push(
                           context,
