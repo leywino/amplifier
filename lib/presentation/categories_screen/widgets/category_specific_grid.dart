@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/home_details_screen/main_home_details.dart';
 import 'package:amplifier/presentation/home_screen/widget/add_to_wishlist_button.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-
 import '../../../models/functions.dart';
 import '../../../models/product_model.dart';
 
