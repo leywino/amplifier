@@ -595,7 +595,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 'prefill': {'contact': '', 'email': user!.email}
                               };
                               _razorpay.open(options);
-                              log(_razorpay.toString());
                             }
                           }
                         },

@@ -72,7 +72,6 @@ class _AddressScreenState extends State<AddressScreen> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     const CircularProgressIndicator();
-                    log(snapshot.data.toString());
                   }
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');

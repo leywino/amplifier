@@ -40,7 +40,6 @@ class _CategorySpecificGridState extends State<CategorySpecificGrid> {
         .get();
 
     final List<DocumentSnapshot> docs = querySnapshot.docs.toList();
-    log(docs.toString());
     yield docs;
   }
 
