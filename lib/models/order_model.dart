@@ -3,6 +3,7 @@ class Orders {
   final num? totalPrice;
   final int? orderStatusIndex;
   final String? paymentMethod;
+  final String? razorPaymentId;
   final List? cartList;
   final List? productList;
 
@@ -12,8 +13,9 @@ class Orders {
           totalPrice: json['totalPrice']! as num,
           orderStatusIndex: json['orderStatusIndex']! as int,
           paymentMethod: json['paymentMethod']! as String,
+          razorPaymentId: json['razorPaymentId']! as String,
           cartList: json['cartList']! as List,
-           productList: json['productList']! as List,
+          productList: json['productList']! as List,
         );
 
   Orders({
@@ -23,7 +25,6 @@ class Orders {
     required this.cartList,
     required this.productList,
     required this.orderStatusIndex,
+    this.razorPaymentId,
   });
 }
-
-

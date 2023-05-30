@@ -41,6 +41,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     for (int i = 0; i < cartList.length; i++) {
       totalPrice += cartList[i]['totalPrice'];
     }
+
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -51,12 +52,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             cartList: cartList,
             productList: widget.productList,
             cartProductIdList: widget.cartProductIdList,
+            response: response,
           ),
         ));
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    log("Payment Failed");
+    showFailure(context, "Failure", "Payment was unsuccessful");
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -589,6 +591,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 'prefill': {'contact': '', 'email': user!.email}
                               };
                               _razorpay.open(options);
+                              log(_razorpay.toString());
                             }
                           }
                         },
@@ -815,4 +818,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       },
     );
   }
+}
+
+void showFailure(BuildContext context, String title, String message) {
+  Widget continueButton = ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.black,
+    ),
+    child: const Text(
+      "Continue",
+      style: TextStyle(color: Colors.white),
+    ),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: Text(message),
+    actions: [
+      continueButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

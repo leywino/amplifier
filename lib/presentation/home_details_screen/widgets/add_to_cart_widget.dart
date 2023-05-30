@@ -6,6 +6,7 @@ import 'package:amplifier/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../../core/colors/main_colors.dart';
 import '../../../models/product_model.dart';
 
@@ -82,8 +83,9 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
             // });
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const BottomNavBar(
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: const BottomNavBar(
                     pageIndex: 1,
                   ),
                 ),
