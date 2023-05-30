@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amplifier/core/colors/main_colors.dart';
 import 'package:amplifier/presentation/order_screen/widgets/active_tile_widget.dart';
 import 'package:amplifier/presentation/order_screen/widgets/complete_tile_widget.dart';
