@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../models/address_model.dart';
 import '../../models/functions.dart';
@@ -122,8 +123,9 @@ class _AddressScreenState extends State<AddressScreen> {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditAdressScreen(
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: EditAdressScreen(
                                         data: addressList[index]),
                                   ),
                                 );
@@ -220,10 +222,12 @@ class _AddressScreenState extends State<AddressScreen> {
                 TextButton(
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddNewAddresScreen(),
-                        ));
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.bottomToTop,
+                        child: AddNewAddresScreen(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(

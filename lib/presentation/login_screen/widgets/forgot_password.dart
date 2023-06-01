@@ -56,6 +56,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             height: size.height * 0.2,
                           ),
                           TextFieldWidget(
+                            // colorValue: Colors.lightBlue,
                             size: size,
                             validator: _validateEmailField,
                             fieldName: "Email",
@@ -107,7 +108,7 @@ class ResetPasswordScreen extends StatelessWidget {
                           // ),
 
                           SizedBox(
-                            height: size.height * 0.05,
+                            height: size.height * 0.4,
                           ),
                           RichText(
                             textAlign: TextAlign.center,
@@ -146,16 +147,15 @@ class ResetPasswordScreen extends StatelessWidget {
             );
           } else {
             Future.delayed(
-  const Duration(milliseconds: 100),
-  () => Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const BottomNavBar(),
-    ),
-    (route) => false,
-  ),
-);
-
+              const Duration(milliseconds: 100),
+              () => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const BottomNavBar(),
+                ),
+                (route) => false,
+              ),
+            );
           }
 
           return Container(

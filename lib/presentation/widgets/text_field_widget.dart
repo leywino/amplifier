@@ -61,7 +61,7 @@ class TextFieldWidget extends StatelessWidget {
                         builder: (context, hideField, child) => TextFormField(
                           validator: validator,
                           enabled: enabled,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.disabled,
                           controller: textController,
                           obscureText: hideField,
                           keyboardType: numPad ? TextInputType.phone : null,
