@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../core/colors/main_colors.dart';
 import '../widgets/snackbar.dart';
 import '../widgets/text_field_widget.dart';
@@ -109,6 +110,7 @@ class MainSignupScreen extends StatelessWidget {
                       ),
                     ),
                     child: Form(
+                      autovalidateMode: AutovalidateMode.disabled,
                       key: _formKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -158,65 +160,96 @@ class MainSignupScreen extends StatelessWidget {
                             textController: confirmPasswordController,
                             validator: _validateConfirmPasswordField,
                           ),
-                          TextButton(
-                            onPressed: () async {
-                              signUp(context);
-                            },
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  side: const BorderSide(color: kBlackColor),
-                                ),
-                              ),
-                              backgroundColor:
-                                  MaterialStateProperty.all<Color>(kBlackColor),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.symmetric(
-                                      horizontal: size.width * 0.29,
-                                      vertical: 20)),
-                            ),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                color: kWhiteColor,
-                                fontSize: 20,
-                              ),
-                            ),
+                          SizedBox(
+                            height: size.height * 0.01,
                           ),
-                          const Text(
-                            'OR',
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              loginWithGoogle();
-                            },
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  side: const BorderSide(color: kBlackColor),
+                          SizedBox(
+                            width: size.width * 0.8,
+                            child: Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    signUp(context);
+                                  },
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: const BorderSide(
+                                            color: kBlackColor),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            kBlackColor),
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.symmetric(
+                                                horizontal: size.width * 0.29,
+                                                vertical: 20)),
+                                  ),
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          color: kWhiteColor,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              backgroundColor:
-                                  MaterialStateProperty.all<Color>(kBlackColor),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.symmetric(
-                                      horizontal: size.width * 0.12,
-                                      vertical: 20)),
-                            ),
-                            child: const Text(
-                              'Sign Up With Google',
-                              style: TextStyle(
-                                color: kWhiteColor,
-                                fontSize: 20,
-                              ),
+                                // const Text(
+                                //   'OR',
+                                //   style: TextStyle(
+                                //     fontSize: 24.0,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    loginWithGoogle(context);
+                                  },
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: const BorderSide(
+                                            color: kBlackColor),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            kBlackColor),
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.symmetric(
+                                                horizontal: size.width * 0.12,
+                                                vertical: 20)),
+                                  ),
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Sign Up With Google',
+                                        style: TextStyle(
+                                          color: kWhiteColor,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           TextButton(
@@ -251,10 +284,10 @@ class MainSignupScreen extends StatelessWidget {
                                       ..onTap = () {
                                         Navigator.pushReplacement(
                                           context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                MainLoginScreen(),
-                                          ),
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .leftToRight,
+                                              child: MainLoginScreen()),
                                         );
                                       },
                                   ),
