@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "998556119101-sjs0mgipp5diaraufddtfu0e2276vtev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplifier.ecommerce",
+            "certificate_hash": "ef68c6df2af8b4a579d73f4376a8eca00cac1564"
+          }
+        },
+        {
           "client_id": "998556119101-6l3uuoev34ktg8o2kmncv42s52mml4nh.apps.googleusercontent.com",
           "client_type": 3
         }

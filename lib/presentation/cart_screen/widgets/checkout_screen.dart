@@ -564,8 +564,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Material(
                       child: InkWell(
                         onTap: () {
-                          if (codAva && selectedPaymentIndex == 1) {
-                            showAlertDialog();
+                          if (addressList.isEmpty) {
+                            showAlertDialog("Add Your Address First");
+                          } else if (codAva && selectedPaymentIndex == 1) {
+                            showAlertDialog(
+                                "Cash On Delivery is not available on orders above ₹50,000!");
                           } else {
                             if (selectedPaymentIndex == 1) {
                               Navigator.push(
@@ -631,14 +634,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  showAlertDialog() {
+  showAlertDialog(String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Center(child: Text("Alert")),
-          content: const Text(
-              "Cash On Delivery is not available on orders above ₹50,000!"),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                message,
+              ),
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
