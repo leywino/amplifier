@@ -25,6 +25,10 @@ class MainCartScreen extends StatefulWidget {
 }
 
 class _MainCartScreenState extends State<MainCartScreen> {
+  void updateParentState() {
+    setState(() {});
+  }
+
   List dataList = [];
   List productIdList = [];
   List cartList = [];
@@ -261,6 +265,7 @@ class _MainCartScreenState extends State<MainCartScreen> {
                                         QuantityCartWidget(
                                           index: index,
                                           productData: dataList,
+                                          callback: updateParentState,
                                         ),
                                         SizedBox(
                                           width: size.width * 0.2,

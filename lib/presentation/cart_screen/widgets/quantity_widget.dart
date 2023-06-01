@@ -13,9 +13,16 @@ class QuantityCartWidget extends StatefulWidget {
     super.key,
     required this.index,
     required this.productData,
+    required this.callback,
   });
+
   final int index;
   final dynamic productData;
+  final VoidCallback callback;
+
+  void updateParentState() {
+    callback();
+  }
 
   @override
   State<QuantityCartWidget> createState() => _QuantityCartWidgetState();
@@ -62,12 +69,18 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          if (data[widget.index]['quantity'] != 1) {
-                            setState(() {});
-                            int quantity =
-                                await data[widget.index]['quantity'] - 1;
-                            num price = 0;
+                          int quantity =
+                              await data[widget.index]['quantity'] - 1;
+                          num price = 0;
 
+                          if (quantity == 0) {
+                            showDeleteConfirmationDialog(
+                                context,
+                                widget.productData[widget.index]['id'],
+                                widget.productData,
+                                price);
+                          } else {
+                            setState(() {});
                             if (quantity == 1) {
                               price = await widget.productData[widget.index]
                                   ['price'];
@@ -78,7 +91,7 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
                             }
                             quantityNotifier.value--;
                             await updateCartQuantity(
-                                quantity--,
+                                quantity,
                                 price,
                                 data[widget.index]['id'],
                                 widget.productData[widget.index]['quantity']);
@@ -135,6 +148,55 @@ class _QuantityCartWidgetState extends State<QuantityCartWidget> {
               );
             },
           )),
+    );
+  }
+
+  showDeleteConfirmationDialog(
+      BuildContext context, String documentId, dynamic data, num price) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Confirmation'),
+          content: const Text(
+              'Are you sure you want to delete this product from cart?'),
+          actions: [
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
+              ),
+              onPressed: () async {
+                final String email = FirebaseAuth.instance.currentUser!.email!;
+                QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(email)
+                    .collection('cart')
+                    .where('productId', isEqualTo: documentId)
+                    .get();
+                await deleteFromCart(querySnapshot.docs.first.id);
+                setState(() {
+                  widget.productData
+                      .removeWhere((item) => item['id'] == documentId);
+                });
+                Navigator.pop(context);
+                super.setState(() {});
+                setState(() {});
+                widget.updateParentState();
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
