@@ -364,6 +364,7 @@ loginWithGoogle(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final googleUser = await googleSignIn.signIn();
   if (googleUser == null) {
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Sign-in canceled')),
     );

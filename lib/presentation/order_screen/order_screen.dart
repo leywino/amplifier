@@ -101,7 +101,7 @@ class OrderScreen extends StatelessWidget {
                                       backgroundColor: Colors.black,
                                       radius: 10,
                                       child: Text(
-                                        orderList.length.toString(),
+                                        activeOrderList.length.toString(),
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 13,
