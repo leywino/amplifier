@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "998556119101-4hllkc27q3p6svem60mg1usc5pm4g0hm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplifier.ecommerce",
+            "certificate_hash": "ed938478aa72af24ec9e196fda748644e0a60844"
+          }
+        },
+        {
           "client_id": "998556119101-diae8h2eu9c5gnc69lfsu4c8gas6tam8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -27,6 +35,67 @@
           "android_info": {
             "package_name": "com.amplifier.ecommerce",
             "certificate_hash": "ef68c6df2af8b4a579d73f4376a8eca00cac1564"
+          }
+        },
+        {
+          "client_id": "998556119101-6l3uuoev34ktg8o2kmncv42s52mml4nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCff96F0hnEvh4gG6kmlGu1QkuvTJZ_XYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998556119101-6l3uuoev34ktg8o2kmncv42s52mml4nh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998556119101:android:d6fa6ee6117ab82f433a54",
+        "android_client_info": {
+          "package_name": "com.amplifier.ecommerces"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998556119101-7lcca2pi6qlautskojgjajd2d7chq8t7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplifier.ecommerces",
+            "certificate_hash": "fd8555f6bd23bab07aa9623ca3fceca74ea5cf0e"
+          }
+        },
+        {
+          "client_id": "998556119101-e6s9p1fj32cjpvmri9d1vs98v8nfo2p6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplifier.ecommerces",
+            "certificate_hash": "ef68c6df2af8b4a579d73f4376a8eca00cac1564"
+          }
+        },
+        {
+          "client_id": "998556119101-i0n07ldelcreqdj841esun7u22elig4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplifier.ecommerces",
+            "certificate_hash": "15cd1c4f8855a8a9c654e185ab4833b584b909e7"
+          }
+        },
+        {
+          "client_id": "998556119101-s9prm69phgq3m3onm763519o85tnrkq1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amplifier.ecommerces",
+            "certificate_hash": "ed938478aa72af24ec9e196fda748644e0a60844"
           }
         },
         {
