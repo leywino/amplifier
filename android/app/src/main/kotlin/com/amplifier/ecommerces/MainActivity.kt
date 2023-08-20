@@ -1,4 +1,4 @@
-package com.example.amplifier
+package com.amplifier.ecommerces
 
 import io.flutter.embedding.android.FlutterActivity
 
